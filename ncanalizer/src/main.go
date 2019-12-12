@@ -1,81 +1,11 @@
 package main
 
-import ( // {{{
+import (
 	"flag"
-	"fmt"
-	"io/ioutil"
 	"log"
-	"os"
-	"path/filepath"
 	"regexp"
 	"strings"
-
-	"github.com/xcd0/go-nkf"
-) // }}}
-
-type InputInfo struct { // {{{
-	Input    string // 入力された引数
-	Apath    string // 入力ファイルの絶対パス
-	Dpath    string // 入力ファイルのあるディレクトリのパス
-	Filename string // 入力ファイルのファイル名
-	Basename string // 入力ファイルのベースネーム 拡張子抜きの名前
-	Ext      string // 入力ファイルの拡張子
-} // }}}
-
-func Argparse(arg string) InputInfo { // {{{
-
-	// 引数をファイルパスとして分析し構造体に使いやすく読み込む
-
-	ii := InputInfo{}
-	ii.Input = arg
-
-	//fo 絶対パスを得る
-	ii.Apath, _ = filepath.Abs(arg)
-	//fo ファイルパスをディレクトリパスとファイル名に分割する
-	ii.Dpath, ii.Filename = filepath.Split(ii.Apath)
-	//fo 拡張子を得る
-	ii.Ext = filepath.Ext(ii.Filename)
-	//fo 拡張子なしの名前を得る
-	ii.Basename = ii.Filename[:len(ii.Filename)-len(ii.Ext)]
-
-	return fi
-} // }}}
-
-func ReadText(path string) string { // {{{
-
-	// 与えられたパスの文字列について
-	// そのパスにあるファイルをテキストファイルとして読み込む
-
-	b, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "ファイル%vが読み込めません\n", path)
-		log.Println(err)
-		panic(err)
-		return ""
-	}
-
-	// ファイルの文字コード変換
-	charset, err := nkf.CharDet(b)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "文字コード変換に失敗しました\nutf8を使用してください\n")
-		log.Println(err)
-		panic(err)
-		return ""
-	}
-
-	str, err := nkf.ToUtf8(string(b), charset)
-
-	str = convNewline(stringmd, "\n")
-} // }}}
-
-func convNewline(str, nlcode string) string { // {{{
-	// 改行コードを統一する
-	return strings.NewReplacer(
-		"\r\n", nlcode,
-		"\r", nlcode,
-		"\n", nlcode,
-	).Replace(str)
-} // }}}
+)
 
 func main() {
 	flag.Parse()
