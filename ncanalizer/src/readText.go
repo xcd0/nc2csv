@@ -33,5 +33,7 @@ func ReadText(path string) string {
 
 	str, err := nkf.ToUtf8(string(b), charset)
 
-	str = ConvertNewline(stringmd, "\n")
+	str = ConvertNewline(str, "\n")
+
+	return str
 }

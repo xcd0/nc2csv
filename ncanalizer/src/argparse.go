@@ -18,5 +18,5 @@ func Argparse(arg string) InputInfo {
 	//fo 拡張子なしの名前を得る
 	ii.Basename = ii.Filename[:len(ii.Filename)-len(ii.Ext)]
 
-	return fi
+	return ii
 }
