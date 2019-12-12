@@ -1,0 +1,5 @@
+package main
+
+func MerryXMas() {
+	var hoge = 2
+}

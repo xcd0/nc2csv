@@ -21,14 +21,16 @@ func ReadText(path string) string {
 		panic(err)
 		return ""
 	}
-
 	// ファイルの文字コード変換
 	charset, err := nkf.CharDet(b)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "文字コード変換に失敗しました\nutf8を使用してください\n")
-		log.Println(err)
-		panic(err)
-		return ""
+		/*
+			fmt.Fprintf(os.Stderr, "文字コード変換に失敗しました\nutf8を使用してください\n")
+			log.Println(err)
+			panic(err)
+			return ""
+		*/
+		return ConvertNewline(string(b), "\n")
 	}
 
 	str, err := nkf.ToUtf8(string(b), charset)
