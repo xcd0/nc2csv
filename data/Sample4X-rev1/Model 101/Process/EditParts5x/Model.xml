@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Graphic Products Inc. Cledit5x WorkSpace_Model-->
+<ModelRoot>
+  <Version>V1.2</Version>
+  <ModelFolder>
+    <LastNumber>0</LastNumber>
+  </ModelFolder>
+  <Model>
+    <FileName>Process\EditParts5x\Model 1.gmd</FileName>
+    <DisplayName>Model 1</DisplayName>
+    <Display>0</Display>
+    <Color>
+      <R>128</R>
+      <G>128</G>
+      <B>128</B>
+    </Color>
+    <Master>1</Master>
+    <ModelImportName>NULL_STRING</ModelImportName>
+    <Paste>0</Paste>
+  </Model>
+</ModelRoot>

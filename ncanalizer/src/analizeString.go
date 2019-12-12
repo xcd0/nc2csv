@@ -2,6 +2,12 @@ package main
 
 import "strings"
 
+/*
+状態を持つもの
+座標(x,y,z,a,b,c,i,j,k,u,v,w)
+
+*/
+
 func AnalizeString(input string) string {
 	// 改行で分ける
 	lines := strings.Split(input, "\n")

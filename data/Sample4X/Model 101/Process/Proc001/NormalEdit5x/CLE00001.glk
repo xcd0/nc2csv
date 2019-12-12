@@ -1,0 +1,266 @@
+SECTION TOOL
+   TOOL_DIAM                       2.00000000
+   TOOL_RADI                       1.00000000
+   TOOL_EDGE_NUM                   2
+   TOOL_EDGE_TAPER_ANG             0.00000000
+   TOOL_NUMBER                     1
+   TOOL_DIAM_CORRECT               1
+   TOOL_LENG_CORRECT               1
+ENDSECTION
+
+SECTION OPTIMIZE
+   TOOL_DEPTH                      0.00000000
+   TOOL_EDGE_WIDTH                 0.00000000
+   TOOL_EDGE_LENG                  1.50000000
+   TOOL_SHANK_DIAM                 4.00000000
+   TOOL_SHANK_LENG                 0.00000000
+   TOOL_ACT_LENGTH                 45.00000000
+   TOOL_LENGTH                     13.00000000
+   TOOL_SHANK_TYPE                 1
+   TOOL_TAPER_ORIGIN               0
+   TOOL_TAPER_ORIGIN_FLAG          2
+   TOOL_TAPER_ORG_HEIGHT           8.84576901
+   TOOL_TAPER_UP_HEIGHT            8.84576901
+   TOOL_TAPER_DW_HEIGHT            1.50000000
+   TOOL_TAPER_ANG                  7.98179125
+   TOOL_TAPER_DIAM                 4.00000000
+   HOLD_HEAD2_TYPE                 1
+   HOLD_HEAD2_X_LENG               0.00000000
+   HOLD_HEAD2_Y_LENG               0.00000000
+   HOLD_HEAD2_SHIFT_X              0.00000000
+   HOLD_HEAD2_SHIFT_Y              0.00000000
+   HOLD_HEAD2_HEIGHT               0.00000000
+   HOLD_HEAD2_DIAM                 0.00000000
+   HOLD_HEAD_TYPE                  1
+   HOLD_HEAD_X_LENG                0.00000000
+   HOLD_HEAD_Y_LENG                0.00000000
+   HOLD_HEAD_SHIFT_X               0.00000000
+   HOLD_HEAD_SHIFT_Y               0.00000000
+   HOLD_HEAD_HEIGHT                0.00000000
+   HOLD_HEAD_DIAM                  0.00000000
+   HOLD_HEAD_USEFUL_LENG           0.00000000
+   TOOL_TAPER_SHAPE_NUM            3
+   TOOL_EFFECTIVE_LENGTH           4.00000000
+   TOOL_EFFECTIVE_LENGTH_SETFLG    0
+ENDSECTION
+
+SECTION COMMENT
+   TOOL_NAME                       08-00520-01000_MRB230_D2_R1_1.5_4_4
+   TOOL_COMMENT                    2-Flute and Helix 30 degrees Long Neck Ball End Mill. Suitable f
+   TOOL_MAKER                      NS TOOL CO., LTD.
+   TOOL_TYPE                       MRB230
+   TOOL_CODE                       08-00520-01000_MRB230
+   TOOL_MATERIAL_PROPERTY          Carbide
+   TOOL_COATING                    Mugen
+   TOOL_SERIES                     2-Flute Long Neck Ball End Mill
+   TOOL_GROUP                      Ball
+   HOLD_SET_NAME                   E32-SLRA4-50-M22
+   HOLD_HOLDER_NAME                E32-SLRA4-50-M22
+   HOLD_CHUCK4_NAME                
+   HOLD_CHUCK3_NAME                
+   HOLD_CHUCK2_NAME                
+   HOLD_CHUCK1_NAME                
+   HOLD_HOLDER_MAKER_NAME          MST Corporation
+   HOLD_HOLDER_NAME2               
+   HOLD_HOLDER_MAKER_NAME2         
+   TOOL_SET_NAME                   Leng63mm
+   TOOL_KEY_WORD                   
+   TOOL_SET_DBID                   3bc433a8-7dad-4d38-82c3-f78653cf9764
+   TOOL_DBID                       159b1d5f-266b-499a-83fa-3b681e71aa67
+   HOLD_SET_DBID                   00000000-0000-0000-0000-000000000000
+   HOLD_HOLDER_DBID                abf4373a-bbcd-47b3-857f-bda234a30581
+   HOLD_CHUCK_DBID                 00000000-0000-0000-0000-000000000000
+ENDSECTION
+
+SECTION TOOL_TAPER_SHAPE
+   HOLD_SHAPE_NUM                  3
+   PURAL HOLD_SHAPE
+   0.000000000000e+000 9.700000000000e-001 1.500000000000e+000
+   0.000000000000e+000 9.700000000000e-001 4.000000000000e+000
+   0.000000000000e+000 2.000000000000e+000 8.845769012763e+000
+    ENDPURAL                       
+ENDSECTION
+
+SECTION HOLDERSET 10
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               1
+    HOLD_TOOLSET_NO             1
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               2
+    HOLD_TOOLSET_NO             2
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               3
+    HOLD_TOOLSET_NO             3
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               4
+    HOLD_TOOLSET_NO             4
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               5
+    HOLD_TOOLSET_NO             1
+    HOLD_TOP_DIAM               32.00000000
+    HOLD_BOT_DIAM               10.00000000
+    HOLD_HEIGHT                 50.00000000
+    HOLD_ORG_HEIGHT             30.00000000
+    HOLD_USEFUL_LENG            50.00000000
+    HOLD_USEFUL_LOC             1
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               6
+    HOLD_TOOLSET_NO             2
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               7
+    HOLD_TOOLSET_NO             3
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               8
+    HOLD_TOOLSET_NO             4
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               9
+    HOLD_TOOLSET_NO             5
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               10
+    HOLD_TOOLSET_NO             6
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+ENDSECTION
+
+SECTION HOLDERSHAPE 10
+   ELEMENT                      
+    HOLD_SHAPE_ID               1
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               2
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               3
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               4
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               5
+    HOLD_SHAPE_NUM              8
+    PURAL HOLD_SHAPE            
+     0.000000000000e+000 5.000000000000e+000 0.000000000000e+000
+     0.000000000000e+000 6.153000000000e+000 2.200000000000e+001
+     0.000000000000e+000 1.000000000000e+001 2.340000000000e+001
+     0.000000000000e+000 1.000000000000e+001 3.000000000000e+001
+     0.000000000000e+000 1.600000000000e+001 3.000000000000e+001
+     0.000000000000e+000 1.600000000000e+001 5.000000000000e+001
+     0.000000000000e+000 1.216000000000e+001 5.000000000000e+001
+     0.000000000000e+000 1.136000000000e+001 6.600000000000e+001
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               6
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               7
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               8
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               9
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               10
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+ENDSECTION

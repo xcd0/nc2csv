@@ -1,0 +1,78 @@
+
+
+#FORMAT
+   FIG 
+   DECF 0
+   GZZ 
+   G00F 10000.0
+   FOF
+   BOT
+   RED
+   GFG 
+   SFG 
+   TFG 
+   HFG 
+   DFG 
+   PFG 4
+   FMUL 
+   SEQ  10 1 1 0
+   NB0 
+
+   EXT 0 NCD
+   TNFLG 0
+   TNM 0
+   TEM 2 1
+   DECV 3
+   BOT_
+   BTM
+   ARZ 1
+#   BTY
+	LASTNCK
+
+
+#G00DATA
+	$PG$PX$PY$PZ$PA
+
+#G01DATA
+	$PG$PX$PY$PZ$PA$PF
+
+
+
+#START
+   %
+   $ON(ROBO 4X)
+   (COORD=$COMM_F(COORD))
+   ($PA)
+   G49
+   G69
+   M72
+   M69
+   M03S$SP(ROT_INITIAL)
+   G90G00
+   G90G10L11P\#4120R-$VR
+   X$INITXY$INITY
+   IF[$INITZ==0]
+      G43Z50.
+   ENDIF
+   IF[$INITZ!=0]
+      G43Z$INITZ
+   ENDIF
+   $GI
+   G01X$IXY$IYZ$IZ$PAF1000
+#   G00$PC
+
+   
+
+#END
+#   G01X$IXY$IYZ$IZA0.F1000
+   G49
+   G91G28Z0.
+   G90G00A0.
+   G90G00X0.Y0.
+   G90G10L11P\#4120R0.0     
+   M99
+   %
+
+
+
+

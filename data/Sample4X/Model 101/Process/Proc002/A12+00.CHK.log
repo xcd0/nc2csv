@@ -1,0 +1,38 @@
+Module name is gpcamVerify5x.  Wed Dec 11 14:47:45 2019
+
+* ArgumentLine = "C:\Program Files (x86)\graphic products inc\CAM-TOOL\Bin\gpcamVerify5x" "C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc002\A12+00.gcl" "C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc002\A12+00.glk" "C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc002\A12+00.ims" OUTPUT="C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc002\A12+00.lst" /ADDMODEL="C:\Users\T6D9F~1.SEK\AppData\Local\Temp\938D.tmp" /TOL=0.02
+
+(M) CL VERIFY. START 
+開始時刻は Wed Dec 11 14:47:45 2019
+
+(M) VERIFY ARGUMENT.
+        CL-FILE   :C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc002\A12+00.gcl
+        LINK-FILE :C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc002\A12+00.glk
+        IMS-FILE :C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc002\A12+00.ims
+        ADD-LIST-FILE :C:\Users\T6D9F~1.SEK\AppData\Local\Temp\938D.tmp
+     CONFIG-FILE  :C:\Program Files (x86)\graphic products inc\CAM-TOOL\Bin\\config.verify
+    Function:0
+ ★ 切削モード:3100
+    演算：直径: 2.000000 半径: 1.000000 : (Ball)
+    演算：仕上げしろ:0.000000
+    演算：面粗度　　:0.020000
+    演算：判別角度　:2.500000
+    演算：トレランス:0.020000
+    演算：形状オフセット値:ShapeAdjust=0.000000
+ ★ 干渉チェックパラメータ
+    直径: 1.920000 半径: 0.960000 
+    仕上げしろ:0.000000
+    面粗度　　:0.133975
+    判別角度　:2.500000
+    トレランス:0.050000
+    CLＺ方向移動量:0.000000
+    Ｚトレランス:0.000000
+
+(M) File No.0 !
+(M) ClVerify() END ------STATUS(0)------
+(M) File No.0 :Result nStat=0
+
+* Calc Total Time =   0:00:00
+* Exit Code = 0
+完了時刻は Wed Dec 11 14:47:45 2019
+

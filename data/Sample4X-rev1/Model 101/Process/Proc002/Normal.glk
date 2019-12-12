@@ -1,0 +1,576 @@
+HEADER
+  DATE          2019/12/11
+  VERSION       3.0
+  UNIT          mm
+  TOTAL_FEATURE 1
+  PROFILE_NAME  A12
+  MODEL         C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 1.gmd
+  AXIS_TYPE     1
+  DWELL_EXIST   0
+  MODEL_TITLE     
+  MODEL_CREATED   DELL
+  MODEL_MODIFIED  
+  MODEL_COMPANY   
+  MODEL_COMMENT   
+  CLEDITION     14
+  OPTEDITION    0
+  MOD_NOCALC    0
+  MOD_CLEDIT    0
+  MOD_LINKFILE  0
+  MOD_NORM      13
+  MOD_NOPATH    0
+  MOD_REMAINDER 0
+  MOD_RENAME    1
+  MOD_REPETSIM  0
+  MOD_TOOLDIVAREA    0
+  MOD_5XPARA    3
+  MOD_HEADPARAM    0
+  MOD_ATFCRE    0
+  MOD_CLEDIT2   1
+  MOD_FEED_PARAM   0
+  PAGE_ACTIVE   1
+  PAGE_TOTAL    2
+  PROC_POS      2
+  PROFILE_ID      3
+ENDHEADER
+
+SECTION ATRIB 3
+  ELEMENT
+    ID           1
+    COLOR        255 0 255
+    MESH         3 3
+  ENDELEMENT
+  ELEMENT
+    ID           4
+    COLOR        0 255 0
+    MESH         3 3
+  ENDELEMENT
+  ELEMENT
+    ID           7
+    COLOR        255 255 0
+    MESH         3 3
+  ENDELEMENT
+ENDSECTION
+
+SECTION FEATURE DRIVE 1
+  ELEMENT
+    ID          2
+    DATA_TYPE   2
+    BODY_ID     0
+    FACE_ID     16777280
+    ATRIB_ID    1
+  ENDELEMENT
+ENDSECTION
+
+SECTION FEATURE START 1
+  ELEMENT
+    ID          9
+    DATA_TYPE   2
+    BODY_ID     0
+    FACE_ID     16777280
+  ENDELEMENT
+ENDSECTION
+
+SECTION CUTENTITY
+   CUTMODE                         3100
+    PURAL CUT_ORIGIN
+    1.224646799147e-016 -1.000000000000e+000 0.000000000000e+000 -0.000000000000e+000 
+    0.000000000000e+000 0.000000000000e+000 1.000000000000e+000 -0.000000000000e+000 
+    -1.000000000000e+000 -1.224646799147e-016 0.000000000000e+000 -0.000000000000e+000 
+    0.000000000000e+000 0.000000000000e+000 0.000000000000e+000 1.000000000000e+000 
+    ENDPURAL
+   WORK_ORIGIN                     4X
+ENDSECTION
+
+SECTION TOOL
+   TOOL_KIND                       BALL
+   TOOL_DIAM                       2.00000000
+   TOOL_RADI                       1.00000000
+   TOOL_EDGE_NUM                   2
+   TOOL_ROTATION_RATE              1000
+   TOOL_FEED_RATE                  1000.00000000
+   TOOL_NUMBER                     1
+   TOOL_DIAM_CORRECT               1
+   TOOL_LENG_CORRECT               1
+   TOOL_COOLING                    1
+   TOOL_EDGE_TAPER_ANG             0.00000000
+ENDSECTION
+
+SECTION CONDITION
+   CUT_TRAVEL_METHOD               0
+   CUT_L_PITCH_MODE                0
+   CUT_L_PITCH                     20.00000000
+   CUT_TRAVEL_DIREC                2
+   CUT_JOIN_RATE                   1000.00000000
+   CUT_STOCK_DRIVE                 0.00000000
+   CUT_STOCK_CHECK                 0.00000000
+   CUT_DRIVE_DIFFER                0
+   CUT_CHECK_PROC                  0
+   CUT_DRIVE_CHECK                 1
+   CUT_EFF_R_FLAG                  0
+   CUT_EFF_R_OUT                   0.20000000
+   CUT_TRIM_TRAVEL                 0
+   CAM_BOTTOM_Z                    -100.00000000
+   CUT_ATF_ZMAP_MESH_WIDTH         0.00000000
+   CAM_TOOL_X                      -50.00000000
+   CAM_TOOL_Y                      0.00000000
+   CAM_TOOL_Z                      5.00000000
+   CAM_CLEARANCE_Z                 2.00000000
+   CAM_CHECK_SURFACE               0
+   CAM_DRIVE_SURFACE               1
+   CAM_PATH_SURFACE                0
+   CUT_TRAVEL_METHOD               0
+   CAM_START_SURFACE               1
+   CUT_TRAVEL_START                0.00000000
+   CUT_TRAVEL_END                  1.00000000
+   CUT_PITCH_START                 0.00000000
+   CUT_PITCH_END                   1.00000000
+   CUT_TRAVEL_NUMBER               0
+   CAM_TRANS_FLAG                  0
+   CAM_TRANS_START_X               0.00000000
+   CAM_TRANS_START_Y               0.00000000
+   CAM_TRANS_START_Z               0.00000000
+   CAM_TRANS_END_X                 0.00000000
+   CAM_TRANS_END_Y                 0.00000000
+   CAM_TRANS_END_Z                 0.00000000
+   CAM_CALC_ORIGIN                 
+   CUT_ADJUST                      0
+   CUT_G92                         0
+   CAM_CALC_METHOD_FLAG            0
+ENDSECTION
+
+SECTION APPROAH
+   APP_Z_FLAG                      0
+   APP_Z_LENG1                     0
+   APP_Z_RATE1                     0
+   APP_Z_FLAG2                     0
+   APP_Z_LENG2                     0
+   APP_Z_RATE2                     0
+   APP_XY3_FLAG                    1
+   APP_XY3_METHOD                  1
+   APP_XY3_RADI                    5.00000000
+   APP_XY3_ANG                     90.00000000
+   APP_XY3_LENG                    5.00000000
+   APP_XY3_RATE                    1000.00000000
+   ESC_Z_FLAG                      0
+   ESC_Z_LENG                      0
+   ESC_Z_RATE                      0
+   ESC_XY3_FLAG                    1
+   ESC_XY3_METHOD                  1
+   ESC_XY3_RADI                    5.00000000
+   ESC_XY3_ANG                     90.00000000
+   ESC_XY3_LENG                    5.00000000
+   ESC_XY3_RATE                    1000.00000000
+ENDSECTION
+
+SECTION PRECISION
+   CUT_SURF_TEXTURE                0.02000000
+   CUT_REDUCTION                   0.00100000
+   CUT_OFFSET_CHECK_FLAG           1
+   CUT_EDGE_CHECK                  1
+   CUT_ANG_CHECK_CUR               2.50000000
+   CUT_TOL_CHECK_CUR               0.02000000
+   CUT_ANG_MIN_CUR                 2.50000000
+   CUT_TOL_MIN_CUR                 0.02000000
+ENDSECTION
+
+SECTION OPTIMIZE
+   OPT_TOOL_CL_INFO                1
+   OPT_TOOL_DIAM                   2.00000000
+   OPT_TOOL_RADI                   1.00000000
+   TOOL_DEPTH                      0.00000000
+   TOOL_EDGE_WIDTH                 0.00000000
+   TOOL_EDGE_LENG                  1.50000000
+   OPT_CHAMFER_HEIGHT              1.50000000
+   TOOL_SHANK_DIAM                 4.00000000
+   TOOL_SHANK_LENG                 0.00000000
+   TOOL_ACT_LENGTH                 45.00000000
+   TOOL_LENGTH                     13.00000000
+   TOOL_Z_CUT_FLAG                 1
+   TOOL_SHANK_TYPE                 1
+   TOOL_TAPER_ORIGIN               0
+   TOOL_TAPER_ORIGIN_FLAG          2
+   TOOL_TAPER_ORG_HEIGHT           8.84576901
+   TOOL_TAPER_UP_HEIGHT            8.84576901
+   TOOL_TAPER_DW_HEIGHT            1.50000000
+   TOOL_TAPER_ANG                  7.98179125
+   TOOL_TAPER_DIAM                 4.00000000
+   HOLD_HEAD2_TYPE                 1
+   HOLD_HEAD2_X_LENG               0.00000000
+   HOLD_HEAD2_Y_LENG               0.00000000
+   HOLD_HEAD2_SHIFT_X              0.00000000
+   HOLD_HEAD2_SHIFT_Y              0.00000000
+   HOLD_HEAD2_HEIGHT               0.00000000
+   HOLD_HEAD2_DIAM                 0.00000000
+   HOLD_HEAD_TYPE                  1
+   HOLD_HEAD_X_LENG                0.00000000
+   HOLD_HEAD_Y_LENG                0.00000000
+   HOLD_HEAD_SHIFT_X               0.00000000
+   HOLD_HEAD_SHIFT_Y               0.00000000
+   HOLD_HEAD_HEIGHT                0.00000000
+   HOLD_HEAD_DIAM                  0.00000000
+   HOLD_HEAD_USEFUL_LENG           0.00000000
+   OPT_AIRCUT_FLAG                 0
+   OPT_HOLE_FLAG                   0
+   OPT_CON_CLEARANCE_FLAG          0
+   OPT_AIRCUT_CONN                 1
+   OPT_LINE_DIVIDE_NUM             5.00000000
+   OPT_AIRCUT_LENG                 10.00000000
+   OPT_ARC_TOL                     0.01000000
+   OPT_APP_SAFETY_DIST             2.00000000
+   OPT_APP_CUT_LENG                10.00000000
+   OPT_CUT_TOL                     0.00000000
+   OPT_AUTO_CLEARANCE              0
+   OPT_XY_SAFETY_DIST              5.00000000
+   OPT_Z_SAFETY_DIST               5.00000000
+   OPT_G00_MODE                    0
+   OPT_VARI_FEED                   0
+   OPT_VARI_SUBJECT                1
+   OPT_VARI_OUTER_FEED_FLAG        0
+   OPT_VARI_OUTER_FEED             80.00000000
+   OPT_STD_CUT                     0
+   OPT_STD_PRE_STOCK               0.50000000
+   OPT_UPPER_TYPE_FLAG             0
+   OPT_UPPER_VALUE                 50.00000000
+   OPT_UPPER_FEED_LOW_LOAD         200.00000000
+   OPT_OVER_UPPER_FEED_FLAG        0
+   OPT_OVER_UPPER_FEED             110.00000000
+   OPT_LOAD_CONTROL_FLAG           0
+   OPT_VARI_OVERRIDE               0
+   OPT_VARI_100PER_FEED            110.00000000
+   OPT_VARI_STEP1                  10.00000000
+   OPT_VARI_STEP2                  20.00000000
+   OPT_VARI_STEP3                  30.00000000
+   OPT_VARI_STEP4                  40.00000000
+   OPT_VARI_STEP5                  50.00000000
+   OPT_VARI_STEP6                  60.00000000
+   OPT_VARI_STEP7                  70.00000000
+   OPT_VARI_STEP8                  80.00000000
+   OPT_VARI_STEP9                  90.00000000
+   OPT_VARI_FEED1                  110.00000000
+   OPT_VARI_FEED2                  110.00000000
+   OPT_VARI_FEED3                  110.00000000
+   OPT_VARI_FEED4                  110.00000000
+   OPT_VARI_FEED5                  110.00000000
+   OPT_VARI_FEED6                  110.00000000
+   OPT_VARI_FEED7                  110.00000000
+   OPT_VARI_FEED8                  110.00000000
+   OPT_VARI_FEED9                  110.00000000
+   OPT_VARI_FEED10                 110.00000000
+   OPT_COR_SLOW_FLAG               0
+   OPT_COR_SLOW_MODE               0
+   OPT_COR_FAST_FLAG               0
+   OPT_COR_CON_FLAG                1
+   OPT_COR_CTRL_FLAG               0
+   OPT_COR_SLOW_ANG                30.00000000
+   OPT_COR_SLOW_LENG               10.00000000
+   OPT_COR_SLOW_FEED               80.00000000
+   OPT_COMP_FLAG                   0
+   OPT_COMP_LINEAR                 0
+   OPT_COMP_TOL                    0.00010000
+   OPT_COMP_MAX_CUR                8000.00000000
+   OPT_ARC_RATE_MODE               1
+   OPT_ARC_SHORT_LENGTH            0.01000000
+   OPT_CHECK_G00                   1
+   OPT_CHECK_DEPTH                 0
+   OPT_CHECK_Z                     0
+   OPT_CHECK_SHANK                 1
+   OPT_CHECK_HEAD                  0
+   OPT_SHANK_SAFETY_DIST           0.00000000
+   OPT_HOLDER_SAFETY_DIST          0.00000000
+   OPT_HEAD_SAFETY_DIST            0.00000000
+   OPT_CHECK_JIG                   0
+   OPT_CHECK_SHAVE                 0
+   OPT_THROUGH_EDGE_FLAG           0
+   OPT_CON_ESC_FLAG                0
+   OPT_VARI_REFER_FLAG             0
+   OPT_VARI_REFERENCE              0.00000000
+   OPT_XYARC_APP_3DARC_FLAG        0
+   OPT_XYARC_SLOPE_HEIGHT          1.00000000
+   OPT_CON_G00_FLAG                0
+   OPT_CON_G00_LENG                100.00000000
+   OPT_CON_RESET_LENG              0.00000000
+   OPT_CON_SAFE_LENG               0.00000000
+   OPT_TOOL_TOP_EDGE_FLAG          1
+   TOOL_TAPER_SHAPE_NUM            3
+   TOOL_EFFECTIVE_LENGTH_SETFLG    0
+   TOOL_EFFECTIVE_LENGTH           4.00000000
+   OPT_ESCAPE_MODE                 0
+   OPT_XY_ESCAPE_OFFSET            7.00000000
+   TOOL_STUCK_LENGTH_CALC_FLAG     0
+   TOOL_STUCK_LENGTH_MIN           13.00000000
+   TOOL_STUCK_LENGTH_MAX           45.00000000
+   TOOL_STUCK_LENGTH_STEP          0.00000000
+   OPT_CHECK_FEEDRATE              1
+   OPT_FEEDRATE_LIMIT              1000.00000000
+   OPT_Z_FEEDRATE_LIMIT            1000.00000000
+   OPT_CHECK_COMP                  0
+   OPT_TOOL_OFFSET_REQUEST         0
+ENDSECTION
+
+SECTION COMMENT
+   TOOL_NAME                       08-00520-01000_MRB230_D2_R1_1.5_4_4
+   TOOL_COMMENT                    2-Flute and Helix 30 degrees Long Neck Ball End Mill. Suitable f
+   TOOL_MAKER                      NS TOOL CO., LTD.
+   TOOL_TYPE                       MRB230
+   TOOL_CODE                       08-00520-01000_MRB230
+   TOOL_MATERIAL_PROPERTY          Carbide
+   TOOL_COATING                    Mugen
+   TOOL_SERIES                     2-Flute Long Neck Ball End Mill
+   TOOL_GROUP                      Ball
+   TOOL_LIFE                       10000.00000000
+   TOOL_MAXCUT_XY                  5.00000000
+   TOOL_MAXCUT_Z                   5.00000000
+   HOLD_SET_NAME                   E32-SLRA4-50-M22
+   HOLD_HOLDER_NAME                E32-SLRA4-50-M22
+   HOLD_CHUCK4_NAME                
+   HOLD_CHUCK3_NAME                
+   HOLD_CHUCK2_NAME                
+   HOLD_CHUCK1_NAME                
+   HOLD_HOLDER_MAKER_NAME          MST Corporation
+   HOLD_HOLDER_NAME2               
+   HOLD_HOLDER_MAKER_NAME2         
+   TOOL_SET_NAME                   Leng63mm
+   USR_01                          COMMENT01
+   USR_02                          COMMENT02
+   USR_03                          COMMENT03
+   USR_04                          COMMENT04
+   USR_05                          COMMENT05
+   USR_06                          COMMENT06
+   USR_07                          COMMENT07
+   USR_08                          COMMENT08
+   USR_09                          COMMENT09
+   USR_10                          COMMENT10
+   TOOL_MATERIAL_SYMBOL            
+   TOOL_MATERIAL                   
+   TOOL_KEY_WORD                   
+   TOOL_KEY_WORD2                  
+   TOOL_KEY_WORD3                  
+   HOLD_HEAD_NAME                  
+   HOLD_QUIL_NAME                  
+   TOOL_SET_DBID                   3bc433a8-7dad-4d38-82c3-f78653cf9764
+   TOOL_DBID                       159b1d5f-266b-499a-83fa-3b681e71aa67
+   HOLD_SET_DBID                   00000000-0000-0000-0000-000000000000
+   HOLD_HOLDER_DBID                abf4373a-bbcd-47b3-857f-bda234a30581
+   HOLD_CHUCK_DBID                 00000000-0000-0000-0000-000000000000
+ENDSECTION
+
+SECTION 5X_SETTING
+   CAM_5X_CONVERT_FLAG             1
+   CAM_5X_CONVERT_TYPE_FLAG        0
+   CAM_5X_CONVERT_ANG              90.00000000
+   CAM_5X_CONVERT_ANG_FLAG         0
+   CAM_5X_CONVERT_ANG_MAX          90.00000000
+   CAM_5X_CONVERT_FIGURE_TYPE_FLAG  2
+   CAM_5X_CONVERT_FIGURE_POINT     1
+   CAM_5X_CONVERT_FIGURE_POINT_X   0.00000000
+   CAM_5X_CONVERT_FIGURE_POINT_Y   0.00000000
+   CAM_5X_CONVERT_FIGURE_POINT_Z   0.00000000
+   CAM_5X_CONVERT_FIGURE_CURVE     0
+   CAM_5X_CONVERT_FIGURE_SURFACE   0
+   CAM_5X_COLLISION_EVADE_FLAG     0
+   CAM_5X_COLLISION_EVADE_TYPE_FLAG  0
+   CAM_5X_COLLISION_EVADE_COMBINATION_TILT_FLAG  0
+   CAM_5X_COLLISION_EVADE_ESCAPE_COORDINATE_TYPE  0
+   CAM_5X_COLLISION_EVADE_TILT_ANG_MAX  90.00000000
+   CAM_5X_COLLISION_EVADE_TILT_ANG_MIN  0.00000000
+   CAM_5X_COLLISION_EVADE_PIVOT_ANG  90.00000000
+   CAM_5X_COLLISION_EVADE_TOOL_ALLOWANCE  1.00000000
+   CAM_5X_COLLISION_EVADE_CALC_STUCK_LENGTH_FLAG  0
+   CAM_5X_COLLISION_CHECK_FIGURE_TYPE_FLAG  1
+   CAM_5X_COLLISION_CHECK_FIGURE   1
+   CAM_5X_COLLISION_CHECK_UNDERCUT_FLAG  1
+ENDSECTION
+
+SECTION TOOL_TAPER_SHAPE
+   HOLD_SHAPE_NUM                  3
+   PURAL HOLD_SHAPE
+   0.000000000000e+000 9.700000000000e-001 1.500000000000e+000
+   0.000000000000e+000 9.700000000000e-001 4.000000000000e+000
+   0.000000000000e+000 2.000000000000e+000 8.845769012763e+000
+    ENDPURAL                       
+ENDSECTION
+
+SECTION HOLDERSET 10
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               1
+    HOLD_TOOLSET_NO             1
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               2
+    HOLD_TOOLSET_NO             2
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               3
+    HOLD_TOOLSET_NO             3
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           1
+    HOLD_SHAPE_ID               4
+    HOLD_TOOLSET_NO             4
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               5
+    HOLD_TOOLSET_NO             1
+    HOLD_TOP_DIAM               32.00000000
+    HOLD_BOT_DIAM               10.00000000
+    HOLD_HEIGHT                 50.00000000
+    HOLD_ORG_HEIGHT             30.00000000
+    HOLD_USEFUL_LENG            50.00000000
+    HOLD_USEFUL_LOC             1
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               6
+    HOLD_TOOLSET_NO             2
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               7
+    HOLD_TOOLSET_NO             3
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               8
+    HOLD_TOOLSET_NO             4
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               9
+    HOLD_TOOLSET_NO             5
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_TOOLSET_TYPE           0
+    HOLD_SHAPE_ID               10
+    HOLD_TOOLSET_NO             6
+    HOLD_TOP_DIAM               0.00000000
+    HOLD_BOT_DIAM               0.00000000
+    HOLD_HEIGHT                 0.00000000
+    HOLD_ORG_HEIGHT             0.00000000
+    HOLD_USEFUL_LENG            0.00000000
+    HOLD_USEFUL_LOC             0
+   ENDELEMENT                   
+ENDSECTION
+
+SECTION HOLDERSHAPE 10
+   ELEMENT                      
+    HOLD_SHAPE_ID               1
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               2
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               3
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               4
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               5
+    HOLD_SHAPE_NUM              8
+    PURAL HOLD_SHAPE            
+     0.000000000000e+000 5.000000000000e+000 0.000000000000e+000
+     0.000000000000e+000 6.153000000000e+000 2.200000000000e+001
+     0.000000000000e+000 1.000000000000e+001 2.340000000000e+001
+     0.000000000000e+000 1.000000000000e+001 3.000000000000e+001
+     0.000000000000e+000 1.600000000000e+001 3.000000000000e+001
+     0.000000000000e+000 1.600000000000e+001 5.000000000000e+001
+     0.000000000000e+000 1.216000000000e+001 5.000000000000e+001
+     0.000000000000e+000 1.136000000000e+001 6.600000000000e+001
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               6
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               7
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               8
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               9
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+   ELEMENT                      
+    HOLD_SHAPE_ID               10
+    HOLD_SHAPE_NUM              0
+    PURAL HOLD_SHAPE            
+    ENDPURAL                    
+   ENDELEMENT                   
+ENDSECTION

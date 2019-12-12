@@ -1,0 +1,10 @@
+StartType=0
+BaseFolder=C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101
+ProcessFolder=C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process
+Gmdfile=C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc000\A1+00CHK.gmd
+API_LogFile=C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc000\Normal5x.lst
+API_AddGmdfile=C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc000\A1+00SRF.gmd
+API_AreaCurve=C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc000\A1+00.gac
+LinkfileNum=1
+Linkfile=C:\Users\t.sekito\Desktop\Others\CGSNA\Sample4X\Model 101\Process\Proc000\NormalEdit5x
+CLType=0
