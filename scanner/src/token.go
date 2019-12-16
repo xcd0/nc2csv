@@ -76,7 +76,6 @@ var keywords = map[string]TokenType{
 	")":             COMMENTEND,
 	"%":             NCEOF,
 	"#":             VARIABLE,
-	"\n":            EOB,
 	"AXIS":          AXIS,
 	"PREPARATION":   PREPARATION,
 	"MISCELLANEOUS": MISCELLANEOUS,
@@ -85,6 +84,8 @@ var keywords = map[string]TokenType{
 	"TOOL":          TOOL,
 	"ONUM":          ONUM,
 	"SKIP":          SKIP,
+	"EOB":           EOB,
+	//"\n":            EOB,
 }
 
 func LookupIdent(ident string) TokenType {

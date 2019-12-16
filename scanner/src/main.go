@@ -13,10 +13,18 @@ func main() {
 	rowInput := ReadText(apath)
 	spacedInput := insertSpace(rowInput)
 
-	fmt.Printf("%v\n", rowInput)
-	fmt.Printf("-----------\n")
-	fmt.Printf("%v\n", spacedInput)
-	fmt.Printf("-----------\n")
+	//fmt.Println(spacedInput)
+
+	l := New(spacedInput)
+
+	for {
+		tok := l.NextToken()
+		if tok.Type == "EOF" {
+			break
+		}
+
+		fmt.Printf("{%v, \"%v\"},\n", tok.Type, tok.Literal)
+	}
 
 	return
 

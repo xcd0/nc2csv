@@ -47,7 +47,7 @@ func insertSpace(input string) string {
 			output += string(runeChar)
 			preChar = runeChar
 		}
-		output += "\n" // 改行なくなってるので追加
+		output += ";\n" // 改行なくなってるので追加
 	}
 	return output
 }

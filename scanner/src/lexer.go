@@ -14,7 +14,10 @@ func New(input string) *Lexer {
 }
 
 /*
-加減乗除(X10./2みたいな感じ)はLiteralに吸収されているのでここでは解釈されない。
+	* 変数操作(#)
+	* 加減乗除(X10./2みたいな感じ)
+		* / はオプショナルスキップブロックがあるのでチェックする
+	はLiteralに吸収されているのでここでは解釈されない。
 */
 func (l *Lexer) NextToken() Token {
 	var tok Token
@@ -100,14 +103,19 @@ func (l *Lexer) NextToken() Token {
 		tok = newToken(COMMENTEND, l.ch)
 	case '%':
 		tok = newToken(NCEOF, l.ch)
-	case '#':
-		tok = newToken(VARIABLE, l.ch)
-		//ch := l.ch
-		for isDigit(l.peekPreChar()) {
-			l.readChar()
-			//literal := string(ch) + string(l.ch)
-		}
+	/*
+		case '#':
+			tok = newToken(VARIABLE, l.ch)
+			literal := string(l.ch)
+			for isDigit(l.peekPreChar()) {
+				l.readChar()
+				literal += string(l.ch)
+			}
+			tok.Literal = literal
+	*/
 	case '\n':
+		tok = newToken(EOB, l.ch)
+	case ';':
 		tok = newToken(EOB, l.ch)
 	case 0:
 		tok.Literal = ""
@@ -144,12 +152,16 @@ func (l *Lexer) NextToken() Token {
 			}
 
 			literal := string(l.ch)
-			// 後ろがアルファベットでない間読み込む
-			for !isLetter(l.peekChar()) && !isNewLine(l.peekChar()) && !isWhitespace(l.peekChar()) {
+			for !isEOB(l.peekChar()) && //       後ろが;でない
+				!isLetter(l.peekChar()) && //    アルファベットでない
+				!isNewLine(l.peekChar()) && //   改行でない
+				!isWhitespace(l.peekChar()) { // 半角空白でない
+				// 間読み込む
 				l.readChar()
 				literal += string(l.ch)
 			}
-			if isWhitespace(l.peekChar()) {
+			// 次の文字が半角空白やセミコロンの状態で現在の文字まで読み込む
+			if isWhitespace(l.peekChar()) || isEOB(l.peekChar()) {
 				l.readChar()
 			}
 			tok.Literal = literal
@@ -223,6 +235,10 @@ func isAxis(ch rune) bool {
 		ch == 'I' || ch == 'J' || ch == 'K' ||
 		ch == 'U' || ch == 'V' || ch == 'W' ||
 		ch == 'R'
+}
+
+func isEOB(ch rune) bool {
+	return ';' == ch
 }
 
 func isLetter(ch rune) bool {
