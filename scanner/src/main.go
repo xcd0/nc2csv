@@ -10,6 +10,7 @@ func main() {
 	flag.Parse()
 	arg := flag.Arg(0)
 	apath, _ := filepath.Abs(arg)
+
 	rowInput := ReadText(apath)
 	spacedInput := insertSpace(rowInput)
 
