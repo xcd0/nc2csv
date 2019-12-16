@@ -77,6 +77,7 @@ numbercharactor:		'0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9'
 pm:						'+' | '-'
 dot:					'.'
 nceof:					'%'
+variable:				'#'
 skip:					'/'
 eob:					'\n'
 commentStart:			'('
@@ -93,16 +94,18 @@ codeP:					'P'
 codeR:					'R'
 axis:					'X' | 'Y' | 'Z' | 'A' | 'B' | 'C' | 'I' | 'J' | 'K' | 'U' | 'V' | 'W'
 
-num:					pm unum | unum
+num:					pm unum | unum | variable uint
 unum:					ufloat | uint
 float:					int  dot | int  dot uint
 ufloat:					uint  dot | uint  dot uint
 int:					pm uint
 uint:					numbercharactor uint | numbercharactor
 
-ncdata:					nceof nc nceof
-nc:						blockOnum ncprogram
-ncprogram:				block ncprogram | block | eob
+
+// ncdataが全体
+ncdata:					nceof ncprogram nceof // % ~ %で囲まれている
+ncprogram:				blockOnum nc ncprogram | blockOnum nc // ncprogramはO番号が区切り
+nc:						block ncprogram | block | eob
 
 block:					blockSkip
 						| blockComment block
