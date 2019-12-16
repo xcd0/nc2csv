@@ -46,10 +46,10 @@ type BinOpExpr struct {
 %token <token> spindle
 %token <token> tool
 %token <token> miscellaneous
-%token <token> otherblockD
-%token <token> otherblockH
-%token <token> otherblockP
-%token <token> otherblockR
+%token <token> codeD
+%token <token> codeH
+%token <token> codeP
+%token <token> codeR
 %token <token> axis
 
 %type <expr> num
@@ -70,7 +70,6 @@ type BinOpExpr struct {
 %type <expr> blockSpindle
 %type <expr> blockTool
 %type <expr> blockMiscellaneous
-%type <expr> other
 
 %%
 
@@ -88,10 +87,10 @@ feed:					'F'
 spindle:				'S'
 tool:					'T'
 miscellaneous:			'M'
-otherblockD:			'D'
-otherblockH:			'H'
-otherblockP:			'P'
-otherblockR:			'R'
+codeD:					'D'
+codeH:					'H'
+codeP:					'P'
+codeR:					'R'
 axis:					'X' | 'Y' | 'Z' | 'A' | 'B' | 'C' | 'I' | 'J' | 'K' | 'U' | 'V' | 'W'
 
 num:					pm unum | unum
@@ -121,10 +120,10 @@ blockFeed:				feed num
 blockSpindle:			spindle num
 blockTool:				tool unum
 blockMiscellaneous:		miscellaneous unum
-other:					otherblockD num
-						| otherblockH num
-						| otherblockP num
-						| otherblockR num
+other:					codeD num
+						| codeH num
+						| codeP num
+						| codeR num
 
 %%
 
