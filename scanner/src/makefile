@@ -8,3 +8,5 @@ build:
 run: build
 	./scanner nc10
 
+update:
+	cd ../../ && make && cd scanner/src
