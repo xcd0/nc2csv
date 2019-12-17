@@ -28,11 +28,7 @@ func ReadCsv(rowInput string) [][]string {
 
 		tmpRunes := make([]rune, 0)
 
-		for i, runeChar := range line {
-			fmt.Printf("i:%v, r:%c\n", i, runeChar)
-			if runeChar == 'e' {
-				fmt.Println("-")
-			}
+		for _, runeChar := range line {
 			flagSQ := false
 			flagDQ := false
 			if runeChar == ',' {
@@ -64,15 +60,8 @@ func ReadCsv(rowInput string) [][]string {
 				tmpRunes = append(tmpRunes, runeChar)
 			}
 		}
+		tmpCol[tmpCount] = string(tmpRunes)
 		out[i] = tmpCol
-	}
-	fmt.Println(out)
-	for _, l := range out {
-		fmt.Printf("len : %v\n", len(l))
-		for _, c := range l {
-			fmt.Printf("%v", c)
-		}
-		fmt.Printf("\n")
 	}
 	return out
 }
