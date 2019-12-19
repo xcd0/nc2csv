@@ -1,4 +1,4 @@
-package main
+package lexer
 
 func macroGoto(l *Lexer, tok *Token) bool {
 	// GOTO // G01とかと間違わない

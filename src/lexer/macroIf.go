@@ -1,4 +1,4 @@
-package main
+package lexer
 
 func macroIf(l *Lexer, tok *Token) bool {
 	// if

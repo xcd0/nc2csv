@@ -4,19 +4,20 @@ import (
 	"flag"
 	"fmt"
 	"path/filepath"
+
+	"./lexer"
 )
 
 func main() {
 	flag.Parse()
-	arg := flag.Arg(0)
-	apath, _ := filepath.Abs(arg)
+	apath, _ := filepath.Abs(flag.Arg(0))
 
-	rowInput := ReadText(apath)
-	spacedInput := insertSpace(rowInput)
-	input := DeleteComment(spacedInput)
+	// 前処理
+	rowInput := ReadText(apath)          // 読み込んでstringに
+	spacedInput := insertSpace(rowInput) // 空白を入れる 不要かも
+	input := DeleteComment(spacedInput)  // コメント()を削除
 
-	l := New(input)
-
+	l := lexer.NewLexer(input)
 	// トークン毎に出力する
 	for {
 		tok := l.NextToken()

@@ -1,4 +1,4 @@
-package main
+package lexer
 
 type Lexer struct {
 	input        string
@@ -8,7 +8,7 @@ type Lexer struct {
 	ch           rune // current char under examination
 }
 
-func New(input string) *Lexer {
+func NewLexer(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.length = len([]rune(input))
 	l.ReadChar()
