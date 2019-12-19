@@ -2,7 +2,28 @@ package lexer
 
 type TokenType string
 
-const (
+type Token struct {
+	Type    TokenType
+	Literal string
+}
+
+/*
+Mode
+o operator
+c comment
+s separator
+v variable
+l line feed
+e end of file
+g goto
+w while
+i if
+
+座標値
+X Y Z A B C I J K U V W R
+*/
+
+const ( // {{{
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
 
@@ -51,14 +72,9 @@ const (
 	IF    = "IF"
 	WHILE = "WHILE"
 	END   = "END"
-)
+) // }}}
 
-type Token struct {
-	Type    TokenType
-	Literal string
-}
-
-var keywords = map[string]TokenType{
+var keywords = map[string]TokenType{ // {{{
 	"=":             ASSIGN,
 	"+":             PLUS,
 	"-":             MINUS,
@@ -94,11 +110,18 @@ var keywords = map[string]TokenType{
 	"IF":            IF,
 	"WHILE":         WHILE,
 	"END":           END,
-}
+} // }}}
 
 func LookupIdent(ident string) TokenType {
 	if tok, ok := keywords[ident]; ok {
 		return tok
 	}
 	return IDENT
+}
+
+func NewToken(tokenType TokenType, ch rune) Token {
+	return Token{
+		Type:    tokenType,
+		Literal: string(ch),
+	}
 }

@@ -42,21 +42,22 @@ func (l *Lexer) NextToken() Token {
 			tok.Literal = literal
 		}
 	case '(':
-		// 前処理で削除した
-		tok = NewToken(COMMENTSTART, l.ch)
-
-		// コメントの文字列を読み込む
-		literal := string(l.ch)
-		for l.PeekChar() != ')' {
-			l.ReadChar()
-			literal += string(l.ch)
-		}
-		// ) も含める
-		l.ReadChar()
-		literal += string(l.ch)
-		tok.Literal = literal
-	case ')':
-		tok = NewToken(COMMENTEND, l.ch)
+		// 前処理で削除したのでない
+		/*
+				tok = NewToken(COMMENTSTART, l.ch, 'c')
+				// コメントの文字列を読み込む
+				literal := string(l.ch)
+				for l.PeekChar() != ')' {
+					l.ReadChar()
+					literal += string(l.ch)
+				}
+				// ) も含める
+				l.ReadChar()
+				literal += string(l.ch)
+				tok.Literal = literal
+			case ')':
+				tok = NewToken(COMMENTEND, l.ch, 'c')
+		*/
 	case '%':
 		tok = NewToken(NCEOF, l.ch)
 	case '#':
@@ -74,9 +75,7 @@ func (l *Lexer) NextToken() Token {
 	case 0:
 		tok.Literal = ""
 		tok.Type = EOF
-
 	default:
-
 		// 先に GOTO, IF, WHILE かどうか判別して、そうでなかったらG00とかに切り分ける。
 		// 謎の文字AGとか 謎の記号〇とかが入ってきたらILLIGAL
 		if macroGoto(l, &tok) {
@@ -115,8 +114,6 @@ func (l *Lexer) NextToken() Token {
 					tok = NewToken(ONUM, l.ch)
 				}
 
-				// 内容を保存 G00なら00を保存
-
 				literal := string(l.ch)
 				for !IsEOB(l.PeekChar()) && //       後ろが;でない
 					!IsLetter(l.PeekChar()) && //    アルファベットでない
@@ -133,10 +130,14 @@ func (l *Lexer) NextToken() Token {
 				tok.Literal = literal
 				return tok
 			} else if IsDigit(l.ch) {
+				// G01X1とかでは来ない
+				// 行頭いきなり数値とかでないと来ない？
+				// <- #100=20とかの20で来る
 				tok.Type = INT
 				tok.Literal = l.ReadNumber()
 				return tok
 			} else {
+				// 異常値
 				tok = NewToken(ILLEGAL, l.ch)
 				return tok
 			}

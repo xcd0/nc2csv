@@ -1,5 +1,7 @@
 package lexer
 
+import "fmt"
+
 func (l *Lexer) SkipWhitespace() {
 	for l.ch == ' ' || l.ch == '\t' || l.ch == '\n' || l.ch == '\r' {
 		l.ReadChar()
@@ -57,7 +59,12 @@ func (l *Lexer) ReadNumber() string {
 	for IsDigit(l.ch) {
 		l.ReadChar()
 	}
-	return l.input[position:l.position]
+	if l.ch == '.' {
+		fmt.Println(">>>" + l.input[position:l.position] + "0")
+		return l.input[position:l.position] + "0"
+	} else {
+		return l.input[position:l.position]
+	}
 }
 
 func IsAxis(ch rune) bool {
@@ -86,10 +93,6 @@ func IsNewLine(ch rune) bool {
 
 func IsWhitespace(ch rune) bool {
 	return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r'
-}
-
-func NewToken(tokenType TokenType, ch rune) Token {
-	return Token{Type: tokenType, Literal: string(ch)}
 }
 
 func GetRuneAt(s string, i int) rune {
