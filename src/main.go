@@ -13,10 +13,9 @@ func main() {
 
 	rowInput := ReadText(apath)
 	spacedInput := insertSpace(rowInput)
+	input := DeleteComment(spacedInput)
 
-	//fmt.Println(spacedInput)
-
-	l := New(spacedInput)
+	l := New(input)
 
 	// トークン毎に出力する
 	for {
@@ -24,8 +23,12 @@ func main() {
 		if tok.Type == "EOF" {
 			break
 		}
+		if tok.Type != "EOB" {
+			fmt.Printf("{%v, \"%v\"},", tok.Type, tok.Literal)
+		} else {
+			fmt.Printf("{%v, \"%v\"}\n", tok.Type, tok.Literal)
+		}
 
-		fmt.Printf("{%v, \"%v\"},\n", tok.Type, tok.Literal)
 	}
 
 	return

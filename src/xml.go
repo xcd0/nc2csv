@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/xml"
+	"fmt"
 	"io"
 	"os"
 )
@@ -16,12 +17,16 @@ type Tag struct {
 func ReadXml(rowInput string) Tag {
 	v := &Tag{}
 	b := bytes.NewBuffer([]byte(rowInput))
+
 	xml.NewDecoder(b).Decode(&v)
-	/*fmt.Println(v.Name)
+	fmt.Println(v.Name)
 	fmt.Println(v.Attr)
 	fmt.Println(v.Children)
-	*/
+
 	xml.NewEncoder(os.Stdout).Encode(v)
+
+	fmt.Printf("%v\n", v)
+
 	return *v
 }
 
