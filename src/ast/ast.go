@@ -40,7 +40,7 @@ type AssignStatement struct {
 	Value Expression
 }
 
-func (as *AssignStatement) statementNode()       {}
+func (as *AssignStatement) StatementNode()       {}
 func (as *AssignStatement) TokenLiteral() string { return as.Token.Literal }
 
 type Identifier struct {

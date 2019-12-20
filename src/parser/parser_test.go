@@ -3,13 +3,21 @@ package parser
 import (
 	"testing"
 
+	"../ast"
 	"../lexer"
 )
 
 func TestAssignStatements(t *testing.T) {
 
-	l := lexer.New(rowInput)
-	p := New(l)
+	input := `
+#1000 = 10
+#100 = 11
+#101 = 12
+`
+
+	l := lexer.NewLexer(input)
+
+	p := NewParser(l)
 	program := p.ParseProgram()
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
@@ -43,14 +51,14 @@ func testAssignStatement(t *testing.T, s ast.Statement, name string) bool {
 		t.Errorf("s not *ast.AssignStatement. got=%T", s)
 		return false
 	}
-	if assignStatement.Name.Balue != name {
+	if assignStatement.Name.Value != name {
 		t.Errorf("assignStatement.Neame.Value not '%s'. got=%s",
 			name,
 			assignStatement.Name.Value,
 		)
 		return false
 	}
-	if lassignStatement.Name.TokenLiteral() != name {
+	if assignStatement.Name.TokenLiteral() != name {
 		t.Errorf("assignStatement.Neame.TokenLiteral() not '%s'. got=%s",
 			name,
 			assignStatement.Name.TokenLiteral(),
@@ -60,6 +68,7 @@ func testAssignStatement(t *testing.T, s ast.Statement, name string) bool {
 	return true
 }
 
+/*
 var rowInput = `%
 O0001(ROBO 4X)
 (COORD=CENTER)
@@ -106,3 +115,4 @@ END 1
 GOTO3
 (eof)
 `
+*/
