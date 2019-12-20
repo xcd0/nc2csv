@@ -1,6 +1,10 @@
 package lexer
 
-func macroGoto(l *Lexer, tok *Token) bool {
+import (
+	"../token"
+)
+
+func macroGoto(l *Lexer, tok *token.Token) bool {
 	// GOTO // G01とかと間違わない
 	if l.ch == 'G' {
 		// 4文字覗く
@@ -8,7 +12,7 @@ func macroGoto(l *Lexer, tok *Token) bool {
 		if string(fourChars) == "GOTO" {
 			// GOTOと一致
 			// とりあえず改行までliteralに蓄積して返す
-			*tok = NewToken(GOTO, l.ch)
+			*tok = token.NewToken(token.GOTO, l.ch)
 			literal := string(l.ch) // G
 			// 行末まで読み込む
 			for !IsEOB(l.PeekChar()) && //       後ろが;でない

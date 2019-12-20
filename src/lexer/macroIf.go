@@ -1,9 +1,13 @@
 package lexer
 
-func macroIf(l *Lexer, tok *Token) bool {
+import (
+	"../token"
+)
+
+func macroIf(l *Lexer, tok *token.Token) bool {
 	// if
 	if l.ch == 'I' && l.PeekChar() == 'F' {
-		*tok = NewToken(IF, l.ch)
+		*tok = token.NewToken(token.IF, l.ch)
 		literal := string(l.ch)
 		l.ReadChar()
 		literal += string(l.ch)

@@ -1,4 +1,4 @@
-package lexer
+package token
 
 type TokenType string
 
@@ -7,28 +7,12 @@ type Token struct {
 	Literal string
 }
 
-/*
-Mode
-o operator
-c comment
-s separator
-v variable
-l line feed
-e end of file
-g goto
-w while
-i if
-
-座標値
-X Y Z A B C I J K U V W R
-*/
-
-const ( // {{{
+const (
 	ILLEGAL = "ILLEGAL"
 	EOF     = "EOF"
 
 	// Identifiers + literals
-	IDENT = "IDENT" // add, foobar, x, y, ...
+	IDENT = "IDENT" // 関数名や変数名 add, foobar, x, y, ...
 	INT   = "INT"   // 1343456
 
 	// Operators
@@ -43,15 +27,16 @@ const ( // {{{
 	MUL = "MUL"
 	DIV = "DIV"
 
-	EQ  = "EQ"  // ==
-	NE  = "NE"  // !=
-	LT  = "LT"  // <
-	LE  = "LE"  // <=
-	GT  = "GT"  // >
-	GE  = "GE"  // >=
+	EQ = "EQ" // ==
+	NE = "NE" // !=
+	LT = "LT" // <
+	LE = "LE" // <=
+	GT = "GT" // >
+	GE = "GE" // >=
+
+	AND = "AND" // &&
 	OR  = "OR"  // ||
 	XOR = "XOR" // &^
-	AND = "AND" // &&
 
 	COMMENTSTART = "COMMENTSTART" // '('
 	COMMENTEND   = "COMMENTEND"   // ')'
@@ -72,9 +57,9 @@ const ( // {{{
 	IF    = "IF"
 	WHILE = "WHILE"
 	END   = "END"
-) // }}}
+)
 
-var keywords = map[string]TokenType{ // {{{
+var keywords = map[string]TokenType{
 	"=":             ASSIGN,
 	"+":             PLUS,
 	"-":             MINUS,
@@ -110,18 +95,4 @@ var keywords = map[string]TokenType{ // {{{
 	"IF":            IF,
 	"WHILE":         WHILE,
 	"END":           END,
-} // }}}
-
-func LookupIdent(ident string) TokenType {
-	if tok, ok := keywords[ident]; ok {
-		return tok
-	}
-	return IDENT
-}
-
-func NewToken(tokenType TokenType, ch rune) Token {
-	return Token{
-		Type:    tokenType,
-		Literal: string(ch),
-	}
 }

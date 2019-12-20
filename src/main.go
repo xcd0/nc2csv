@@ -7,6 +7,8 @@ import (
 
 	"./lexer"    // 字句解析器
 	_ "./parser" // 構文解析器
+	"./token"
+	"./util"
 )
 
 func main() {
@@ -14,12 +16,12 @@ func main() {
 	apath, _ := filepath.Abs(flag.Arg(0))
 
 	// 前処理
-	rowInput := ReadText(apath)          // 読み込んでstringに
-	spacedInput := insertSpace(rowInput) // 空白を入れる 不要かも
-	input := DeleteComment(spacedInput)  // コメント()を削除
+	rowInput := util.ReadText(apath)          // 読み込んでstringに
+	spacedInput := util.InsertSpace(rowInput) // 空白を入れる 不要かも
+	input := util.DeleteComment(spacedInput)  // コメント()を削除
 
 	l := lexer.NewLexer(input)
-	ts := make([]lexer.Token, 0, 1000)
+	ts := make([]token.Token, 0, 1000)
 	// トークン毎に出力する
 	for {
 		tok := l.NextToken()
@@ -40,9 +42,9 @@ func main() {
 
 	// 保存テスト
 	fpath := "./save.txt"
-	save(fpath, ts)
-	var tsload []lexer.Token
-	load(fpath, &tsload)
+	util.Save(fpath, ts)
+	var tsload []token.Token
+	util.Load(fpath, &tsload)
 	fmt.Println(tsload)
 
 	return

@@ -1,6 +1,8 @@
-package parser
+package ast
 
-import "../lexer/token"
+import (
+	"../token"
+)
 
 type Program struct {
 	Statements []Statement
@@ -33,7 +35,7 @@ type Expression interface {
 
 // 代入式
 type AssignStatement struct {
-	Toke  token.Token // token.ASSIGN
+	Token token.Token // token.ASSIGN
 	Name  *Identifier
 	Value Expression
 }

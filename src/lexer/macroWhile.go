@@ -2,9 +2,11 @@ package lexer
 
 import (
 	"strings"
+
+	"../token"
 )
 
-func macroWhile(l *Lexer, tok *Token) bool {
+func macroWhile(l *Lexer, tok *token.Token) bool {
 	// WHILE // W1.とかと間違わない
 	if l.ch == 'W' {
 		// 5文字覗く
@@ -21,8 +23,8 @@ func macroWhile(l *Lexer, tok *Token) bool {
 	return false
 }
 
-func runWhile(l *Lexer, tok *Token) {
-	*tok = NewToken(WHILE, l.ch)
+func runWhile(l *Lexer, tok *token.Token) {
+	*tok = token.NewToken(token.WHILE, l.ch)
 	literal := string(l.ch) // W
 
 	// WHILE [#100 GE 0] DO 1

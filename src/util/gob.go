@@ -1,14 +1,14 @@
-package main
+package util
 
 import (
 	"encoding/gob"
 	"log"
 	"os"
 
-	"./lexer" // 字句解析器
+	"../token"
 )
 
-func save(path string, in interface{}) {
+func Save(path string, in interface{}) {
 	f, err := os.Create(path)
 	if err != nil {
 		log.Fatal(err)
@@ -21,7 +21,7 @@ func save(path string, in interface{}) {
 	}
 }
 
-func load(path string, out *[]lexer.Token) {
+func Load(path string, out *[]token.Token) {
 	f, err := os.Open(path)
 	if err != nil {
 		log.Fatal(err)

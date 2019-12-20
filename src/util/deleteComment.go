@@ -1,4 +1,4 @@
-package main
+package util
 
 func DeleteComment(input string) string {
 	//アルファベットの前に半角空白を入れる

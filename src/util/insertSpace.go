@@ -1,4 +1,4 @@
-package main
+package util
 
 import (
 	"strings"
@@ -8,7 +8,7 @@ func isAZ(runeChar rune) bool {
 	return 'A' <= runeChar && 'Z' >= runeChar
 }
 
-func insertSpace(input string) string {
+func InsertSpace(input string) string {
 	//アルファベットの前に半角空白を入れる
 	// 行頭は入れない
 	// アルファベットが続くときは入れない

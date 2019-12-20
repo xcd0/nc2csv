@@ -1,4 +1,4 @@
-package lexer
+package util
 
 import "log"
 

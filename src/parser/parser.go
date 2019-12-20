@@ -1,9 +1,9 @@
 package parser
 
 import (
-	"go/token"
-
+	"../ast"
 	"../lexer"
+	"../token"
 )
 
 type Parser struct {
@@ -12,19 +12,19 @@ type Parser struct {
 	peekToken token.Token
 }
 
-func New(l *lexer.Lexer) *pparser {
+func New(l *lexer.Lexer) *Parser {
 	p := &Parser{l: l}
 	// 2つトークンを読み込む。curToeknとpeekTokenの両方がセットされる。
-	p.nextToekn()
-	p.nextToekn()
+	p.NextToken()
+	p.NextToken()
 	return p
 }
 
-func (p *Parser) ParseProgram() *ast.Program {
-	p.curToekn = p.peekToken
+func (p *Parser) NextToken() {
+	p.curToken = p.peekToken
 	p.peekToken = p.l.NextToken()
 }
 
-func (p *Parser) ParseProgram() *sat.Program {
+func (p *Parser) ParseProgram() *ast.Program {
 	return nil
 }
