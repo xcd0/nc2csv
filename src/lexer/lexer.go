@@ -30,19 +30,21 @@ func (l *Lexer) NextToken() Token {
 	case '=':
 		tok = NewToken(ASSIGN, l.ch)
 	case '/':
-		if IsNewLine(l.PeekPreChar()) {
-			tok = NewToken(SKIP, l.ch)
-
-			// コメントの文字列を読み込む
-			literal := string(l.ch)
-			for !IsNewLine(l.PeekChar()) {
-				l.ReadChar()
-				literal += string(l.ch)
-			}
-			tok.Literal = literal
+		// オプショナルスキップブロック
+		// /,/1,/2,/3,/4,/5が来る可能性がある。
+		// /#1 は#1=10にオプショナルスキップがついたものとみなす。
+		tok = NewToken(SKIP, l.ch)
+		literal := string(l.ch)
+		// /の後に数値が来たら
+		if IsDigit(l.PeekChar()) {
+			// 一字だけ読み込む
+			l.ReadChar()
+			literal += string(l.ch)
 		}
+		tok.Literal = literal
 	case '(':
 		// 前処理で削除したのでない
+		panic("Error : 前処理で削除したはずの'('が見つかりました。前処理プログラムのバグです。")
 		/*
 				tok = NewToken(COMMENTSTART, l.ch, 'c')
 				// コメントの文字列を読み込む
@@ -61,6 +63,7 @@ func (l *Lexer) NextToken() Token {
 	case '%':
 		tok = NewToken(NCEOF, l.ch)
 	case '#':
+		// 変数
 		tok = NewToken(VARIABLE, l.ch)
 		literal := string(l.ch)
 		for IsDigit(l.PeekPreChar()) {
@@ -73,8 +76,7 @@ func (l *Lexer) NextToken() Token {
 	case ';':
 		tok = NewToken(EOB, l.ch)
 	case 0:
-		tok.Literal = ""
-		tok.Type = EOF
+		tok = NewToken(EOF, "")
 	default:
 		// 先に GOTO, IF, WHILE かどうか判別して、そうでなかったらG00とかに切り分ける。
 		// 謎の文字AGとか 謎の記号〇とかが入ってきたらILLIGAL
