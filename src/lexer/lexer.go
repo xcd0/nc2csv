@@ -64,6 +64,7 @@ func (l *Lexer) NextToken() Token {
 		tok = NewToken(NCEOF, l.ch)
 	case '#':
 		// 変数
+		// #数値 の#と数値含めて変数名とする
 		tok = NewToken(VARIABLE, l.ch)
 		literal := string(l.ch)
 		for IsDigit(l.PeekPreChar()) {
