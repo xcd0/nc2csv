@@ -70,6 +70,7 @@ func (l *Lexer) NextToken() token.Token {
 		tok.Type = token.EOF
 		tok.Literal = ""
 	default:
+		/* //古いコード {{{
 		// 先に GOTO, IF, WHILE かどうか判別して、そうでなかったらG00とかに切り分ける。
 		// 謎の文字AGとか 謎の記号〇とかが入ってきたらILLIGAL
 		if macroGoto(l, &tok) {
@@ -82,7 +83,6 @@ func (l *Lexer) NextToken() token.Token {
 		} else {
 			// GOTOでもIFでもWHILEでもなかったとき
 			if IsLetter(l.ch) {
-				/* //古いコード {{{
 				// 種別の決定
 				tok.Literal = l.ReadIdentifier()
 				if IsAxis(l.ch) {
@@ -119,42 +119,42 @@ func (l *Lexer) NextToken() token.Token {
 				}
 				tok.Literal = literal
 				return tok
-				*/ /// }}}
+		*/ /// }}}
+		if IsLetter(l.ch) {
+			// M08 G00 X1.
+			// こういうのはすべて変数への代入と見なす
+			// var M = 8 みたいなかんじ
+			// golang の場合変数宣言と代入は var <identifier> = <expression> になる
+			// NCの場合varに当たるprefixがないので
+			// GOTO,IF,WHILEでないアルファベットが来たら変数代入だとみなす
+			// 異常値だがAAと来たらAAも変数代入になる？
 
-				// M08 G00 X1.
-				// こういうのはすべて変数への代入と見なす
-				// var M = 8 みたいなかんじ
-				// golang の場合変数宣言と代入は var <identifier> = <expression> になる
-				// NCの場合varに当たるprefixがないので
-				// GOTO,IF,WHILEでないアルファベットが来たら変数代入だとみなす
-				// 例えば異常値だがAAと来たらAAも変数代入になる
-
-				// readIdentifier()はアルファベットまたは_がつづく間読み取って返す
-				tok.Literal = l.readIdentifier()
-				// LookUpIdentはGOTOやIF,WHILE,ELSE,ENDのような予約語を予約語として
-				// それ以外をIDENTとして返す
-				tok.Type = token.LookupIdent(tok.Literal)
-			} else if IsDot(l.ch) {
-				// 小数点
-				tok.Type = token.FLOAT
-				tok.Literal, _ = l.ReadNumber()
-				return tok
-			} else if IsDigit(l.ch) {
-				// 数値
-				// 小数点があるかどうかわからないと確定しない
-				tok.Literal, n = l.ReadNumber()
-				if n.Int {
-					tok.Type = token.INT
-				} else {
-					tok.Type = token.FLOAT
-				}
-				return tok
+			// readIdentifier()はアルファベットまたは_がつづく間読み取って返す
+			tok.Literal = l.readIdentifier()
+			// LookUpIdentはGOTOやIF,WHILE,ELSE,ENDのような予約語を予約語として
+			// それ以外をIDENTとして返す
+			tok.Type = token.LookupIdent(tok.Literal)
+		} else if IsDot(l.ch) {
+			// 小数点
+			tok.Type = token.FLOAT
+			tok.Literal, _ = l.ReadNumber()
+			return tok
+		} else if IsDigit(l.ch) {
+			// 数値
+			// 小数点があるかどうかわからないと確定しない
+			tok.Literal, n = l.ReadNumber()
+			if n.Int {
+				tok.Type = token.INT
 			} else {
-				// 異常値
-				tok = token.NewToken(token.ILLEGAL, l.ch)
-				return tok
+				tok.Type = token.FLOAT
 			}
+			return tok
+		} else {
+			// 異常値
+			tok = token.NewToken(token.ILLEGAL, l.ch)
+			return tok
 		}
+		//}
 	}
 
 	l.ReadChar()
