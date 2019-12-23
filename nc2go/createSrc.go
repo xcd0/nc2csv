@@ -1,28 +1,81 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/xcd0/go-nkf"
 )
 
 func CreateSrc(rowInput string) string {
+
+	output := makeRunFunction(input)
+
+	return output
+}
+
+func makeRunFunction(input string) string {
+
+	lines := strings.Split(input, "\n")
+
+	output := `func (p *program) run(pc int) {
+	if pc == 0 || pc > p.length {
+		e := fmt.Sprintf("実行エラー : l.%d : その行は存在しません。エラーです。", pc)
+		panic(e)
+	}
+
+	NOP := false
+	switch pc { `
+
+	flagCommentStart := false
+	// 一行読み取る
+	for _, line := range lines {
+		// 行ごとにcase文
+		output += fmt.Sprintf("\tcase %3v:\n", i)
+		// コメントの処理
+		rs := []rune(line)
+		if rs[0] == '(' {
+			flagCommentStart = false
+			for _, r := range rs {
+				// ()はコメント 複数行コメントにも対応
+				if r == '(' {
+					flagCommentStart = true
+					continue
+				}
+				if flagCommentStart {
+					if r == ')' {
+						flagCommentStart = false
+					}
+					continue
+				}
+			}
+			output += string(r)
+		}
+
+		output += fmt.Sprintf("\t\t%s\n", "")
+	}
+
+	rs := []rune(input)
+	l := len(rs)
+	ro := make([]rune, 0, l*2)
+	var r rune
+	var t rune
+	countLF := 1
+	for i := 0; i < l; i++ {
+	}
+
 	// コメント()を削除
 	input := util.DeleteComment(spacedInput)
 	// 空行の削除 // GOTOを実装するときに空白を削除すると行がずれてまずい //formedInput = util.DeleteDoubleNewline(input)
 	// 変数代入の変換
 	convertedAssign := convertAssign(input)
-
-	return output
 }
 
 func convertAssign(input string) string { // {{{
-	//アルファベットの前に半角空白を入れる
-	// 行頭は入れない
-	// アルファベットが続くときは入れない
 	rs := []rune(input)
 	l := len(rs)
 	ro := make([]rune, 0, l*2)
@@ -126,7 +179,7 @@ func ReadText(path string) string {
 // }}}
 
 // is {{{
-func isaxis(ch rune) bool {
+func IsAxIs(ch rune) bool {
 	return ch == 'x' || ch == 'y' || ch == 'z' ||
 		ch == 'a' || ch == 'b' || ch == 'c' ||
 		ch == 'i' || ch == 'j' || ch == 'k' ||
@@ -134,50 +187,50 @@ func isaxis(ch rune) bool {
 		ch == 'r'
 }
 
-func iseob(ch rune) bool {
+func IsEob(ch rune) bool {
 	return ';' == ch
 }
 
-func islf(ch rune) bool {
+func IsLf(ch rune) bool {
 	return '\n' == ch
 }
 
-func isletter(ch rune) bool {
+func IsLetter(ch rune) bool {
 	return 'a' <= ch && ch <= 'z' || 'a' <= ch && ch <= 'z' || ch == '_'
 }
 
-func isdigit(ch rune) bool {
+func IsDigit(ch rune) bool {
 	return '0' <= ch && ch <= '9'
 }
 
-func isdot(ch rune) bool {
+func IsDot(ch rune) bool {
 	return ch == '.'
 }
 
-func isnewline(ch rune) bool {
+func IsNewline(ch rune) bool {
 	return ch == '\n' || ch == '\r'
 }
 
-func iswhitespace(ch rune) bool {
+func IsWhitespace(ch rune) bool {
 	return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r'
 }
 
-func getruneat(s string, i int) rune {
+func GetRuneAt(s string, i int) rune {
 	rs := []rune(s)
 	return rs[i]
 }
 
-func getrunes(rs *[]rune, i int, num int) (string, error) {
+func GetRunes(rs *[]rune, i int, num int) (string, error) {
 	r = rs[i]
 	if i+num < len(rs) {
 		return string(*rs[i : i+num]), nil
 	} else {
-		return "", errors.new("範囲外アクセス")
+		return "", errors.New("範囲外アクセス")
 	}
 }
 
 // keywordsにあるか調べる
-func isreserved(identifier string) bool {
+func IsReserved(identifier string) bool {
 	// #等もkeywordsに含まれるが、
 	// readlettersでアルファベットと_だけを切り出しているので該当しない。
 	if token, ok := keywords[identifier]; ok {
@@ -187,7 +240,7 @@ func isreserved(identifier string) bool {
 	}
 }
 
-func isimplemented(id string) bool {
+func IsImplemented(id string) bool {
 	// 実装したら増やす
 	if id == "%" {
 		return true
