@@ -130,20 +130,20 @@ func (l *Lexer) NextToken() token.Token {
 			// 異常値だがAAと来たらAAも変数代入になる？
 
 			// readIdentifier()はアルファベットまたは_がつづく間読み取って返す
-			tok.Literal = l.readIdentifier()
+			tok.Literal = l.ReadIdentifier()
 			// LookUpIdentはGOTOやIF,WHILE,ELSE,ENDのような予約語を予約語として
 			// それ以外をIDENTとして返す
 			tok.Type = token.LookupIdent(tok.Literal)
 		} else if IsDot(l.ch) {
-			// 小数点
+			// 小数点 // 確定で浮動小数点
 			tok.Type = token.FLOAT
 			tok.Literal, _ = l.ReadNumber()
 			return tok
 		} else if IsDigit(l.ch) {
-			// 数値
-			// 小数点があるかどうかわからないと確定しない
-			tok.Literal, n = l.ReadNumber()
-			if n.Int {
+			// 数値 // 小数点があるかどうかわからないと確定しない
+			var v token.Value
+			tok.Literal, v = l.ReadNumber()
+			if v.IsInt() {
 				tok.Type = token.INT
 			} else {
 				tok.Type = token.FLOAT

@@ -1,6 +1,8 @@
 package ast
 
 import (
+	"strconv"
+
 	"../token"
 )
 
@@ -59,7 +61,7 @@ func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
 
 // 配列 {{{
 
-type ArrayExprression struct {
+type ArrayExpression struct {
 	Token token.Token // #
 	Left  Expression  // # オブジェクト
 	Index Expression  // 要素番号
@@ -68,7 +70,20 @@ type ArrayExprression struct {
 func (a *ArrayExpression) expressionNode()      {}
 func (a *ArrayExpression) TokenLiteral() string { return a.Token.Literal }
 func (a *ArrayExpression) String() string {
-	return "( #" + string(a.Index) + " = " + Hash[a.Index].String() + " )"
+	c := a.Index.TokenLiteral()
+	n, _ := strconv.Atoi(c)
+	return "( #" + a.Index.TokenLiteral() + " = " + token.Hash[n].String() + " )"
 }
+
+// }}}
+
+// GOTO {{{
+type GotoStatement struct {
+	Token     token.Token
+	GotoValue Expression
+}
+
+func (g *GotoStatement) statementNode()       {}
+func (g *GotoStatement) TokenLiteral() string { return g.Token.Literal }
 
 // }}}

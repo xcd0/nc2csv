@@ -1,27 +1,35 @@
 package token
 
-type Num struct {
-	Int        bool
-	ValueInt   int
-	ValueFolat float64
+import "fmt"
+
+var Hash = make([]Value, 10000)
+
+type Value struct {
+	bInt bool
+	i    int
+	f    float64
 }
 
-func (n *Num) AssignInt(i int) {
-	n.Int = true
-	n.ValueInt = i
-	n.ValueFloat = 0
+func (v *Value) IsInt() bool {
+	return v.bInt
 }
 
-func (n *Num) AssignFloat(f float64) {
-	n.Int = false
-	n.ValueFloat = f
-	n.ValueInt = 0
+func (v *Value) AssignInt(i int) {
+	v.bInt = true
+	v.i = i
+	v.f = 0
 }
 
-func (n *Num) String() string {
-	if n.Int {
-		return string(ValueInt)
+func (v *Value) AssignFloat(f float64) {
+	v.bInt = false
+	v.i = 0
+	v.f = f
+}
+
+func (v *Value) String() string {
+	if v.bInt {
+		return string(v.i)
 	} else {
-		return string(ValueFloat)
+		return fmt.Sprintf("%f", v.f)
 	}
 }

@@ -20,6 +20,7 @@ func TestAssignStatements(t *testing.T) {
 
 	p := NewParser(l)
 	program := p.ParseProgram()
+	checkParserErrors(t, p)
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
@@ -31,9 +32,13 @@ func TestAssignStatements(t *testing.T) {
 	tests := []struct {
 		expectedIdentifier string
 	}{
-		{"#1000"},
-		{"#100"},
-		{"#101"},
+		{"X1"},
+		{"Y2."},
+		{"Z003"},
+		{"A004.000"},
+		{"#1000=1"},
+		{"#100=2"},
+		{"#101=3"},
 	}
 	for i, tt := range tests {
 		s := program.Statements[i]
@@ -71,6 +76,47 @@ func testAssignStatement(t *testing.T, s ast.Statement, name string) bool {
 	return true
 }
 
+func checkParserErrors(t *testing.T, p *Parser) {
+	errors := p.Errors()
+	if len(errors) == 0 {
+		return
+	}
+	t.Errorf("parser had %d errors", len(errors))
+	for _, msg := range errors {
+		t.Errorf("parser error : %q", msg)
+	}
+	t.FailNow()
+}
+
+func TestGotoStatements(t *testing.T) {
+	input := `
+GOTO 10
+GOTO020
+GOTO030.0
+GOTO40GOTO50
+`
+	l := lexer.NewLexer(input)
+	p := NewParser(l)
+	program := p.ParseProgram()
+	checkParserErrors(t, p)
+	if len(program.Statements) != 5 {
+		t.Errorf("len(program.Statements) does not contain 5 statements. got='%d'.",
+			len(program.Statements))
+	}
+	for _, stmt := range program.Statements {
+		gs, ok := stmt.(*ast.GotoStatement)
+		if !ok {
+			t.Errorf(" stmt not *ast.GotoStatement. got=%T.", stmt)
+		}
+		if gs.TokenLiteral() != name {
+			t.Errorf("gs.TokenLiteral() not 'GOTO'. got=%s",
+				gs.TokenLiteral(),
+			)
+		}
+	}
+}
+
+// {{{
 /*
 var rowInput = `%
 O0001(ROBO 4X)
@@ -118,4 +164,4 @@ END 1
 GOTO3
 (eof)
 `
-*/
+// }}} */

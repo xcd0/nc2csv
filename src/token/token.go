@@ -16,32 +16,6 @@ const (
 	INT        = "INT"        // 1343456
 	FLOAT      = "FLOAT"      // 003.1415926
 
-type Num struct {
-	Int        bool
-	ValueInt   int
-	ValueFolat float64
-}
-
-func (n *Num) Assign(i int) {
-	n.Int = true
-	n.ValueInt = i
-	n.ValueFloat = 0
-}
-
-func (n *Num) Assign(f float64) {
-	n.Int = false
-	n.ValueFloat = f
-	n.ValueInt = 0
-}
-
-func (n *Num) String() string {
-	if n.Int {
-		return string(ValueInt)
-	} else {
-		return string(ValueFloat)
-	}
-}
-
 	// Operators
 	PLUS     = "+"
 	MINUS    = "-"
@@ -87,9 +61,8 @@ func (n *Num) String() string {
 		SPINDLE       = "SPINDLE"
 		TOOL          = "TOOL"
 		ONUM          = "ONUM"
-		SKIP          = "SKIP"
 	*/
-
+	SKIP = "SKIP"
 )
 
 var keywords = map[string]TokenType{
@@ -102,7 +75,6 @@ var keywords = map[string]TokenType{
 	"(":   COMMENTSTART,
 	")":   COMMENTEND,
 	"%":   NCEOF,
-	"#":   VARIABLE,
 	"EQ":  EQ,
 	"NE":  NE,
 	"LT":  LT,

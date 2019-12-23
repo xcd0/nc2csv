@@ -1,24 +1,10 @@
 package lexer
 
 import (
-	"fmt"
 	"strconv"
 
 	"../token"
 )
-
-func (l *Lexer) ReadNumber() string {
-	position := l.position
-	for IsDigit(l.ch) {
-		l.ReadChar()
-	}
-	if l.ch == '.' {
-		fmt.Println(">>>" + l.input[position:l.position] + "0")
-		return l.input[position:l.position] + "0"
-	} else {
-		return l.input[position:l.position]
-	}
-}
 
 func (l *Lexer) ReadChar() {
 	if l.readPosition >= l.length {
@@ -37,7 +23,7 @@ func (l *Lexer) ReadIdentifier() string {
 	}
 	return l.input[position:l.position]
 }
-func (l *Lexer) ReadNumber() (string, token.Num) {
+func (l *Lexer) ReadNumber() (string, token.Value) {
 	position := l.position
 	floatFlag := false
 	for IsDigit(l.ch) || IsDot(l.ch) {
@@ -46,10 +32,29 @@ func (l *Lexer) ReadNumber() (string, token.Num) {
 		}
 		l.ReadChar()
 	}
-	var n token.Num
+	var v token.Value
 	if floatFlag {
-		return l.input[position:l.position], n.AssignFloat(strcov.ParseFloat(l.input[position:l.position], 64))
+		f, _ := strconv.ParseFloat(l.input[position:l.position]+"0", 64)
+		v.AssignFloat(f)
+		return l.input[position:l.position], v
 	} else {
-		return l.input[position:l.position], n.AssignInt(strconv.Atoi(l.input[position:l.position]))
+		i, _ := strconv.Atoi(l.input[position:l.position])
+		v.AssignInt(i)
+		return l.input[position:l.position], v
 	}
 }
+
+/*
+func (l *Lexer) ReadNumber() string {
+	position := l.position
+	for IsDigit(l.ch) {
+		l.ReadChar()
+	}
+	if l.ch == '.' {
+		fmt.Println(">>>" + l.input[position:l.position] + "0")
+		return l.input[position:l.position] + "0"
+	} else {
+		return l.input[position:l.position]
+	}
+}
+*/
