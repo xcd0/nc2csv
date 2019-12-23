@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"testing"
 
 	"../ast"
@@ -35,8 +36,10 @@ func TestAssignStatements(t *testing.T) {
 		{"#101"},
 	}
 	for i, tt := range tests {
-		stmt := program.Statements[i]
-		if !testAssignStatement(t, stmt, tt.expectedIdentifier) {
+		s := program.Statements[i]
+		fmt.Printf("program.Statements[%v] : %v\n", i, s)
+		fmt.Printf("program.Statements[%v].TokenLiteral() : %v\n", i, s.TokenLiteral())
+		if !testAssignStatement(t, s, tt.expectedIdentifier) {
 			return
 		}
 	}

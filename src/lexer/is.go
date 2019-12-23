@@ -21,7 +21,11 @@ func IsLetter(ch rune) bool {
 }
 
 func IsDigit(ch rune) bool {
-	return '0' <= ch && ch <= '9' || ch == '.'
+	return '0' <= ch && ch <= '9'
+}
+
+func IsDot(ch rune) bool {
+	return ch == '.'
 }
 
 func IsNewLine(ch rune) bool {

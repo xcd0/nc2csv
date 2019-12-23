@@ -21,19 +21,23 @@ type Node interface {
 	TokenLiteral() string // ノードが関連付けられているトークンのリテラル値を返す
 }
 
-// 式
+// 式 {{{
 type Statement interface {
 	Node
 	StatementNode()
 }
 
-// 値
+// }}}
+
+// 値 {{{
 type Expression interface {
 	Node
 	expressionNode()
 }
 
-// 代入式
+// }}}
+
+// 代入式 {{{
 type AssignStatement struct {
 	Token token.Token // token.ASSIGN
 	Name  *Identifier
@@ -50,3 +54,21 @@ type Identifier struct {
 
 func (i *Identifier) expressionNode()      {}
 func (i *Identifier) TokenLiteral() string { return i.Token.Literal }
+
+// }}}
+
+// 配列 {{{
+
+type ArrayExprression struct {
+	Token token.Token // #
+	Left  Expression  // # オブジェクト
+	Index Expression  // 要素番号
+}
+
+func (a *ArrayExpression) expressionNode()      {}
+func (a *ArrayExpression) TokenLiteral() string { return a.Token.Literal }
+func (a *ArrayExpression) String() string {
+	return "( #" + string(a.Index) + " = " + Hash[a.Index].String() + " )"
+}
+
+// }}}

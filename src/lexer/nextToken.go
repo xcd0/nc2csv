@@ -50,15 +50,18 @@ func (l *Lexer) NextToken() token.Token {
 	case '%':
 		tok = token.NewToken(token.NCEOF, l.ch)
 	case '#':
-		// 変数
-		// #数値 の#と数値含めて変数名とする
-		tok = token.NewToken(token.VARIABLE, l.ch)
-		literal := string(l.ch)
-		for IsDigit(l.PeekPreChar()) {
-			l.ReadChar()
-			literal += string(l.ch)
-		}
-		tok.Literal = literal
+		// 変数代入扱いだが配列へのアクセスと見なす方が現代の解釈では適当。
+		// なので配列へのアクセスとする。
+		// #をポインタとし、#のあとの数値を配列のインデックスと見なす
+		tok = token.NewToken(token.ARRAY, l.ch)
+		/*
+			literal := string(l.ch)
+			for IsDigit(l.PeekPreChar()) {
+				l.ReadChar()
+				literal += string(l.ch)
+			}
+			tok.Literal = literal
+		*/
 	case '\n':
 		tok = token.NewToken(token.EOB, l.ch)
 	case ';':
@@ -79,12 +82,9 @@ func (l *Lexer) NextToken() token.Token {
 		} else {
 			// GOTOでもIFでもWHILEでもなかったとき
 			if IsLetter(l.ch) {
-
+				/* //古いコード {{{
 				// 種別の決定
-
-				//tok.Literal = l.ReadIdentifier()
-				tok.Type = token.LookupIdent(tok.Literal)
-
+				tok.Literal = l.ReadIdentifier()
 				if IsAxis(l.ch) {
 					// XYZABCIJKUVWRなど
 					tok = token.NewToken(token.AXIS, l.ch)
@@ -104,7 +104,6 @@ func (l *Lexer) NextToken() token.Token {
 				case 'O':
 					tok = token.NewToken(token.ONUM, l.ch)
 				}
-
 				literal := string(l.ch)
 				for !IsEOB(l.PeekChar()) && //       後ろが;でない
 					!IsLetter(l.PeekChar()) && //    アルファベットでない
@@ -120,12 +119,35 @@ func (l *Lexer) NextToken() token.Token {
 				}
 				tok.Literal = literal
 				return tok
+				*/ /// }}}
+
+				// M08 G00 X1.
+				// こういうのはすべて変数への代入と見なす
+				// var M = 8 みたいなかんじ
+				// golang の場合変数宣言と代入は var <identifier> = <expression> になる
+				// NCの場合varに当たるprefixがないので
+				// GOTO,IF,WHILEでないアルファベットが来たら変数代入だとみなす
+				// 例えば異常値だがAAと来たらAAも変数代入になる
+
+				// readIdentifier()はアルファベットまたは_がつづく間読み取って返す
+				tok.Literal = l.readIdentifier()
+				// LookUpIdentはGOTOやIF,WHILE,ELSE,ENDのような予約語を予約語として
+				// それ以外をIDENTとして返す
+				tok.Type = token.LookupIdent(tok.Literal)
+			} else if IsDot(l.ch) {
+				// 小数点
+				tok.Type = token.FLOAT
+				tok.Literal, _ = l.ReadNumber()
+				return tok
 			} else if IsDigit(l.ch) {
-				// G01X1とかでは来ない
-				// 行頭いきなり数値とかでないと来ない？
-				// <- #100=20とかの20で来る
-				tok.Type = token.INT
-				tok.Literal = l.ReadNumber()
+				// 数値
+				// 小数点があるかどうかわからないと確定しない
+				tok.Literal, n = l.ReadNumber()
+				if n.Int {
+					tok.Type = token.INT
+				} else {
+					tok.Type = token.FLOAT
+				}
 				return tok
 			} else {
 				// 異常値
