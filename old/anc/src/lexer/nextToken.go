@@ -15,7 +15,20 @@ func (l *Lexer) NextToken() token.Token {
 
 	switch l.ch {
 	case '=':
-		tok = token.NewToken(token.ASSIGN, l.ch)
+		/*
+			んーちょっとどうしようか迷う
+			#10=50/2はもちろん代入だけど
+			A50/2も代入
+			代入には2つ書式がある
+			この=は#数値に対しての代入というより
+			#レジスタ番号代入する値のように
+			数字つながってしまうのを避けるための区切り文字に近い
+
+			X1.という記述はレジスタXに1.0を代入するものである。
+			X一文字で「var x = 1.0」の「var x =」までの意味を持つものとする。
+			#10=1.0という記述は#10=という記述で「var h10 = 1.0」の「var h10 =」までの意味を持つものとする。
+		*/
+		tok = token.NewToken(token.ASSIGNEQ, l.ch)
 	case '/':
 		// オプショナルスキップブロック
 		// /,/1,/2,/3,/4,/5が来る可能性がある。
@@ -132,8 +145,15 @@ func (l *Lexer) NextToken() token.Token {
 			// readIdentifier()はアルファベットまたは_がつづく間読み取って返す
 			tok.Literal = l.ReadIdentifier()
 			// LookUpIdentはGOTOやIF,WHILE,ELSE,ENDのような予約語を予約語として
-			// それ以外をIDENTとして返す
+			// それ以外をIDENTIFIERとして返す
 			tok.Type = token.LookupIdent(tok.Literal)
+			if tok.Type == "IDENTIFIER" {
+				// X1.という記述はレジスタXに1.0を代入するものと見なす。
+				// 故にこの場合のXはレジスタXへの代入を表すものとする。
+				// つまりX一文字で「var x = 1.0」の「var x =」までの意味を持つものとする
+				// よってtok.TypeはASSIGNとする
+				tok = token.NewToken(token.ASSIGN, l.ch)
+			}
 		} else if IsDot(l.ch) {
 			// 小数点 // 確定で浮動小数点
 			tok.Type = token.FLOAT

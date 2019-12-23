@@ -21,7 +21,8 @@ const (
 	MINUS    = "-"
 	ASTERISK = "*"
 	SLASH    = "/"
-	ASSIGN   = "=" // 変数#への代入で使われる
+	ASSIGNEQ = "="      // 変数#への代入で変数と値の区切りに使われる
+	ASSIGN   = "ASSIGN" // 代入で汎用的に使われる
 
 	ARRAY = "#"
 

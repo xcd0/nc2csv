@@ -108,7 +108,8 @@ GOTO40GOTO50
 		if !ok {
 			t.Errorf(" stmt not *ast.GotoStatement. got=%T.", stmt)
 		}
-		if gs.TokenLiteral() != name {
+		if gs.TokenLiteral() != "GOTO" {
+			gs, _ := stmt.(*ast.AssignStatement)
 			t.Errorf("gs.TokenLiteral() not 'GOTO'. got=%s",
 				gs.TokenLiteral(),
 			)

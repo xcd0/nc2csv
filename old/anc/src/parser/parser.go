@@ -58,6 +58,8 @@ func (p *Parser) parseStatement() ast.Statement {
 	switch p.curToken.Type {
 	case token.ASSIGN:
 		return p.parseAssignStatement()
+	case token.GOTO:
+		return p.parseGotoStatement()
 	default:
 		return nil
 	}
@@ -65,6 +67,10 @@ func (p *Parser) parseStatement() ast.Statement {
 
 func (p *Parser) parseAssignStatement() *ast.AssignStatement {
 	statement := &ast.AssignStatement{Token: p.curToken}
+	// 2パターンある
+	// 1. X1.0  Y#10
+	// 2. #10=1.0
+	// 2のパターンがややこしく、#が来ただけでは参照なのか代入なのかわからない。
 	if !p.expectPeek(token.IDENTIFIER) {
 		return nil
 	}
@@ -74,6 +80,15 @@ func (p *Parser) parseAssignStatement() *ast.AssignStatement {
 	}
 	return statement
 }
+
+func (p *Parser) parseGotoStatement() *ast.GotoStatement {
+	statement := &ast.GotoStatement{Token: p.curToken}
+	for !p.curTokenIs(token.EOB) {
+		p.nextToken()
+	}
+	return statement
+}
+
 func (p *Parser) curTokenIs(t token.TokenType) bool {
 	return p.curToken.Type == t
 }
