@@ -21,7 +21,7 @@ func CreateSrc(rowInput string) string {
 
 	runfunc := makeRunFunction(clearInput)
 
-	fmt.Printf("runfunc : %v", runfunc)
+	log.Printf("runfunc : %v", runfunc)
 
 	return runfunc
 }
@@ -73,6 +73,10 @@ func makeRunFunction(input string) string {
 			log.Printf("l.%v : %v\n", countLF-1, lines[countLF-1])
 
 			countLF++
+			if string(rs[len(rs)-1:]) == "\n" && countLF == len(lines) {
+				// ファイル最後に改行があるファイルとないファイルに対応する
+				continue
+			}
 
 			if pre == '\n' {
 				// 空行
@@ -176,6 +180,12 @@ func makeRunFunction(input string) string {
 			} else {
 				// 来ないはず
 				// 異常値
+				if i+5 > 0 {
+					tmp := string(rs[i-6 : i])
+					log.Fatal(
+						fmt.Sprintf("書式エラー : l.%d : %c はエラーです。 直前の値 %s 文字カウンタ %d",
+							countLF, r, tmp, i))
+				}
 				log.Fatal(fmt.Sprintf("書式エラー : l.%d : %c はエラーです。", countLF, r))
 			}
 		}
@@ -196,23 +206,16 @@ func readAndCutNumber(rs *[]rune, i *int) string {
 	numStr := util.ReadNumbers(rs, i)
 	for i, n := range numStr {
 		if n == '0' {
-			if i+1 < len(numStr) && numStr[i+1] == '.' {
-				// 0.とか
-				return "0.0"
-			}
 			if len(numStr) == 1 {
 				// 00000みたいなのは0を消していったら
 				// 全部消えてしまうので1つ残す
-				return "0"
+				return numStr
 			}
 			continue
 		}
 		// 先頭の0だけ捨てる
 		numStr = numStr[i:]
 		break
-	}
-	if numStr[len(numStr)-1:] == "." {
-		return numStr + "0"
 	}
 	return numStr
 }
