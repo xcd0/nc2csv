@@ -1,5 +1,5 @@
 
-BIN=../build/anc.exe
+BIN=../build/nc2go.exe
 
 all: build
 

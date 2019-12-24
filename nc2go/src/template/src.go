@@ -4,12 +4,12 @@ import (
 	"fmt"
 )
 
-var ( // {{{
+var ( // {{{1
 	// 全体を格納するスライス
 	Memory = make([]Value, 10000)
 
 	// G65で使われる座標をそのまま使う
-	key = map[string]int{
+	key = map[string]int{ // {{{2
 		"A": 1,
 		"B": 2,
 		"C": 3,
@@ -36,13 +36,63 @@ var ( // {{{
 		"X": 24,
 		"Y": 25,
 		"Z": 26,
-	}
+	} // }}} 2
+
+	// G専用Queue
+	Gqueue = make([]Value, 0, 100)
 
 	// 引数指定2
 	_I = make([]int, 10) // _I[0]は使用しない
 	_J = make([]int, 10) // _I[0]は使用しない
 	_K = make([]int, 10) // _I[0]は使用しない
-) // }}}
+
+	// オプショナルスキップブロック ボタンがONならそこで停止する
+	// とりあえず/,/1,/2,/3,/4,/5,/6,/7,/8,/9までの10個分
+	// 実際には外部テキストファイルとかにボタン設定書いてもらうのがいいと思う
+	OptionalSkip = make(bool, 10) // 初期値false
+
+	// オプショナルストップブロック
+	// M01でボタンがONならそこで停止する
+	// エミュレーションではキー入力町するのがいいと思う
+	OptionalStop = make(bool, 10) // 初期値false
+) // }}} 1
+
+// G専用Queue {{{
+func EnqueueForG(v interface{}) {
+	// vの型判定
+	if value, ok := v.(int); ok {
+		// int
+		Gqueue = append(Gqueue,
+			Value{
+				bInt: true,
+				i:    value,
+				f:    0,
+			},
+		)
+	} else if value, ok := v.(float64); ok {
+		// float
+		Gqueue = append(Gqueue,
+			Value{
+				bInt: false,
+				i:    0,
+				f:    value,
+			},
+		)
+		Memory[key[k]].AssignFloat(value)
+	}
+
+}
+
+func DequeueForG() []Value {
+	if len(Gqueue) == 0 {
+		return nil
+	}
+	ret := Gqueue[0]
+	Gqueue = Gqueue[1:]
+	return ret
+}
+
+// }}}
 
 func main() {
 	// inputは最下行に定義
@@ -62,6 +112,7 @@ func main() {
 // メモリの内容に従って実行
 // 未実装
 func runBlock(pc *int) {
+	// とりあえずメモリの中身の主要な部分を出力
 	fmt.Printf("G%v,X%v,Y%v,Z%v,A%v,B%v,C%v,F%v,S%v,T%v",
 		Reference("G"),
 		Reference("X"),

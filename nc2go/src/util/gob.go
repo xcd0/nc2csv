@@ -1,12 +1,6 @@
 package util
 
-import (
-	"encoding/gob"
-	"log"
-	"os"
-
-	"../token"
-)
+/*
 
 func Save(path string, in interface{}) {
 	f, err := os.Create(path)
@@ -33,3 +27,4 @@ func Load(path string, out *[]token.Token) {
 		log.Fatal("decode error:", err)
 	}
 }
+*/

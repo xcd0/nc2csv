@@ -1,5 +1,7 @@
 package util
 
+import "fmt"
+
 var Hash = make([]Value, 10000)
 
 type Value struct {

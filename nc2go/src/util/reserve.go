@@ -24,6 +24,13 @@ const (
 	MUL = "MUL"
 	DIV = "DIV"
 
+	COS  = "COS"
+	SIN  = "SIN"
+	TAN  = "TAN"
+	ACOS = "ACOS"
+	ASIN = "ASIN"
+	ATAN = "ATAN"
+
 	EQ = "EQ" // ==
 	NE = "NE" // !=
 	LT = "LT" // <

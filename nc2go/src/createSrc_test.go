@@ -3,6 +3,7 @@ package main
 import "testing"
 
 func TestCreateRunFunction(t *testing.T) {
+
 	const input = // {{{
 	`%
 O0001(ROBO 4X)
