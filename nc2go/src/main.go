@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"path/filepath"
@@ -12,17 +13,15 @@ func main() {
 
 	log.SetFlags(log.Llongfile)
 
-	/*
-		flag.Parse()
-		// 引数
-		apath, _ := filepath.Abs(flag.Arg(0))
-	*/
-	apath, _ := filepath.Abs("./test/nc10")
+	flag.Parse()
+	// 引数
+	apath, _ := filepath.Abs(flag.Arg(0))
+	//apath, _ := filepath.Abs("./test/nc10")
 
 	// NCを読み込んでstringに変換、改行コードを統一
 	rowInput := util.ReadText(apath)
 
-	fmt.Println("read input file : " + rowInput)
+	//fmt.Println("read input file : " + rowInput)
 
 	src := CreateSrc(rowInput)
 

@@ -7,7 +7,7 @@ build:
 	go build -o $(BIN)
 
 run: build
-	$(BIN) ./test/nc10
+	$(BIN) ./test/nc10 > a
 
 .PHONY: test
 test: build
