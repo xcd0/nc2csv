@@ -24,10 +24,16 @@ func ReadNumbers(rs *[]rune, i *int) string {
 		}
 	}
 
-	if IsDot((*rs)[post]) {
+	out := ""
+	if IsDot((*rs)[post-1]) {
 		// 小数点で終わっていたら0を付与する
-		return string((*rs)[pre:post]) + "0"
+		out = string((*rs)[pre:post]) + "0"
 	} else {
-		return string((*rs)[pre:post])
+		out = string((*rs)[pre:post])
 	}
+	if IsDot([]rune(out)[0]) {
+		// .で始まっていたら0をつける
+		out = "0" + out
+	}
+	return out
 }
