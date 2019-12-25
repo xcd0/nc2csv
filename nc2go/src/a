@@ -31,32 +31,32 @@ func (p *program) run(pc int) {
 		Assign(P, Hash[4120])
 		Assign(R, -1.0)
 	case 10:
-		Assign(X, .)
-		Assign(Y, .)
+		Assign(X, 0.0)
+		Assign(Y, 0.0)
 	case 11:
 		EnqueueForG(43)
-		Assign(Z, 50.)
+		Assign(Z, 50.0)
 	case 12:
 		EnqueueForG(90)
 	case 13:
 		EnqueueForG(1)
-		Assign(X, -6.)
-		Assign(Y, .)
-		Assign(Z, 50.)
-		Assign(A, -90.)
+		Assign(X, -6.0)
+		Assign(Y, 0.0)
+		Assign(Z, 50.0)
+		Assign(A, -90.0)
 		Assign(F, 1000)
 	case 14:
 		EnqueueForG(00)
-		Assign(Z, 31.)
-		Assign(A, -90.)
+		Assign(Z, 31.0)
+		Assign(A, -90.0)
 	case 15:
 		EnqueueForG(1)
-		Assign(X, -3.)
+		Assign(X, -3.0)
 		Assign(F, 5000)
 	case 16:
-		Assign(X, .)
+		Assign(X, 0.0)
 	case 17:
-		Assign(Z, 26.)
+		Assign(Z, 26.0)
 		Assign(F, 1000)
 	case 18:
 		Assign(A, -90.912)
