@@ -14,7 +14,7 @@
 
 
 * WSL (StoreアプリからUbuntu等をインストールする)  
-こちらは動作チェックはしていないがLinuxがわかれば問題ないと思われる。
+こちらは動作チェックはしていないがLinuxが使えるならば問題ないと思われる。
 	1. Ubuntuの初期設定は検索して行う。
 	1. 初期設定が終わったら、gitとmake、wgetを入れる。  
 	ubuntuなら`sudo apt update` してパッケージリストをアップデートしたのちに `sudo apt install git make wget`
