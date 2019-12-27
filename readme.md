@@ -9,14 +9,16 @@
 	1. `pacman -Syuu` を実行し、アップデートする。
 	1. アップデート完了後、英語で一旦Msysを再起動せよとメッセージが出るので、  
 	ウィンドウを×ボタンで閉じて再度開く。
-	1. `pacman -S git make` でgitとmakeを入れる。vimなど必要があれば入れる。
+	1. `pacman -S git make wget` でgitとmakeを入れる。vimなど必要があれば入れる。
 	1. ./go_install.sh というシェルスクリプトを用意しているので実行する。goのコンパイラがインストールされる。
 
 
 * WSL (StoreアプリからUbuntu等をインストールする)  
 こちらは動作チェックはしていないがLinuxがわかれば問題ないと思われる。
 	1. Ubuntuの初期設定は検索して行う。
-	1. 初期設定が終わったら、上記のMsysの4.と5.を実行する。
+	1. 初期設定が終わったら、gitとmake、wgetを入れる。  
+	ubuntuなら`sudo apt update` してパッケージリストをアップデートしたのちに `sudo apt install git make wget`
+	1. ./go_install.sh というシェルスクリプトを用意しているので実行する。goのコンパイラがインストールされる。
 
 
 * VM
