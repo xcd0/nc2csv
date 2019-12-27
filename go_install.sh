@@ -11,6 +11,14 @@ VERSION=go1.13.5
 #VERSION=$1   # これだと先頭のgoの2文字を忘れるかも
 #$1の先頭2文字にgoがあるかどうか判定してゴニョニョしてもいい
 
+#下記を.bashrcに書き込む
+echo 'GO_INSTALL_DIR=$HOME/go' >> ~/.bashrc
+echo 'export GOPATH=$GO_INSTALL_DIR/go' >> ~/.bashrc
+echo 'export GOBIN=$GOPATH/bin' >> ~/.bashrc
+echo 'export GOROOT=$GOPATH/go' >> ~/.bashrc
+echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+
 ################################################################################
 
 function goInstall(){ # {{{1
