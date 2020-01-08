@@ -83,14 +83,14 @@ func (a *Axis) outputOneline() string {
 	if a.dC != 0 {
 		vC = a.dC / dTimeMin
 	}
-	out += "," + fmt.Sprintf("%f", vX)
-	out += "," + fmt.Sprintf("%f", vY)
-	out += "," + fmt.Sprintf("%f", vZ)
-	out += "," + fmt.Sprintf("%f", vA)
-	out += "," + fmt.Sprintf("%f", vB)
-	out += "," + fmt.Sprintf("%f", vC)
+	out += "," + fmt.Sprintf("%.10f", vX)
+	out += "," + fmt.Sprintf("%.10f", vY)
+	out += "," + fmt.Sprintf("%.10f", vZ)
+	out += "," + fmt.Sprintf("%.10f", vA)
+	out += "," + fmt.Sprintf("%.10f", vB)
+	out += "," + fmt.Sprintf("%.10f", vC)
 	// 移動に要する時間
-	out += "," + fmt.Sprintf("%f", dTimeMin)
+	out += "," + fmt.Sprintf("%.10f", dTimeMin)
 
 	// 保存
 	a.X = Reference("X").Float()

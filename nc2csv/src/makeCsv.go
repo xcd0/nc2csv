@@ -41,11 +41,13 @@ func MakeCsv(input string) string {
 	// 行ごとにcase文を出力する
 	for i := 0; i < l; i++ {
 		r := rs[i]
-		if r == '\n' {
-			log.Printf("%s\n", "\\n")
-		} else {
-			log.Printf("%c\n", r)
-		}
+		/*
+			if r == '\n' {
+				log.Printf("%s\n", "\\n")
+			} else {
+				log.Printf("%c\n", r)
+			}
+		*/
 		switch r {
 		case '/': // {{{
 			if pre == '\n' && i+1 < l {

@@ -40,6 +40,11 @@ func Reference(k string) *Value {
 
 func Assign(k string, v interface{}) {
 
+	if Setting.IsProhibitAssignAxis {
+		// フラグ立ってたら何もしない
+		return
+	}
+
 	// 代入時にインクリメンタル指令もすべて計算して座標値を入れる
 	if Setting.IsG90 { // アブソリュート指令 {{{
 		if value, ok := v.(int); ok {
@@ -166,7 +171,7 @@ func (v *Value) String() string {
 	if v.bInt {
 		return fmt.Sprintf("%d", int(v.f))
 	} else {
-		return fmt.Sprintf("%f", v.f)
+		return fmt.Sprintf("%.10f", v.f)
 	}
 }
 
