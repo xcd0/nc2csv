@@ -21,11 +21,12 @@ func main() {
 	// NCを読み込んでstringに変換、改行コードを統一
 	rowInput := util.ReadText(apath)
 
-	//fmt.Println("read input file : " + rowInput)
+	clearInput := util.DeleteComment(rowInput) // コメントを削除
 
-	src := CreateSrc(rowInput)
+	Initialize(&rowInput) // 初期化処理
+	csv := MakeCsv(clearInput)
 
-	fmt.Println(src)
+	fmt.Println(csv)
 
 	/*
 		// 保存テスト
