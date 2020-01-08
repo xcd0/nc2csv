@@ -6,18 +6,13 @@ GO_INSTALL_DIR=$HOME/work/go
 
 # インストールしたいバージョンに合わせる
 # go1.13.3のように頭にgoをつける
+#VERSION=go1.12.13
+
 VERSION=go1.13.5
+
 # シェルスクリプトの引数としてもいいかもしれない
 #VERSION=$1   # これだと先頭のgoの2文字を忘れるかも
 #$1の先頭2文字にgoがあるかどうか判定してゴニョニョしてもいい
-
-#下記を.bashrcに書き込む
-echo 'GO_INSTALL_DIR=$HOME/go' >> ~/.bashrc
-echo 'export GOPATH=$GO_INSTALL_DIR/go' >> ~/.bashrc
-echo 'export GOBIN=$GOPATH/bin' >> ~/.bashrc
-echo 'export GOROOT=$GOPATH/go' >> ~/.bashrc
-echo 'export PATH=$GOPATH/bin:$GOROOT/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
 
 ################################################################################
 
@@ -58,6 +53,16 @@ function goInstall(){ # {{{1
 		# windowsだけ圧縮形式が違うので変数上書き
 		EXT="zip"    # 拡張子
 		DEC="unzip"  # 伸張コマンド
+		if !(type "unzip" > /dev/null 2>&1); then
+			echo "unzipコマンドが存在しません。pacman経由でインストールします。"
+			echo pacman -S unzip --noconfirm
+			pacman -S unzip --noconfirm
+		fi
+		if !(type "zip" > /dev/null 2>&1); then
+			echo "zipコマンドが存在しません。pacman経由でインストールします。"
+			echo pacman -S zip --noconfirm
+			pacman -S zip --noconfirm
+		fi
 	fi # }}}
 
 	# バージョン名のフォルダ作成&入る
@@ -76,37 +81,42 @@ function goInstall(){ # {{{1
 } # }}}1
 
 echo -n "goをインストールしますか? [y/N] : "
+read input1
 
-read input
-if [ "$input" == "y" ]; then
+echo "よく使うパッケージをインストールしますか?"
+echo -n "パッケージのインストールにはそれなりの時間がかかります。[y/N] :"
+read input2
+
+if [ "$input1" == "y" ]; then
 	goInstall
+	echo ""
 fi
 
-echo -n "よく使うパッケージをインストールしますか? [y/N] :"
-read input
-if [ "$input" == "y" ]; then
+if [ "$input2" == "y" ]; then
 
-	brew install peco &
-	go get -u -v github.com/motemen/gore/cmd/gore
-	go get -u -v github.com/mdempsky/gocode
-	go get -u -v github.com/nsf/gocode
-	go get -u -v github.com/motemen/ghq
+	if !(type "brew" > /dev/null 2>&1); then
+		brew install peco &
+	fi
+	go get -u -v github.com/motemen/gore/cmd/gore &
+	go get -u -v github.com/mdempsky/gocode &
+	go get -u -v github.com/nsf/gocode &
+	go get -u -v github.com/motemen/ghq &
+	go get -u -v github.com/k0kubun/pp &
+	go get -u -v golang.org/x/tools/cmd/... &
+	go get -u -v golang.org/x/lint/golint &
+	go get -u -v golang.org/x/tools/cmd/goimports &
+	go get -u -v github.com/rogpeppe/godef &
+	go get -u -v github.com/akavel/rsrc &
+	go get -u -v github.com/google/go-github/github &
+	go get -u -v github.com/russross/blackfriday &
+	go get -u -v github.com/shurcooL/github_flavored_markdown &
+	go get -u -v github.com/tdewolff/minify &
+	go get -u -v github.com/tdewolff/minify/css &
+	go get -u -v github.com/xcd0/go-nkf &
+	{ cd $GOPATH/src/github.com/akavel/rsrc && go build } &
+
+	wait
 	git config --global ghq.root $GOPATH/src
-	go get -u -v github.com/k0kubun/pp
-	go get -u -v golang.org/x/tools/cmd/...
-	go get -u -v golang.org/x/lint/golint
-	go get -u -v golang.org/x/tools/cmd/goimports
-	go get -u -v github.com/rogpeppe/godef
-	go get -u -v github.com/akavel/rsrc
-	cd $GOPATH/src/github.com/akavel/rsrc
-	go build
-
-	go get -u -v github.com/google/go-github/github
-	go get -u -v github.com/russross/blackfriday
-	go get -u -v github.com/shurcooL/github_flavored_markdown
-	go get -u -v github.com/tdewolff/minify
-	go get -u -v github.com/tdewolff/minify/css
-	go get -u -v github.com/xcd0/go-nkf
-
+	echo "よく使うパッケージのインストールが完了しました。"
 fi
 
