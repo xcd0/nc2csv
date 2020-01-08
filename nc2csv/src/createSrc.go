@@ -15,25 +15,24 @@ var lines []string
 var rowLines []string
 
 // 最小設定単位
-type IS struct {
+type ISUnit struct {
 	mm  float64
 	in  float64
 	deg float64
 }
 
-// mm か inchか
-var isMm bool
-
-// 機械によって設定されている最小設定単位
-var setIS *IS
-
-var ISA IS
-var ISB IS
-var ISC IS
-var ISD IS
-var ISE IS
+type CommonSetting struct {
+	IsMm    bool    // mm か inchか
+	IS      *ISUnit // 機械によって設定されている最小設定単位
+	FeedG00 float64 // G00送り速度 初期値
+	FeedG01 float64 // G01送り速度 初期値
+	IsG90   bool    // true : アブソリュート指令 false : インクリメンタル指令
+	CutMode int     // G00 01 02 03 を 0, 1, 2, 3 であらわす
+}
 
 var ( // {{{1
+	Setting = CommonSetting{}
+
 	// 全体を格納するスライス
 	Memory = make([]Value, 10000)
 
@@ -84,6 +83,12 @@ var ( // {{{1
 	// M01でボタンがONならそこで停止する
 	// エミュレーションではキー入力町するのがいいと思う
 	OptionalStop = make([]bool, 10) // 初期値false
+
+	ISA = ISUnit{0.01, 0.001, 0.01}
+	ISB = ISUnit{0.001, 0.0001, 0.001}
+	ISC = ISUnit{0.0001, 0.00001, 0.0001}
+	ISD = ISUnit{0.00001, 0.000001, 0.00001}
+	ISE = ISUnit{0.000001, 0.0000001, 0.000001}
 ) // }}} 1
 
 // G専用Queue {{{
@@ -158,45 +163,113 @@ func Reference(k string) *Value {
 }
 
 func Assign(k string, v interface{}) {
-	if value, ok := v.(int); ok {
-		// 座標値の数値代入において整数が代入されたときは、
-		// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
-		if k == "X" || k == "Y" || k == "Z" || k == "R" {
-			if isMm {
-				Memory[key[k]].AssignFloat(float64(value) * setIS.mm)
-			} else {
-				Memory[key[k]].AssignFloat(float64(value) * setIS.in)
-			}
-		} else if k == "A" || k == "B" || k == "C" {
-			Memory[key[k]].AssignFloat(float64(value) * setIS.deg)
-		} else {
-			Memory[key[k]].AssignInt(value)
-		}
-	} else if value, ok := v.(float64); ok {
-		Memory[key[k]].AssignFloat(value)
-	} else if value, ok := v.(string); ok {
-		// 小数点があるかどうか調べる
-		if strings.Contains(value, ".") {
-			// 小数点がある
-			n, _ := strconv.ParseFloat(value, 64)
-			Memory[key[k]].AssignFloat(n)
-		} else {
-			n, _ := strconv.Atoi(value)
+
+	// 代入時にインクリメンタル指令もすべて計算して座標値を入れる
+	if Setting.IsG90 { // アブソリュート指令 {{{
+		if value, ok := v.(int); ok {
 			// 座標値の数値代入において整数が代入されたときは、
 			// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
 			if k == "X" || k == "Y" || k == "Z" || k == "R" {
-				if isMm {
-					Memory[key[k]].AssignFloat(float64(n) * setIS.mm)
+				if Setting.IsMm {
+					Memory[key[k]].AssignFloat(float64(value) * Setting.IS.mm)
 				} else {
-					Memory[key[k]].AssignFloat(float64(n) * setIS.in)
+					Memory[key[k]].AssignFloat(float64(value) * Setting.IS.in)
 				}
 			} else if k == "A" || k == "B" || k == "C" {
-				Memory[key[k]].AssignFloat(float64(n) * setIS.deg)
+				Memory[key[k]].AssignFloat(float64(value) * Setting.IS.deg)
 			} else {
-				Memory[key[k]].AssignInt(n)
+				Memory[key[k]].AssignInt(value)
+			}
+		} else if value, ok := v.(float64); ok {
+			Memory[key[k]].AssignFloat(value)
+		} else if value, ok := v.(string); ok {
+			// 小数点があるかどうか調べる
+			if strings.Contains(value, ".") {
+				// 小数点がある
+				n, _ := strconv.ParseFloat(value, 64)
+				Memory[key[k]].AssignFloat(n)
+			} else {
+				n, _ := strconv.Atoi(value)
+				// 座標値の数値代入において整数が代入されたときは、
+				// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
+				if k == "X" || k == "Y" || k == "Z" || k == "R" {
+					if Setting.IsMm {
+						Memory[key[k]].AssignFloat(float64(n) * Setting.IS.mm)
+					} else {
+						Memory[key[k]].AssignFloat(float64(n) * Setting.IS.in)
+					}
+				} else if k == "A" || k == "B" || k == "C" {
+					Memory[key[k]].AssignFloat(float64(n) * Setting.IS.deg)
+				} else {
+					Memory[key[k]].AssignInt(n)
+				}
+			}
+		} // }}}
+	} else { // インクリメンタル指令
+		// 座標値のみ 一旦取り出して加算して代入する
+		tmp := 0.0
+		if k == "X" || k == "Y" || k == "Z" || k == "R" || k == "A" || k == "B" || k == "C" {
+			tmp = Memory[key[k]].Float()
+		}
+		if value, ok := v.(int); ok {
+			// 座標値の数値代入において整数が代入されたときは、
+			// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
+			if k == "X" || k == "Y" || k == "Z" || k == "R" {
+				// 加算する
+				if Setting.IsMm {
+					Memory[key[k]].AssignFloat(tmp + float64(value)*Setting.IS.mm)
+				} else {
+					Memory[key[k]].AssignFloat(tmp + float64(value)*Setting.IS.in)
+				}
+			} else if k == "A" || k == "B" || k == "C" {
+				// 加算する
+				Memory[key[k]].AssignFloat(tmp + float64(value)*Setting.IS.deg)
+			} else {
+				// 座標値ではないので加算しない
+				Memory[key[k]].AssignInt(value)
+			}
+		} else if value, ok := v.(float64); ok {
+			if k == "X" || k == "Y" || k == "Z" || k == "R" || k == "A" || k == "B" || k == "C" {
+				// 加算する
+				Memory[key[k]].AssignFloat(tmp + value)
+			} else {
+				// 加算しない
+				Memory[key[k]].AssignFloat(value)
+			}
+		} else if value, ok := v.(string); ok {
+			// 小数点があるかどうか調べる
+			if strings.Contains(value, ".") {
+				// 小数点がある
+				n, _ := strconv.ParseFloat(value, 64)
+				if k == "X" || k == "Y" || k == "Z" || k == "R" || k == "A" || k == "B" || k == "C" {
+					// 加算する
+					Memory[key[k]].AssignFloat(tmp + n)
+				} else {
+					// 加算しない
+					Memory[key[k]].AssignFloat(n)
+				}
+			} else {
+				n, _ := strconv.Atoi(value)
+				// 座標値の数値代入において整数が代入されたときは、
+				// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
+				if k == "X" || k == "Y" || k == "Z" || k == "R" {
+					// 加算する
+					if Setting.IsMm {
+						Memory[key[k]].AssignFloat(tmp + float64(n)*Setting.IS.mm)
+					} else {
+						Memory[key[k]].AssignFloat(tmp + float64(n)*Setting.IS.in)
+					}
+				} else if k == "A" || k == "B" || k == "C" {
+					// 加算する
+					Memory[key[k]].AssignFloat(tmp + float64(n)*Setting.IS.deg)
+				} else {
+					// 加算しない
+					Memory[key[k]].AssignInt(n)
+				}
 			}
 		}
 	}
+
 }
 
 func (v *Value) IsInt() bool {
@@ -232,35 +305,21 @@ func (v *Value) Int() int {
 // }}}
 
 func Initialize(rowInput *string) { // {{{
-	ISA.deg = 0.01
-	ISA.in = 0.001
-	ISA.mm = 0.01
-	ISB.deg = 0.001
-	ISB.in = 0.0001
-	ISB.mm = 0.001
-	ISC.deg = 0.0001
-	ISC.in = 0.00001
-	ISC.mm = 0.0001
-	ISD.deg = 0.00001
-	ISD.in = 0.000001
-	ISD.mm = 0.00001
-	ISE.deg = 0.000001
-	ISE.in = 0.0000001
-	ISE.mm = 0.000001
-
 	rowLines = strings.Split(*rowInput, "\n")
+
+	// 初期設定
+	Setting.IsMm = true    // mmか
+	Setting.IS = &ISC      // 最小設定単位の指定 // とりあえずISCとしてみる
+	Setting.FeedG00 = 5000 // 早送り速度
+	Setting.FeedG01 = 1000 // 送り速度
+	Setting.IsG90 = true   // アブソリュート指令か
+	Setting.CutMode = 0    // 切削モード
+
 } // }}}
 
 func CreateSrc(rowInput string) string {
 
 	Initialize(&rowInput)
-
-	// mm か inchか
-	isMm = true
-
-	// 最小設定単位の指定
-	// とりあえずISCとしてみる
-	setIS = &ISC
 
 	// コメントを削除
 	clearInput := util.DeleteComment(rowInput)
@@ -291,11 +350,7 @@ type Axis struct { // {{{
 } // }}}
 
 // mode : 0(アブソリュート指令) 1(インクリメンタル指令)
-func (a *Axis) outputOneline(mode, countLF int) string { // {{{
-
-	if mode == 1 {
-		panic("インクリメンタル指令は未実装です")
-	}
+func (a *Axis) outputOneline(countLF int) string { // {{{
 
 	a.dX = (Reference("X").Float() - a.X)
 	a.dY = (Reference("Y").Float() - a.Y)
@@ -388,7 +443,6 @@ func makeRunFunction(input string) string {
 	pre := '\n'
 
 	// 適当な初期値
-	G90_91 := 0
 	Assign("F", 1000) // 送り速度 初期値
 
 	bOptionalSkip := false
@@ -447,7 +501,7 @@ func makeRunFunction(input string) string {
 			}
 
 			// この行を実行した後の状態を出力する
-			in <- axis.outputOneline(G90_91, countLF)
+			in <- axis.outputOneline(countLF)
 
 			// countLFは1からだけどlinesは0から
 			log.Printf("l.%v : %v\n", countLF-1, lines[countLF-1])
