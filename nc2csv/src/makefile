@@ -7,7 +7,7 @@ build:
 	go build -o $(BIN)
 
 run: build
-	$(BIN) ./test/nc10 > a
+	$(BIN) ./test/nc10 > a.csv
 
 .PHONY: test
 test: build

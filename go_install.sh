@@ -53,12 +53,12 @@ function goInstall(){ # {{{1
 		# windowsだけ圧縮形式が違うので変数上書き
 		EXT="zip"    # 拡張子
 		DEC="unzip"  # 伸張コマンド
-		if !(type "unzip" > /dev/null 2>&1); then
+		if ! ( type "unzip" > /dev/null 2>&1 ); then
 			echo "unzipコマンドが存在しません。pacman経由でインストールします。"
 			echo pacman -S unzip --noconfirm
 			pacman -S unzip --noconfirm
 		fi
-		if !(type "zip" > /dev/null 2>&1); then
+		if ! ( type "zip" > /dev/null 2>&1 ); then
 			echo "zipコマンドが存在しません。pacman経由でインストールします。"
 			echo pacman -S zip --noconfirm
 			pacman -S zip --noconfirm
@@ -94,7 +94,7 @@ fi
 
 if [ "$input2" == "y" ]; then
 
-	if !(type "brew" > /dev/null 2>&1); then
+	if ! ( type "brew" > /dev/null 2>&1 ); then
 		brew install peco &
 	fi
 	go get -u -v github.com/motemen/gore/cmd/gore &
@@ -113,7 +113,7 @@ if [ "$input2" == "y" ]; then
 	go get -u -v github.com/tdewolff/minify &
 	go get -u -v github.com/tdewolff/minify/css &
 	go get -u -v github.com/xcd0/go-nkf &
-	{ cd $GOPATH/src/github.com/akavel/rsrc && go build } &
+	bash "cd $GOPATH/src/github.com/akavel/rsrc && go build" &
 
 	wait
 	git config --global ghq.root $GOPATH/src
