@@ -19,6 +19,8 @@ DEC="tar xzvf"  # 伸張コマンド
 # OS判定して変数OSとEXTとDEC弄る
 if [ "$(uname)" == "Darwin" ]; then
 	OS='darwin'
+elif [ "$(uname)" == "FreeBSD" ]; then
+	OS='freebsd'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 	OS='linux'
 elif [ "$(expr substr $(uname -s) 1 4)" == "MSYS" ] \
@@ -229,7 +231,14 @@ function changeOS(){ # {{{
 
 function goInstall(){ # {{{1
 	# インストール先
-	mkdir $GO_INSTALL_DIR; cd $GO_INSTALL_DIR
+	mkdir $GO_INSTALL_DIR 2> /dev/null
+	cd $GO_INSTALL_DIR
+	if [ $? -ne 0 ]; then
+		# $GO_INSTALL_DIRに移動できなかった
+		echo "エラー : $GO_INSTALL_DIR に移動できません。"
+		echo "終了します。"
+		exit 1
+	fi
 
 	# インストール済みかどうか調べる {{{
 	if [ -e ${GO_INSTALL_DIR}/${VERSION} ]; then
@@ -308,8 +317,6 @@ function goChangeVersion(){ #{{{
 
 function goUninstall(){ # {{{
 	# アンインストール
-	echo -n "本当に $VERSION を削除しますか？ [y/N] : "
-	read deleteFlag
 	if [ "$deleteFlag" == "y" ]; then
 		echo "削除します。"
 		echo "rm -rf ${GO_INSTALL_DIR}/${VERSION}"
@@ -336,43 +343,39 @@ function goChangeDst(){ # {{{
 } # }}}
 
 function goPackageInstall(){ # {{{
-	if [ "$input2" == "y" ]; then
-		if ! ( type "brew" > /dev/null 2>&1 ); then
-			brew install peco &
-		fi
-		go get -u -v github.com/motemen/gore/cmd/gore &
-		go get -u -v github.com/mdempsky/gocode &
-		go get -u -v github.com/nsf/gocode &
-		go get -u -v github.com/motemen/ghq &
-		go get -u -v github.com/k0kubun/pp &
-		go get -u -v golang.org/x/tools/cmd/... &
-		go get -u -v golang.org/x/lint/golint &
-		go get -u -v golang.org/x/tools/cmd/goimports &
-		go get -u -v github.com/rogpeppe/godef &
-		go get -u -v github.com/akavel/rsrc &
-		go get -u -v github.com/google/go-github/github &
-		go get -u -v github.com/russross/blackfriday &
-		go get -u -v github.com/shurcooL/github_flavored_markdown &
-		go get -u -v github.com/tdewolff/minify &
-		go get -u -v github.com/tdewolff/minify/css &
-		go get -u -v github.com/xcd0/go-nkf &
-		bash "cd $GOPATH/src/github.com/akavel/rsrc && go build" &
+	go get -u -v github.com/motemen/gore/cmd/gore &
+	go get -u -v github.com/mdempsky/gocode &
+	go get -u -v github.com/nsf/gocode &
+	go get -u -v github.com/motemen/ghq &
+	go get -u -v github.com/k0kubun/pp &
+	go get -u -v golang.org/x/tools/cmd/... &
+	go get -u -v golang.org/x/lint/golint &
+	go get -u -v golang.org/x/tools/cmd/goimports &
+	go get -u -v github.com/rogpeppe/godef &
+	go get -u -v github.com/akavel/rsrc &
+	go get -u -v github.com/google/go-github/github &
+	go get -u -v github.com/russross/blackfriday &
+	go get -u -v github.com/shurcooL/github_flavored_markdown &
+	go get -u -v github.com/tdewolff/minify &
+	go get -u -v github.com/tdewolff/minify/css &
+	go get -u -v github.com/xcd0/go-nkf &
+	bash "cd $GOPATH/src/github.com/akavel/rsrc && go build" &
 
-		wait
-		git config --global ghq.root $GOPATH/src
-		echo "よく使うパッケージのインストールが完了しました。"
-	fi
+	wait
+	git config --global ghq.root $GOPATH/src
+	echo "よく使うパッケージのインストールが完了しました。"
 } # }}}
 
-# GOPATHのチェック {{{
-if [ "$GOPATH" != "$GO_INSTALL_DIR/go_" ]; then
-	# GOPATH=$GO_INSTALL_DIR/go になっていない
-	echo ""
-	echo "エラー : 環境変数が正しく設定されていません。"
-	echo ""
-	echo "\$GOPATH            : $GOPATH と"
-	echo "\$GO_INSTALL_DIR/go : $GO_INSTALL_DIR/go が等しくありません。"
-	cat << "EOS"
+function interactiveMode(){ # {{{1
+	# GOPATHのチェック {{{2
+	if [ "$GOPATH" != "$GO_INSTALL_DIR/go" ]; then
+		# GOPATH=$GO_INSTALL_DIR/go になっていない
+		echo ""
+		echo "エラー : 環境変数が正しく設定されていません。"
+		echo ""
+		echo "\$GOPATH            : $GOPATH と"
+		echo "\$GO_INSTALL_DIR/go : $GO_INSTALL_DIR/go が等しくありません。"
+		cat << "EOS"
 
 $GOPATH は $GO_INSTALL_DIR 直下の go ディレクトリを指す必要があります。
 $GO_INSTALL_DIR はこのシェルスクリプトに定義されています。
@@ -392,136 +395,275 @@ export GOBIN=$GOPATH/bin
 export GOROOT=$GOPATH/go
 export PATH=\GOBIN:$GOROOT/bin:$PATH
 EOS
-	exit 1
-fi # }}}
+		exit 1
+	fi # }}}2
 
-while : # メインループ {{{
-do
-	gover=`go version 2> /dev/null`
-	gover="使用中のGoのコンパイラのバージョン : $gover"
-	godst=`which go 2> /dev/null`
-	gover="$gover : $godst"
-	godst=`which go 2> /dev/null`
-	if [ $? -eq 1 ]; then
-		godst="not installed."
-		gover=""
-	fi
-	cat << EOS
+	while : # メインループ {{{2
+	do
+		gover=`go version 2> /dev/null`
+		gover="使用中のGoのコンパイラのバージョン : $gover"
+		godst=`which go 2> /dev/null`
+		gover="$gover : $godst"
+		godst=`which go 2> /dev/null`
+		if [ $? -eq 1 ]; then
+			godst="not installed."
+			gover=""
+		fi
+		cat << EOS
 Goのコンパイラを管理します。 操作を入力してください。
 既定値 バージョン : $VERSION / OS : $OS / Arch : $ARCH / インストール先 : $GO_INSTALL_DIR
 $gover
 \$GOPATH : $GOPATH
 
-    s    : インストール済みリストを表示
-    i    : $VERSION をインストール
-    u    : $VERSION を削除
-    r    : $VERSION を再インストール
-    c    : コンパイラのバージョンを切り替える
-    v    : 規定値のバージョンを変更
-    o    : 規定値のOSを変更 (アーキテクチャも再設定)
-    a    : 規定値のアーキテクチャを変更
-    d    : 規定値のインストール先ディレクトリを変更
-    p    : よく使うパッケージをインストール
-    info : 仕組みを表示
-    q    : 終了
+	s    : インストール済みリストを表示
+	i    : $VERSION をインストール
+	u    : $VERSION を削除
+	r    : $VERSION を再インストール
+	c    : コンパイラのバージョンを切り替える
+	v    : 規定値のバージョンを変更
+	o    : 規定値のOSを変更 (アーキテクチャも再設定)
+	a    : 規定値のアーキテクチャを変更
+	d    : 規定値のインストール先ディレクトリを変更
+	p    : よく使うパッケージをインストール
+	info : 仕組みを表示
+	q    : 終了
 
 EOS
-	echo -n "[s/i/u/r/c/v/o/a/d/p/info/q] : "
-	read input1
-	echo ""
-	echo "--------------------------------------------------------------------------------"
-	echo ""
-	case $input1 in
-		"s")
-			showInstalledVersion
-			;;
-		"i")
-			echo "インストール後にそのまま自動でよく使うパッケージをインストールしますか?"
-			echo -n "パッケージのインストールにはそれなりの時間がかかります。[y/N] :"
-			read input2
-			echo "コンパイラのインストールを開始します。"
-			goInstall
-			echo ""
-			if [ $? -eq 1 ]; then
-				# インストールしようとしたバージョンがすでにインストールされていた
-				# 再度プロンプトに戻す
-				continue
-			fi
-			;;
-		"u")
-			goUninstall
-			;;
-		"r")
-			echo "既存の $VERSION を削除して 再インストールします。"
-			goUninstall
-			if [ $? -eq 1 ]; then
-				# 削除しないを選んだ
-				# 再度プロンプトに戻す
-				continue
-			fi
-			# 削除したので再インストールする
-			goInstall
-			;;
-		"c")
-			# バージョンを切り替える
-			goChangeVersion
-			;;
-		"v")
-			# 規定値のバージョンを書き換える
-			# 入力を受けてそれが存在するか確認し
-			# あればそれを適応する
-			while :
-			do
-				echo "バージョンを入力してください。"
-				echo "go1.13.5のように go*.*.* の形式で入力します。"
-				echo "バージョンの指定を中止する場合qと入力してください。"
-				echo -n "[go*.*.*/q] : "
-				read inputVersion
-				if [ "$inputVersion" == "q" ]; then
-					echo "終了します"
-					break
+		echo -n "[s/i/u/r/c/v/o/a/d/p/info/q] : "
+		read input1
+		echo ""
+		echo "--------------------------------------------------------------------------------"
+		echo ""
+		case $input1 in
+			"s")
+				showInstalledVersion
+				;;
+			"i")
+				echo "インストール後にそのまま自動でよく使うパッケージをインストールしますか?"
+				echo -n "パッケージのインストールにはそれなりの時間がかかります。[y/N] :"
+				read input2
+				echo "コンパイラのインストールを開始します。"
+				goInstall
+				echo ""
+				if [ $? -eq 1 ]; then
+					# インストールしようとしたバージョンがすでにインストールされていた
+					# 再度プロンプトに戻す
+					continue
 				fi
-				echo "入力されたバージョン名 $inputVersion"
-				wget -q --spider --timeout 2 wget https://dl.google.com/go/${inputVersion}.${OS}-${ARCH}.${EXT}
-				if [ $? -eq 0 ]; then
-					# ある
-					VERSION=inputVersion
-					echo "$VERSION に切り替えました。"
-				else
-					# ない
-					echo "エラー : $inputVersion は存在しません。書式を見直してください。"
-					echo ""
+				;;
+			"u")
+				echo -n "本当に $VERSION を削除しますか？ [y/N] : "
+				read deleteFlag
+				goUninstall
+				;;
+			"r")
+				echo "既存の $VERSION を削除して 再インストールします。"
+				echo -n "本当に $VERSION を削除しますか？ [y/N] : "
+				read deleteFlag
+				goUninstall
+				if [ $? -eq 1 ]; then
+					# 削除しないを選んだ
+					# 再度プロンプトに戻す
+					continue
 				fi
-			done
-			;;
-		"o")
-			changeOS
-			changeArch
-			;;
-		"a")
-			changeArch
-			;;
-		"d")
-			# 規定値のインストール先ディレクトリを変更
-			goChangeDst
-			;;
-		"p")
-			# よく使うパッケージをインストール
-			goPackageInstall
-			;;
-		"info")
-			showProgramInfo
-			;;
-		"q")
-			echo "終了します。"
-			break
-			;;
-		* )
-			echo "$input1 は選択肢にありません。"
-			;;
-	esac
-	echo ""
-	echo "--------------------------------------------------------------------------------"
-	echo ""
-done # }}}
+				# 削除したので再インストールする
+				goInstall
+				;;
+			"c")
+				# バージョンを切り替える
+				goChangeVersion
+				;;
+			"v")
+				# 規定値のバージョンを書き換える
+				# 入力を受けてそれが存在するか確認し
+				# あればそれを適応する
+				while :
+				do
+					echo "バージョンを入力してください。"
+					echo "go1.13.5のように go*.*.* の形式で入力します。"
+					echo "バージョンの指定を中止する場合qと入力してください。"
+					echo -n "[go*.*.*/q] : "
+					read inputVersion
+					if [ "$inputVersion" == "q" ]; then
+						echo "終了します"
+						break
+					fi
+					echo "入力されたバージョン名 $inputVersion"
+					wget -q --spider --timeout 2 wget https://dl.google.com/go/${inputVersion}.${OS}-${ARCH}.${EXT}
+					if [ $? -eq 0 ]; then
+						# ある
+						VERSION=inputVersion
+						echo "$VERSION に切り替えました。"
+					else
+						# ない
+						echo "エラー : $inputVersion は存在しません。書式を見直してください。"
+						echo ""
+					fi
+				done
+				;;
+			"o")
+				changeOS
+				changeArch
+				;;
+			"a")
+				changeArch
+				;;
+			"d")
+				# 規定値のインストール先ディレクトリを変更
+				goChangeDst
+				;;
+			"p")
+				# よく使うパッケージをインストール
+				goPackageInstall
+				;;
+			"info")
+				showProgramInfo
+				;;
+			"q")
+				echo "終了します。"
+				break
+				;;
+			* )
+				echo "$input1 は選択肢にありません。"
+				;;
+		esac
+		echo ""
+		echo "--------------------------------------------------------------------------------"
+		echo ""
+	done
+# }}}2
+} # }}}1
+
+function writePathSetting(){ #{{{
+
+	s=$HOME/.bash_profile
+	if [ -e $HOME/.bashrc ]; then
+		s=$HOME/.bashrc
+	elif [ -e $HOME/.bash_profile ]; then
+		s=$HOME/.bash_profile
+	fi
+	if [ ! -d $HOME/work ]; then
+		mkdir $HOME/work
+	fi
+	if [ ! -d $HOME/work/go ]; then
+		mkdir $HOME/work/go
+	fi
+
+	echo "# -- Golang Setting -- {{{" >> $s
+	echo "GO_INSTALL_DIR=$GO_INSTALL_DIR" >> $s
+	echo "export GOPATH=\$GO_INSTALL_DIR/go" >> $s
+	echo "export GOBIN=\$GOPATH/bin" >> $s
+	echo "export GOROOT=\$GOPATH/go" >> $s
+	echo "export PATH=\$GOBIN:\$GOROOT/bin:\$PATH" >> $s
+	echo "# -- Golang Setting end -- }}}" >> $s
+} #}}}
+
+function showCommandHelp(){ # {{{
+
+	cat << "EOS"
+go_compiler_install.sh [options]
+
+ex)
+    go_compiler_install.sh
+    go_compiler_install.sh -h
+    go_compiler_install.sh -i
+    go_compiler_install.sh -v go1.13.5 -d $HOME/work/go -f -p
+
+options:
+    -i
+        日本語の対話モードを提供します。
+        いろいろ多機能。
+    -h
+        ヘルプを表示します。引数がない場合もヘルプを表示します。
+
+    -v VERSION
+        インストールしたいバージョンを指定します。書式はgo*.*.*のように指定します。
+        このオプションがないとインストールしません。
+        以降のオプションはこのオプションが指定されていないと無視されます。
+
+    -d GO_INSTALL_DIR
+        インストール先ディレクトリを指定します。
+        このオプションがない場合規定値が使われます。規定値は $HOME/work/go です。
+        -v のオプションがないと何もしません。
+
+    -f
+        if the compiler which you want to install is exist,
+        this option delete it and do install.
+        もしすでにあっても削除してインストールします。
+        -v のオプションがないと何もしません。
+
+    -p
+        GOPATHの設定などを行います。
+        .bash_profileなどに設定を追記し、
+        インストール先ディレクトリが存在しなかったら自動で作成します。
+        -d のオプションと同時に使うことを推奨します。
+        -v のオプションがないと何もしません。
+
+        書き込まれる内容は以下になります。
+
+        # -- Golang Setting -- {{{
+        GO_INSTALL_DIR=$GO_INSTALL_DIR    <- このGO_INSTALL_DIRは設定値が入ります
+        export GOPATH=\$GO_INSTALL_DIR/go
+        export GOBIN=\$GOPATH/bin
+        export GOROOT=\$GOPATH/go
+        export PATH=\$GOBIN:\$GOROOT/bin:\$PATH
+        # -- Golang Setting end -- }}}
+
+EOS
+} # }}}
+
+# インタラクティブにするか 引数だけにするか
+if [ $# -ne 0 ]; then
+	# 引数だけモード
+	while getopts iv:d:fph OPT
+	do
+		case $OPT in
+			"i" )
+				FLG_I="TRUE"
+				;;
+			"v" )
+				VERSION="$OPTARG"
+				FLG_V="TRUE"
+				;;
+			"d" )
+				FLG_D="TRUE"
+				GO_INSTALL_DIR="$OPTARG"
+				;;
+			"f" )
+				FLG_F="TRUE"
+				;;
+			"p" )
+				FLG_P="TRUE"
+				;;
+			"h" )
+				showCommandHelp
+				exit
+				;;
+		esac
+	done
+	if [ "$FLG_I" == "TRUE" ]; then
+		interactiveMode
+		exit
+	fi
+	if [ "$FLG_V" == "TRUE" ]; then
+
+		if [ "$FLG_F" == "TRUE" ]; then
+			goUninstall > /dev/null 2&>1
+		fi
+		if [ "$FLG_P" == "TRUE" ]; then
+			writePathSetting
+		fi
+		if [ "$FLG_D" == "TRUE" ]; then
+			writePathSetting
+		fi
+
+		goInstall
+	fi
+
+else
+	# 引数がないので インタラクティブにする
+	showCommandHelp
+	exit
+fi
+
 

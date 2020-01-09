@@ -19,7 +19,8 @@ gui はつけてもつけなくてもいいが、必須ではない。
 
 ## Windowsにおける環境設定
 
-1. シェルを用意してGoのコンパイラをインストールする。
+1. シェルを用意
+なんでもよい。
 
 * Msys2([http://www.msys2.org/](http://www.msys2.org/))
 	1. [MSYS2 http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20190524.exe](http://repo.msys2.org/distrib/x86_64/msys2-x86_64-20190524.exe) からダウンロードしてインストール。
@@ -27,16 +28,25 @@ gui はつけてもつけなくてもいいが、必須ではない。
 	1. アップデート完了後、英語で一旦Msysを再起動せよとメッセージが出るので、  
 	ウィンドウを×ボタンで閉じて再度開く。
 	1. `pacman -S git make wget` でgitとmakeを入れる。vimなど必要があれば入れる。
-	1. ./go_install.sh というシェルスクリプトを用意しているので実行する。goのコンパイラがインストールされる。
 
 
-* WSL (StoreアプリからUbuntu等をインストールする)  
-こちらは動作チェックはしていないがLinuxが使えるならば問題ないと思われる。
-	1. Ubuntuの初期設定は検索して行う。
+* WSL (StoreアプリからUbuntu等をインストールする)
+	1. OSの初期設定は検索して行う。
 	1. 初期設定が終わったら、gitとmake、wgetを入れる。  
 	ubuntuなら`sudo apt update` してパッケージリストをアップデートしたのちに `sudo apt install git make wget`
-	1. ./go_install.sh というシェルスクリプトを用意しているので実行する。goのコンパイラがインストールされる。
 
+* 仮想マシン
+	お好きなようにどうぞ
+	対応しているOSはwindows, mac, linux, freeBSDです。
+
+1. Goのコンパイラのインストール
+./go_compiler_install.sh というシェルスクリプトを用意しているので実行する。
+引数なしで実行すると対話的に操作できるようになっている。
+
+`./go_compiler_install.sh -v go1.13.5 -f` で $HOME/work/go 以下にインストールされる。
+インストール先を変えたい場合は `./go_compiler_install.sh -h` でヘルプを見ること。
+
+https://github.com/xcd0/go_compiler_install/releases/download/v1/go_compiler_install.sh
 
 * VM
 VirtualBox等で用意する。説明はWSLと同様。
