@@ -20,7 +20,7 @@ endif
 	cp -rf $(DST)/$(BIN) ..
 
 run: build
-	$(BIN) ./test/nc10 > a.csv
+	$(DST)/$(BIN) ./test/nc10 > a.csv
 
 .PHONY: test
 test: build
