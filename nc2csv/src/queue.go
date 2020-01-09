@@ -1,6 +1,8 @@
 package main
 
-import "log"
+import (
+	"log"
+)
 
 // G専用Queue
 var Gqueue = make([]Value, 0, 100)
@@ -57,18 +59,16 @@ func FlushGqueue() {
 			switch {
 			case n == 0:
 				Setting.CutMode = 0
-				Assign("F", Setting.FeedG00)
 			case n == 1:
 				Setting.CutMode = 1
-				Assign("F", Setting.FeedG01)
 			case n == 2:
 				Setting.CutMode = 2
 				Assign("F", Setting.FeedG01)
-				log.Printf("注意 : l.%d : G02 です。", Setting.CountLF)
+				log.Printf("注意 : line % 7d : G02 です。", Setting.CountLF)
 			case n == 3:
 				Setting.CutMode = 3
 				Assign("F", Setting.FeedG01)
-				log.Printf("注意 : l.%d : G03 です。", Setting.CountLF)
+				log.Printf("注意 : line % 7d : G03 です。", Setting.CountLF)
 			case n == 90:
 				Setting.IsG90 = true
 			case n == 91:
@@ -124,7 +124,7 @@ func FlushGqueue() {
 				// 座標値への代入を禁止する // これが立っていると改行まで無視する
 				Setting.IsProhibitAssignAxis = true
 				// 未実装
-				log.Printf("注意 : l.%d : G%2d は未実装です。無視します。", Setting.CountLF, n)
+				log.Printf("注意 : line % 7d : G%2d は未実装です。無視します。", Setting.CountLF, n)
 			}
 		}
 	}

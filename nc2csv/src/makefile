@@ -61,7 +61,7 @@ release: release-build
 	cd $(DST) && \
 	mv $(BIN)_freeBSD $(BIN) && \
 	zip $(BIN)_binary_$(GOARCH)_freeBSD.zip $(BIN) && \
-	mv $(BIN) $(BIN)_macOS
+	mv $(BIN) $(BIN)_freeBSD
 	# clean
 	cd $(DST) && \
 	rm $(DST)/$(BIN)_windows.exe && \

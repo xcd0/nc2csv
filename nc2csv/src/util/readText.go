@@ -17,8 +17,7 @@ func ReadText(path string) string {
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ファイル%vが読み込めません\n", path)
-		log.Println(err)
-		panic(err)
+		log.Fatal(err)
 		return ""
 	}
 	// ファイルの文字コード変換

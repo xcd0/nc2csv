@@ -52,7 +52,7 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	// 元ncプログラムの行
 	out := fmt.Sprintf("%d", Setting.CountLF)
 	// その行のncプログラム
-	out += "," + rowLines[Setting.CountLF-1]
+	out += ",\"" + rowLines[Setting.CountLF-1] + "\""
 	// XYZABC の各位置
 	out += "," + Reference("X").String()
 	out += "," + Reference("Y").String()
@@ -101,6 +101,6 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	a.B = Reference("B").Float()
 	a.C = Reference("C").Float()
 
-	log.Printf("%v\n", out)
+	//log.Printf("%v\n", out)
 	return out, dTimeMin
 }

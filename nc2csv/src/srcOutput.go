@@ -2,13 +2,10 @@ package main
 
 import (
 	"fmt"
-	"log"
 )
 
 // 別スレッドで呼び出される
-// stringをもらってくっつけて
-// チャネルが閉じたときにまとめて書きだす
-// 行ごとの後処理をしやすくしていた...
+// ファイルへ出力
 func srcOutput(in chan string, out chan string, done chan bool) {
 	output := ""
 	for {
@@ -20,7 +17,9 @@ func srcOutput(in chan string, out chan string, done chan bool) {
 			break
 		}
 	}
-	log.Println(output)
+	// ファイルに追記する
+	fmt.Fprintf(outputFile, output)
+
 	out <- output
 	done <- true
 	return

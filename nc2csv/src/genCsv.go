@@ -10,9 +10,9 @@ import (
 )
 
 func genCsv(input string) string {
-	in := make(chan string, 100) // 別スレッドに投げるバッファ
-	out := make(chan string, 2)  // 別スレッドからもらうバッファ
-	done := make(chan bool)      // 別スレッドの終了通知をもらうバッファ
+	in := make(chan string, 1000) // 別スレッドに投げるバッファ
+	out := make(chan string, 2)   // 別スレッドからもらうバッファ
+	done := make(chan bool)       // 別スレッドの終了通知をもらうバッファ
 
 	// 別スレッドで受ける
 	go srcOutput(in, out, done)
@@ -81,6 +81,9 @@ func genCsv(input string) string {
 			}
 		// }}}
 		case '\n': // {{{
+
+			// 進捗を表示
+			fmt.Printf("\rprogress : % 3.2f %%  ", 100*float64(Setting.CountLF)/float64(len(lines)))
 
 			// フラグをリセットする
 			Setting.IsOptionalSkip = false
@@ -227,6 +230,8 @@ func genCsv(input string) string {
 		}
 		pre = r
 	}
+
+	fmt.Printf("\rprogress : 100.00 %%\n")
 	close(in)
 	output := <-out
 	// 別スレッドの終了待ち
