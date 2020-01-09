@@ -36,7 +36,7 @@ func genCsv(input string) string {
 	Setting.IsProhibitAssignAxis = false
 
 	// 元ncプログラムの行、NC、XYZABC の各位置、プログラムの F、XYZABC の各軸速度、移動に要する時間
-	in <- "line,NC,X,Y,Z,A,B,C,R,F,vX,vY,vZ,vA,vB,vC,time"
+	in <- "line,NC,X,Y,Z,A,B,C,R,F,vX,vY,vZ,vA,vB,vC,time,cumulative time"
 
 	// 行ごとにcase文を出力する
 	for i := 0; i < l; i++ {
@@ -89,7 +89,10 @@ func genCsv(input string) string {
 			FlushGqueue()
 
 			// この行を実行した後の状態を出力する
-			in <- axis.outputOneline()
+			outputOneLine, time := axis.genOnelineCsv()
+
+			Setting.CumulativeTime += time
+			in <- outputOneLine
 
 			// Setting.CountLFは1からだけどlinesは0から
 			//log.Printf("l.%v : %v\n", Setting.CountLF-1, lines[Setting.CountLF-1])
@@ -153,7 +156,7 @@ func genCsv(input string) string {
 								// G90だったらEnqueueForG(90) みたいにする
 								if next == '#' {
 									// まあないはずだけど G#10 みたいに変数使ってきたらという想定
-									numStr := getOptionNumber(&next, &rs, &i)
+									numStr := readOptionNumber(&next, &rs, &i)
 									// EnqueueForG(Hash[90]) みたいにする
 									tmpNum, _ := strconv.Atoi(numStr)
 									EnqueueForG(Hash(tmpNum))
@@ -161,7 +164,7 @@ func genCsv(input string) string {
 								} else {
 									// G01みたいなの
 									// GOTO とかは来ない
-									numStr := getOptionNumber(&next, &rs, &i)
+									numStr := readOptionNumber(&next, &rs, &i)
 									// EnqueueForG(1) みたいにする
 									tmpNum, _ := strconv.Atoi(numStr)
 									EnqueueForG(tmpNum)
@@ -175,13 +178,13 @@ func genCsv(input string) string {
 								if next == '#' {
 									// X#100とか
 									// この関数は#100とかの場合でも#を無視して"100"を返してくれる
-									numStr := getOptionNumber(&next, &rs, &i)
+									numStr := readOptionNumber(&next, &rs, &i)
 									// Assign(P, Hash[412]) みたいにする
 									Assign(string(r), Hash(numStr)) // 中でiは進んでいる
 									r = rs[i]                       // 中でiが数値分スキップしているのでpreの保存用に更新しておく
 								} else if util.IsLetter(r) {
 									// X1.とか X-10.とか
-									numStr := getOptionNumber(&next, &rs, &i)
+									numStr := readOptionNumber(&next, &rs, &i)
 									// Assign(O, 90) みたいにする
 									// Assign(X, "10") Assign(X, "10.0") とかも可
 									Assign(string(r), numStr) // 中でiは進んでいる

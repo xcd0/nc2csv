@@ -2,7 +2,7 @@ package main
 
 import "./util"
 
-func getOptionNumber(next *rune, rs *[]rune, i *int) string {
+func readOptionNumber(next *rune, rs *[]rune, i *int) string {
 	if *next == '#' {
 		*i++ // 文字をスキップして数値を読み込む
 		*i++ // #をスキップして数値を読み込む

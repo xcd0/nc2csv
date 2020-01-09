@@ -21,6 +21,7 @@ type CommonSetting struct {
 	IsProhibitAssignAxis bool    // そのブロックでの座標値への代入を禁ずる
 	CountLF              int
 	IsOptionalSkip       bool
+	CumulativeTime       float64 // 累積時間
 }
 
 var (

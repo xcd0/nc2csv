@@ -25,7 +25,7 @@ type Axis struct {
 	dC float64
 }
 
-func (a *Axis) outputOneline() string {
+func (a *Axis) genOnelineCsv() (string, float64) {
 
 	a.dX = (Reference("X").Float() - a.X)
 	a.dY = (Reference("Y").Float() - a.Y)
@@ -83,14 +83,15 @@ func (a *Axis) outputOneline() string {
 	if a.dC != 0 {
 		vC = a.dC / dTimeMin
 	}
-	out += "," + fmt.Sprintf("%.10f", vX)
-	out += "," + fmt.Sprintf("%.10f", vY)
-	out += "," + fmt.Sprintf("%.10f", vZ)
-	out += "," + fmt.Sprintf("%.10f", vA)
-	out += "," + fmt.Sprintf("%.10f", vB)
-	out += "," + fmt.Sprintf("%.10f", vC)
+	out += "," + fmt.Sprintf("%.6f", vX)
+	out += "," + fmt.Sprintf("%.6f", vY)
+	out += "," + fmt.Sprintf("%.6f", vZ)
+	out += "," + fmt.Sprintf("%.6f", vA)
+	out += "," + fmt.Sprintf("%.6f", vB)
+	out += "," + fmt.Sprintf("%.6f", vC)
 	// 移動に要する時間
 	out += "," + fmt.Sprintf("%.10f", dTimeMin)
+	out += "," + fmt.Sprintf("%.10f", Setting.CumulativeTime)
 
 	// 保存
 	a.X = Reference("X").Float()
@@ -101,5 +102,5 @@ func (a *Axis) outputOneline() string {
 	a.C = Reference("C").Float()
 
 	log.Printf("%v\n", out)
-	return out
+	return out, dTimeMin
 }
