@@ -15,8 +15,7 @@ func main() {
 
 	flag.Parse()
 	// 引数
-	//apath, _ := filepath.Abs(flag.Arg(0))
-	apath, _ := filepath.Abs("./test/nc10")
+	apath, _ := filepath.Abs(flag.Arg(0))
 
 	// NCを読み込んでstringに変換、改行コードを統一
 	rowInput := util.ReadText(apath)
