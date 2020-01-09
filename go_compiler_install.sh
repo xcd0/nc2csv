@@ -231,7 +231,7 @@ function changeOS(){ # {{{
 
 function goInstall(){ # {{{1
 	# インストール先
-	mkdir $GO_INSTALL_DIR 2> /dev/null
+	mkdir -p $GO_INSTALL_DIR 2> /dev/null
 	cd $GO_INSTALL_DIR
 	if [ $? -ne 0 ]; then
 		# $GO_INSTALL_DIRに移動できなかった
