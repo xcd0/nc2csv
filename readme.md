@@ -40,16 +40,14 @@ gui はつけてもつけなくてもいいが、必須ではない。
 	対応しているOSはwindows, mac, linux, freeBSDです。
 
 1. Goのコンパイラのインストール
-./go_compiler_install.sh というシェルスクリプトを用意しているので実行する。
-引数なしで実行すると対話的に操作できるようになっている。
 
-`./go_compiler_install.sh -v go1.13.5 -f` で $HOME/work/go 以下にインストールされる。
+./go_compiler_install.sh というシェルスクリプトを用意しているので実行する。
+
+* `./go_compiler_install.sh -i` で対話的にインストールできる。
+
+* `./go_compiler_install.sh -v go1.13.5 -f -p` で $HOME/work/go 以下にインストールされる。  
 インストール先を変えたい場合は `./go_compiler_install.sh -h` でヘルプを見ること。
 
-https://github.com/xcd0/go_compiler_install/releases/download/v1/go_compiler_install.sh
-
-* VM
-VirtualBox等で用意する。説明はWSLと同様。
 
 ## ビルド
 Goは基本的に `go build` だけでビルドできる。
