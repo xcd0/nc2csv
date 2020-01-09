@@ -1,5 +1,5 @@
 
-BIN=nc2go
+BIN=nc2csv
 
 DST=../build
 GOARCH=amd64
