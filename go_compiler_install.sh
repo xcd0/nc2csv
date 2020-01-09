@@ -1,7 +1,8 @@
 #!/bin/bash
 
 ################################################################################
-# 変数を編集する
+# コンパイラをインストールする基準ディレクトリ
+# 任意
 GO_INSTALL_DIR=$HOME/work/go
 
 # インストールしたいバージョンに合わせる
@@ -10,13 +11,12 @@ VERSION=go1.13.5
 
 ################################################################################
 
-
-# その他変数の規定値
+# その他変数の規定値 {{{
 OS=""
 ARCH="amd64"
 EXT="tar.gz"    # 拡張子
 DEC="tar xzvf"  # 伸張コマンド
-# OS判定して変数OSとEXTとDEC弄る {{{
+# OS判定して変数OSとEXTとDEC弄る
 if [ "$(uname)" == "Darwin" ]; then
 	OS='darwin'
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
@@ -364,6 +364,36 @@ function goPackageInstall(){ # {{{
 	fi
 } # }}}
 
+# GOPATHのチェック {{{
+if [ "$GOPATH" != "$GO_INSTALL_DIR/go_" ]; then
+	# GOPATH=$GO_INSTALL_DIR/go になっていない
+	echo ""
+	echo "エラー : 環境変数が正しく設定されていません。"
+	echo ""
+	echo "\$GOPATH            : $GOPATH と"
+	echo "\$GO_INSTALL_DIR/go : $GO_INSTALL_DIR/go が等しくありません。"
+	cat << "EOS"
+
+$GOPATH は $GO_INSTALL_DIR 直下の go ディレクトリを指す必要があります。
+$GO_INSTALL_DIR はこのシェルスクリプトに定義されています。
+
+以下の記述をシェルの設定ファイル(./bash_profileなど)に追記記述して、
+シェルを再起動してから再度実行してください。
+GO_INSTALL_DIRは任意ですが、
+変更した場合、このシェルスクリプトにも適応してください。
+
+EOS
+	cat << EOS
+GO_INSTALL_DIR=$GO_INSTALL_DIR
+EOS
+	cat << "EOS"
+export GOPATH=$GO_INSTALL_DIR/go
+export GOBIN=$GOPATH/bin
+export GOROOT=$GOPATH/go
+export PATH=\GOBIN:$GOROOT/bin:$PATH
+EOS
+	exit 1
+fi # }}}
 
 while : # メインループ {{{
 do
