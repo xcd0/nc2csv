@@ -47,24 +47,26 @@ fi # }}}
 
 while :
 do
-	echo "Goのコンパイラを管理します。"
-	echo "操作を入力してください。"
-	echo ""
-	echo "既定値 バージョン $VERSION  OS $OS Arch $ARCH インストール先 $GO_INSTALL_DIR"
-	echo ""
-	echo "s    : インストール済みのバージョン一覧を表示"
-	echo "i    : $VERSION をインストール"
-	echo "u    : $VERSION を削除"
-	echo "r    : $VERSION を再インストール"
-	echo "c    : コンパイラのバージョンを切り替える"
-	echo "v    : 規定値のバージョンを変更"
-	echo "o    : 規定値のインストールするOSを変更 (アーキテクチャも再設定)"
-	echo "a    : 規定値のインストールするアーキテクチャを変更"
-	echo "d    : 規定値のインストール先ディレクトリを変更"
-	echo "p    : よく使うパッケージをインストール"
-	echo "info : 仕組みを表示"
-	echo "q    : 終了したい"
-	echo ""
+	cat << EOS
+Goのコンパイラを管理します。
+操作を入力してください。
+
+既定値 バージョン $VERSION  OS $OS Arch $ARCH インストール先 $GO_INSTALL_DIR
+
+s    : インストール済みのバージョン一覧を表示
+i    : $VERSION をインストール
+u    : $VERSION を削除
+r    : $VERSION を再インストール
+c    : コンパイラのバージョンを切り替える
+v    : 規定値のバージョンを変更
+o    : 規定値のインストールするOSを変更 (アーキテクチャも再設定)
+a    : 規定値のインストールするアーキテクチャを変更
+d    : 規定値のインストール先ディレクトリを変更
+p    : よく使うパッケージをインストール
+info : 仕組みを表示
+q    : 終了したい
+
+EOS
 	echo -n "[s/i/u/r/c/v/o/a/d/info/q] : "
 	read input1
 	echo ""
@@ -138,9 +140,14 @@ do
 		"a")
 			changeArch()
 			;;
-	echo "d    : 規定値のインストール先ディレクトリを変更"
-	echo "p    : よく使うパッケージをインストール"
-	echo "info : 仕組みを表示"
+		"d")
+			# 規定値のインストール先ディレクトリを変更
+			goChangeDst()
+		"p")
+			# よく使うパッケージをインストール
+			goPackageInstall()
+		"info")
+			showProgramInfo()
 		"q")
 			echo "終了します。"
 			break
@@ -354,6 +361,15 @@ function goUninstall(){#{{{
 	else
 		return 1
 	fi
+}#}}}
+
+function goChangeDst(){#{{{
+	echo "Goのコンパイラをインストールするディレクトリを指定します。"
+	echo "ここで一時的に変更するよりも、このシェルスクリプトを直接編集することを推奨します。"
+	echo -n "インストール先のパスを入力してください。 : "
+	read dst
+	GO_INSTALL_DIR=$dst
+	echo "$GO_INSTALL_DIRに変更しました。"
 }#}}}
 
 function goPackageInstall(){#{{{
