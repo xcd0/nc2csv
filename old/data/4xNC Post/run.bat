@@ -1,0 +1,1 @@
+nc2csv %1% > %1%_out.csv

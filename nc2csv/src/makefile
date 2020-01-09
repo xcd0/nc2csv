@@ -17,7 +17,7 @@ ifeq ($(shell uname -o),Msys)
 else
 	go build -o $(DST)/$(BIN)
 endif
-	cp -rf $(DST)/$(BIN) ..
+	cp -rf $(DST)/$(BIN) .
 
 run: build
 	$(DST)/$(BIN) ./test/nc10 > a.csv
@@ -29,19 +29,17 @@ test: build
 update:
 	`cd ../../ > /dev/null 2>&1 && make > /dev/null 2>&1 && cd scanner/src > /dev/null 2>&1` > /dev/null 2>&1 &
 
-
 debug-build:
 	GOARCH=$(GOARCH) GOOS=windows go build -o $(DST)/$(BIN)_windows.exe -ldflags="-H windowsgui"
 	GOARCH=$(GOARCH) GOOS=darwin go build -o $(DST)/$(BIN)_macOS
 	GOARCH=$(GOARCH) GOOS=linux go build -o $(DST)/$(BIN)_linux
 	GOARCH=$(GOARCH) GOOS=freebsd go build -o $(DST)/$(BIN)_freeBSD
 
-
 release-build:
 	GOARCH=$(GOARCH) GOOS=windows go build -o $(DST)/$(BIN)_windows.exe $(FLAGS_WIN)
 	GOARCH=$(GOARCH) GOOS=darwin go build -o $(DST)/$(BIN)_macOS $(FLAGS)
 	GOARCH=$(GOARCH) GOOS=linux go build -o $(DST)/$(BIN)_linux $(FLAGS)
-	GOARCH=$(GOARCH) GOOS=freebsd go build -o $(DST)/$(BIN)_freeBSD
+	GOARCH=$(GOARCH) GOOS=freebsd go build -o $(DST)/$(BIN)_freeBSD $(FLAGS)
 
 release: release-build
 	# for windows
@@ -68,5 +66,5 @@ release: release-build
 	cd $(DST) && \
 	rm $(DST)/$(BIN)_windows.exe && \
 	rm $(DST)/$(BIN)_macOS && \
-	rm $(DST)/$(BIN)_linux
+	rm $(DST)/$(BIN)_linux && \
 	rm $(DST)/$(BIN)_freeBSD

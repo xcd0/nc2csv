@@ -1,6 +1,6 @@
 
-*.exe
-*.tar.*
+#*.exe
+#*.tar.*
 #*.zip
 #*.zip.*
 *.log

@@ -12,8 +12,12 @@ type Value struct {
 	f    float64
 }
 
+// #の記法でアドレス値を参照するのに使う関数
+// #10はHash(10),Hash(10.0),Hash("10")のように入力され、
+// &Memory[10]が返される
 func Hash(v interface{}) *Value {
 	out := 0
+	// ただ 入力引数の型をint, float64, stringの3つどれでもよくしているだけ
 	if value, ok := v.(int); ok {
 		out = value
 	} else if value, ok := v.(float64); ok {
@@ -34,10 +38,12 @@ func Hash(v interface{}) *Value {
 	return &Memory[out]
 }
 
+// メモリの値を参照するのに使う関数
 func Reference(k string) *Value {
 	return &Memory[key[k]]
 }
 
+// メモリに値を代入するのに使う関数
 func Assign(k string, v interface{}) {
 
 	if Setting.IsProhibitAssignAxis {

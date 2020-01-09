@@ -22,8 +22,11 @@ func main() {
 
 	clearInput := util.DeleteComment(rowInput) // コメントを削除
 
-	Initialize(&rowInput) // 初期化処理
-	csv := MakeCsv(clearInput)
+	// 初期化処理
+	Initialize(&rowInput)
+
+	// 処理の本体
+	csv := genCsv(clearInput)
 
 	fmt.Println(csv)
 
