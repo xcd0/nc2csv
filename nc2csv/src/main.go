@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -58,4 +59,9 @@ func writeCsv(apath string, csv *string) {
 	defer outputFile.Close()
 
 	outputFile.Write(([]byte)(*csv))
+
+	fmt.Printf("\n\n")
+	fmt.Println("NCデータからの生成を完了しました。")
+	fmt.Printf("input  : %v\n", apath)
+	fmt.Printf("output : %v\n", outputFilePath)
 }

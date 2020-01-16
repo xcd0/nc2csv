@@ -71,3 +71,5 @@ release: release-build
 	rm $(DST)/$(BIN)_macOS && \
 	rm $(DST)/$(BIN)_linux && \
 	rm $(DST)/$(BIN)_freeBSD
+	make build
+

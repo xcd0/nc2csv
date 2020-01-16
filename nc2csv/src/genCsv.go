@@ -21,7 +21,7 @@ func genCsv() *string {
 	flagCommentStart := false
 
 	// 元ncプログラムの行、NC、XYZABC の各位置、プログラムの F、XYZABC の各軸速度、移動に要する時間
-	in <- "line,NC,X,Y,Z,A,B,C,R,F,vX,vY,vZ,vA,vB,vC,time,cumulative time"
+	in <- "line,NC,X,Y,Z,A,B,C,R,F,moveing distance,vX,vY,vZ,vA,vB,vC,time,cumulative time"
 
 	// 内部でlnを書き換えたいのでこれだとダメ for ln, line := range lines {
 	for ln := 0; ln < len(lines); ln++ {

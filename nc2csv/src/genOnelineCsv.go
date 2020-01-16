@@ -43,8 +43,8 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	shortcutDegree(&a.dB)
 	shortcutDegree(&a.dC)
 	// 移動距離
-	var dEuclideanDistance float64
-	dEuclideanDistance = math.Sqrt(math.Pow(a.dX, 2) + math.Pow(a.dY, 2) + math.Pow(a.dZ, 2) + math.Pow(a.dA, 2) + math.Pow(a.dB, 2) + math.Pow(a.dC, 2))
+	var dDistance float64
+	dDistance = math.Sqrt(math.Pow(a.dX, 2) + math.Pow(a.dY, 2) + math.Pow(a.dZ, 2) + math.Pow(a.dA, 2) + math.Pow(a.dB, 2) + math.Pow(a.dC, 2))
 	// 移動時間
 	var dTimeMin float64
 	f := Reference("F").Float()
@@ -52,9 +52,9 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 		// 送り速度が 0
 		log.Fatal(fmt.Sprintf("実行時エラー : l.%d : 送り速度が0です。", setting.CountLF))
 	}
-	if dEuclideanDistance != 0 && f != 0 {
+	if dDistance != 0 && f != 0 {
 		// Fは分単位
-		dTimeMin = dEuclideanDistance / f
+		dTimeMin = dDistance / f
 	}
 
 	// 元ncプログラムの行、NC、XYZABC の各位置、プログラムの F、XYZABC の各軸速度、移動に要する時間
@@ -72,6 +72,7 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	out += "," + Reference("R").String()
 	// プログラムの F
 	out += "," + Reference("F").String()
+	out += "," + fmt.Sprintf("%.6f", dDistance)
 	// XYZABC の各軸速度
 	vX, vY, vZ, vA, vB, vC := 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 	if a.dX != 0 {
