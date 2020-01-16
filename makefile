@@ -7,9 +7,9 @@ all:
 
 tag:
 	cd nc2csv/src && make release && make
-	cd nc2csv && rm -rf ${ARG} && mkdir ${ARG} && cp -rf build/* ${ARG}
-	git tag -a ${ARG} -m ${ARG}
-	git push origin ${ARG}
+	cd nc2csv && rm -rf ${v} && mkdir ${v} && cp -rf build/* ${v}
+	git tag -a ${v} -m ${v}
+	git push origin ${v}
 
 clean:
 	find . -name *.html -type f -print0 | xargs -0 rm -rf
