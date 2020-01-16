@@ -4,8 +4,8 @@ all:
 	git push
 
 clean:
-	find . -name *.html -type f | xargs rm -rf
-	find . -name *.csv -type f | xargs rm -rf
-	find . -name .*.swp -type f | xargs rm -rf
-	find . -name .*.*.swp -type f | xargs rm -rf
+	find . -name *.html -type f -print0 | xargs -0 rm -rf
+	find . -name *.csv -type f -print0 | xargs -0 rm -rf
+	find . -name .*.swp -type f -print0 | xargs -0 rm -rf
+	find . -name .*.*.swp -type f -print0 | xargs -0 rm -rf
 
