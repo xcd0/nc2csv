@@ -63,18 +63,48 @@ func Assign(k string, v interface{}) {
 					Memory[key[k]].AssignFloat(float64(value) * setting.IS.in)
 				}
 			} else if k == "A" || k == "B" || k == "C" {
-				Memory[key[k]].AssignFloat(float64(value) * setting.IS.deg)
+				// 角度は剰余を取って0~360に丸める
+				d := float64(value) * setting.IS.deg
+				for d > 360 {
+					d -= 360.0
+				}
+				if d < 0 {
+					d += 360
+				}
+				Memory[key[k]].AssignFloat(d)
+
 			} else {
 				Memory[key[k]].AssignInt(value)
 			}
 		} else if value, ok := v.(float64); ok {
-			Memory[key[k]].AssignFloat(value)
+			if k == "A" || k == "B" || k == "C" {
+				d := float64(value) * setting.IS.deg
+				if d < 0 {
+					d += 360
+				}
+				for d > 360 {
+					d -= 360.0
+				}
+				Memory[key[k]].AssignFloat(d)
+			} else {
+				Memory[key[k]].AssignFloat(value)
+			}
 		} else if value, ok := v.(string); ok {
 			// 小数点があるかどうか調べる
 			if strings.Contains(value, ".") {
 				// 小数点がある
-				n, _ := strconv.ParseFloat(value, 64)
-				Memory[key[k]].AssignFloat(n)
+				d, _ := strconv.ParseFloat(value, 64)
+				if k == "A" || k == "B" || k == "C" {
+					for d > 360 {
+						d -= 360.0
+					}
+					if d < 0 {
+						d += 360
+					}
+					Memory[key[k]].AssignFloat(d)
+				} else {
+					Memory[key[k]].AssignFloat(d)
+				}
 			} else {
 				n, _ := strconv.Atoi(value)
 				// 座標値の数値代入において整数が代入されたときは、
@@ -86,13 +116,22 @@ func Assign(k string, v interface{}) {
 						Memory[key[k]].AssignFloat(float64(n) * setting.IS.in)
 					}
 				} else if k == "A" || k == "B" || k == "C" {
-					Memory[key[k]].AssignFloat(float64(n) * setting.IS.deg)
+					d := float64(n) * setting.IS.deg
+					for d > 360 {
+						d -= 360.0
+					}
+					if d < 0 {
+						d += 360
+					}
+					Memory[key[k]].AssignFloat(d)
 				} else {
+					// XYZABCR以外は整数値そのまま入れる
+					// F1000とか
 					Memory[key[k]].AssignInt(n)
 				}
 			}
 		} // }}}
-	} else { // インクリメンタル指令
+	} else { // インクリメンタル指令 {{{
 		// 座標値のみ 一旦取り出して加算して代入する
 		tmp := 0.0
 		if k == "X" || k == "Y" || k == "Z" || k == "R" || k == "A" || k == "B" || k == "C" {
@@ -155,7 +194,7 @@ func Assign(k string, v interface{}) {
 				}
 			}
 		}
-	}
+	} // }}}
 
 }
 

@@ -20,6 +20,9 @@ func main() {
 
 	flag.Parse()
 	// 引数
+	if flag.NArg() == 0 {
+		log.Fatal("エラー : 引数が与えられていません。")
+	}
 	apath, _ := filepath.Abs(flag.Arg(0))
 	//apath, _ := filepath.Abs("./test/nc10")
 

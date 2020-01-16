@@ -30,9 +30,22 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	a.dX = (Reference("X").Float() - a.X)
 	a.dY = (Reference("Y").Float() - a.Y)
 	a.dZ = (Reference("Z").Float() - a.Z)
+
+	// 回転する軸は0~360に丸めているので 境界で処理が必要
+	// 例えばA359.0 A0はdA==1になる
+	// 180度より大きい移動は近回りする
+	// 180度ピッタリの移動はエラーにする
 	a.dA = (Reference("A").Float() - a.A)
 	a.dB = (Reference("B").Float() - a.B)
 	a.dC = (Reference("C").Float() - a.C)
+
+	if setting.CountLF == 527 {
+		log.Println("aa")
+	}
+
+	shortcutDegree(&a.dA)
+	shortcutDegree(&a.dB)
+	shortcutDegree(&a.dC)
 	// 移動距離
 	var dEuclideanDistance float64
 	dEuclideanDistance = math.Sqrt(math.Pow(a.dX, 2) + math.Pow(a.dY, 2) + math.Pow(a.dZ, 2) + math.Pow(a.dA, 2) + math.Pow(a.dB, 2) + math.Pow(a.dC, 2))
@@ -103,4 +116,14 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 
 	//log.Printf("%v\n", out)
 	return out, dTimeMin
+}
+
+func shortcutDegree(delta *float64) {
+	if *delta > 180 {
+		*delta = 360 - *delta
+	} else if *delta < -180 {
+		*delta = 360 + *delta
+	} else if *delta == 180 || *delta == -180 {
+		log.Fatal(fmt.Sprintf("エラー : l.%d : 180度ちょうどの移動は禁止です。", setting.CountLF))
+	}
 }

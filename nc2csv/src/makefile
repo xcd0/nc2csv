@@ -20,9 +20,9 @@ endif
 	cp -rf $(DST)/$(BIN) .
 
 run: build
-	rm -rf ./test/nc10.csv
-	$(DST)/$(BIN) ./test/nc10
-	cat ./test/nc10.csv
+	rm -rf ./test/A12.ncd.csv
+	$(DST)/$(BIN) ./test/A12.ncd
+	cat ./test/A12.ncd.csv
 
 .PHONY: test
 test: build

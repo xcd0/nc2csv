@@ -4,6 +4,7 @@
 #*.zip
 #*.zip.*
 *.log
+*.csv
 
 #src/test/.tmp
 build/*
