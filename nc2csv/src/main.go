@@ -49,7 +49,8 @@ func writeCsv(apath string, csv *string) {
 	outputFilePath := filepath.Join(outputDir, outputName)
 
 	var err error
-	outputFile, err = os.OpenFile(outputFilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+	//outputFile, err = os.OpenFile(outputFilePath, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0644)
+	outputFile, err = os.OpenFile(outputFilePath, os.O_WRONLY|os.O_CREATE, 0644)
 	if err != nil {
 		// Openエラー処理
 		log.Fatal(err)
