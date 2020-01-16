@@ -1,13 +1,16 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"strconv"
+	"strings"
 )
 
 // G専用Queue
 var Gqueue = make([]Value, 0, 100)
 
-// G専用Queue
+// G専用Queue int, float64, string対応
 func EnqueueForG(v interface{}) {
 	// vの型判定
 	if value, ok := v.(int); ok {
@@ -27,6 +30,33 @@ func EnqueueForG(v interface{}) {
 			},
 		)
 		Memory[key["G"]].AssignFloat(value)
+	} else if value, ok := v.(string); ok {
+		// 小数点があるかどうか調べる
+		if strings.Contains(".", value) {
+			// float
+			v, err := strconv.ParseFloat(value, 64)
+			if err != nil {
+				log.Fatal(fmt.Sprintf("エラー : バグ : 文字列からfloat64への変換に失敗しました。%%v %v : err %v", v, err))
+			}
+			Gqueue = append(Gqueue,
+				Value{
+					bInt: false,
+					f:    v,
+				},
+			)
+		} else {
+			// int
+			v, err := strconv.Atoi(value)
+			if err != nil {
+				log.Fatal(fmt.Sprintf("エラー : バグ : 文字列からintへの変換に失敗しました。%%v %v : err %v", v, err))
+			}
+			Gqueue = append(Gqueue,
+				Value{
+					bInt: true,
+					f:    float64(v),
+				},
+			)
+		}
 	}
 
 }
@@ -49,7 +79,7 @@ func FlushGqueue() {
 		// Gqueueから取り出して処理する
 		for i := len(Gqueue); i > 0; i-- {
 
-			if Setting.IsProhibitAssignAxis {
+			if setting.IsProhibitAssignAxis {
 				// スキップフラグ立ってたら キューを空にして 終わる
 				Gqueue = Gqueue[len(Gqueue):]
 				break
@@ -58,26 +88,27 @@ func FlushGqueue() {
 			n := int(v.f)
 			switch {
 			case n == 0:
-				Setting.CutMode = 0
+				setting.CutMode = 0
 			case n == 1:
-				Setting.CutMode = 1
+				setting.CutMode = 1
 			case n == 2:
-				Setting.CutMode = 2
-				Assign("F", Setting.FeedG01)
-				log.Printf("注意 : line % 7d : G02 です。", Setting.CountLF)
+				setting.CutMode = 2
+				Assign("F", setting.FeedG01)
+				log.Printf("注意 : line % 7d : G02 です。", setting.CountLF)
 			case n == 3:
-				Setting.CutMode = 3
-				Assign("F", Setting.FeedG01)
-				log.Printf("注意 : line % 7d : G03 です。", Setting.CountLF)
+				setting.CutMode = 3
+				Assign("F", setting.FeedG01)
+				log.Printf("注意 : line % 7d : G03 です。", setting.CountLF)
 			case n == 90:
-				Setting.IsG90 = true
+				setting.IsG90 = true
 			case n == 91:
-				Setting.IsG90 = false
+				setting.IsG90 = false
+
+			case n == 5: // AI輪郭制御モード
+				// スキップ
 
 			// 以下未実装
 			case n == 4: // ドウェル
-				fallthrough
-			case n == 5: // 未指定
 				fallthrough
 			case n == 6: // 放物線補完
 				fallthrough
@@ -122,9 +153,10 @@ func FlushGqueue() {
 			default:
 				// 以降のパラメーターを座標として読み込んまない
 				// 座標値への代入を禁止する // これが立っていると改行まで無視する
-				Setting.IsProhibitAssignAxis = true
+				setting.IsProhibitAssignAxis = true
 				// 未実装
-				log.Printf("注意 : line % 7d : G%2d は未実装です。無視します。", Setting.CountLF, n)
+				fmt.Printf("\n")
+				log.Printf("注意 : line % 7d : G%2d は未実装です。無視します。", setting.CountLF, n)
 			}
 		}
 	}

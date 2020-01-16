@@ -46,24 +46,24 @@ func Reference(k string) *Value {
 // メモリに値を代入するのに使う関数
 func Assign(k string, v interface{}) {
 
-	if Setting.IsProhibitAssignAxis {
+	if setting.IsProhibitAssignAxis {
 		// フラグ立ってたら何もしない
 		return
 	}
 
 	// 代入時にインクリメンタル指令もすべて計算して座標値を入れる
-	if Setting.IsG90 { // アブソリュート指令 {{{
+	if setting.IsG90 { // アブソリュート指令 {{{
 		if value, ok := v.(int); ok {
 			// 座標値の数値代入において整数が代入されたときは、
 			// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
 			if k == "X" || k == "Y" || k == "Z" || k == "R" {
-				if Setting.IsMm {
-					Memory[key[k]].AssignFloat(float64(value) * Setting.IS.mm)
+				if setting.IsMm {
+					Memory[key[k]].AssignFloat(float64(value) * setting.IS.mm)
 				} else {
-					Memory[key[k]].AssignFloat(float64(value) * Setting.IS.in)
+					Memory[key[k]].AssignFloat(float64(value) * setting.IS.in)
 				}
 			} else if k == "A" || k == "B" || k == "C" {
-				Memory[key[k]].AssignFloat(float64(value) * Setting.IS.deg)
+				Memory[key[k]].AssignFloat(float64(value) * setting.IS.deg)
 			} else {
 				Memory[key[k]].AssignInt(value)
 			}
@@ -80,13 +80,13 @@ func Assign(k string, v interface{}) {
 				// 座標値の数値代入において整数が代入されたときは、
 				// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
 				if k == "X" || k == "Y" || k == "Z" || k == "R" {
-					if Setting.IsMm {
-						Memory[key[k]].AssignFloat(float64(n) * Setting.IS.mm)
+					if setting.IsMm {
+						Memory[key[k]].AssignFloat(float64(n) * setting.IS.mm)
 					} else {
-						Memory[key[k]].AssignFloat(float64(n) * Setting.IS.in)
+						Memory[key[k]].AssignFloat(float64(n) * setting.IS.in)
 					}
 				} else if k == "A" || k == "B" || k == "C" {
-					Memory[key[k]].AssignFloat(float64(n) * Setting.IS.deg)
+					Memory[key[k]].AssignFloat(float64(n) * setting.IS.deg)
 				} else {
 					Memory[key[k]].AssignInt(n)
 				}
@@ -103,14 +103,14 @@ func Assign(k string, v interface{}) {
 			// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
 			if k == "X" || k == "Y" || k == "Z" || k == "R" {
 				// 加算する
-				if Setting.IsMm {
-					Memory[key[k]].AssignFloat(tmp + float64(value)*Setting.IS.mm)
+				if setting.IsMm {
+					Memory[key[k]].AssignFloat(tmp + float64(value)*setting.IS.mm)
 				} else {
-					Memory[key[k]].AssignFloat(tmp + float64(value)*Setting.IS.in)
+					Memory[key[k]].AssignFloat(tmp + float64(value)*setting.IS.in)
 				}
 			} else if k == "A" || k == "B" || k == "C" {
 				// 加算する
-				Memory[key[k]].AssignFloat(tmp + float64(value)*Setting.IS.deg)
+				Memory[key[k]].AssignFloat(tmp + float64(value)*setting.IS.deg)
 			} else {
 				// 座標値ではないので加算しない
 				Memory[key[k]].AssignInt(value)
@@ -141,14 +141,14 @@ func Assign(k string, v interface{}) {
 				// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
 				if k == "X" || k == "Y" || k == "Z" || k == "R" {
 					// 加算する
-					if Setting.IsMm {
-						Memory[key[k]].AssignFloat(tmp + float64(n)*Setting.IS.mm)
+					if setting.IsMm {
+						Memory[key[k]].AssignFloat(tmp + float64(n)*setting.IS.mm)
 					} else {
-						Memory[key[k]].AssignFloat(tmp + float64(n)*Setting.IS.in)
+						Memory[key[k]].AssignFloat(tmp + float64(n)*setting.IS.in)
 					}
 				} else if k == "A" || k == "B" || k == "C" {
 					// 加算する
-					Memory[key[k]].AssignFloat(tmp + float64(n)*Setting.IS.deg)
+					Memory[key[k]].AssignFloat(tmp + float64(n)*setting.IS.deg)
 				} else {
 					// 加算しない
 					Memory[key[k]].AssignInt(n)

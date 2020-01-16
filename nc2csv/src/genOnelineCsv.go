@@ -41,7 +41,7 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	f := Reference("F").Float()
 	if f == 0 {
 		// 送り速度が 0
-		log.Fatal(fmt.Sprintf("実行時エラー : l.%d : 送り速度が0です。", Setting.CountLF))
+		log.Fatal(fmt.Sprintf("実行時エラー : l.%d : 送り速度が0です。", setting.CountLF))
 	}
 	if dEuclideanDistance != 0 && f != 0 {
 		// Fは分単位
@@ -50,9 +50,9 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 
 	// 元ncプログラムの行、NC、XYZABC の各位置、プログラムの F、XYZABC の各軸速度、移動に要する時間
 	// 元ncプログラムの行
-	out := fmt.Sprintf("%d", Setting.CountLF)
+	out := fmt.Sprintf("%d", setting.CountLF)
 	// その行のncプログラム
-	out += ",\"" + rowLines[Setting.CountLF-1] + "\""
+	out += ",\"" + rowLines[setting.CountLF-1] + "\""
 	// XYZABC の各位置
 	out += "," + Reference("X").String()
 	out += "," + Reference("Y").String()
@@ -91,7 +91,7 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	out += "," + fmt.Sprintf("%.6f", vC)
 	// 移動に要する時間
 	out += "," + fmt.Sprintf("%.10f", dTimeMin)
-	out += "," + fmt.Sprintf("%.10f", Setting.CumulativeTime)
+	out += "," + fmt.Sprintf("%.10f", setting.CumulativeTime)
 
 	// 保存
 	a.X = Reference("X").Float()

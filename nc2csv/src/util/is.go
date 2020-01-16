@@ -5,40 +5,48 @@ import (
 	"fmt"
 )
 
-func IsAxIs(ch rune) bool {
-	return ch == 'X' || ch == 'Y' || ch == 'Z' ||
-		ch == 'A' || ch == 'B' || ch == 'C' ||
-		ch == 'I' || ch == 'J' || ch == 'K' ||
-		ch == 'U' || ch == 'V' || ch == 'W' ||
-		ch == 'R'
+func IsAxIs(r rune) bool {
+	return r == 'X' || r == 'Y' || r == 'Z' ||
+		r == 'A' || r == 'B' || r == 'C' ||
+		r == 'I' || r == 'J' || r == 'K' ||
+		r == 'U' || r == 'V' || r == 'W' ||
+		r == 'R'
 }
 
-func IsEob(ch rune) bool {
-	return ';' == ch
+func IsEob(r rune) bool {
+	return ';' == r
 }
 
-func IsLf(ch rune) bool {
-	return '\n' == ch
+func IsLf(r rune) bool {
+	return '\n' == r
 }
 
-func IsLetter(ch rune) bool {
-	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
+func IsLetter(r rune) bool {
+	return 'a' <= r && r <= 'z' || 'A' <= r && r <= 'Z' || r == '_'
 }
 
-func IsDigit(ch rune) bool {
-	return '0' <= ch && ch <= '9'
+func IsDigit(r rune) bool {
+	return '0' <= r && r <= '9'
 }
 
-func IsDot(ch rune) bool {
-	return ch == '.'
+func IsPM(r rune) bool {
+	return r == '+' || r == '-'
 }
 
-func IsNewline(ch rune) bool {
-	return ch == '\n' || ch == '\r'
+func IsHash(r rune) bool {
+	return r <= '#'
 }
 
-func IsWhitespace(ch rune) bool {
-	return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r'
+func IsDot(r rune) bool {
+	return r == '.'
+}
+
+func IsNewline(r rune) bool {
+	return r == '\n' || r == '\r'
+}
+
+func IsWhitespace(r rune) bool {
+	return r == ' ' || r == '\t' || r == '\n' || r == '\r'
 }
 
 func GetRuneAt(s string, i int) rune {

@@ -11,7 +11,7 @@ type ISUnit struct {
 	deg float64
 }
 
-type CommonSetting struct {
+type commonSetting struct {
 	IsMm                 bool    // mm か inchか
 	IS                   *ISUnit // 機械によって設定されている最小設定単位
 	FeedG00              float64 // G00送り速度 初期値
@@ -25,7 +25,7 @@ type CommonSetting struct {
 }
 
 var (
-	Setting = CommonSetting{}
+	setting = commonSetting{}
 
 	// 全体を格納するスライス
 	Memory = make([]Value, 10000)
@@ -85,12 +85,21 @@ var (
 func Initialize(rowInput *string) {
 	rowLines = strings.Split(*rowInput, "\n")
 
-	// 初期設定
-	Setting.IsMm = true    // mmか
-	Setting.IS = &ISC      // 最小設定単位の指定 // とりあえずISCとしてみる
-	Setting.FeedG00 = 5000 // 早送り速度
-	Setting.FeedG01 = 1000 // 送り速度
-	Setting.IsG90 = true   // アブソリュート指令か
-	Setting.CutMode = 0    // 切削モード
+	// 適当な初期値
+	// これは外部ファイル的なものから読み込むべき
+	Assign("F", 1) // 送り速度 初期値
 
+	// 初期設定
+	setting.IsMm = true            // mmか
+	setting.IS = &ISC              // 最小設定単位の指定 // とりあえずISCとしてみる
+	setting.FeedG00 = 5000         // 早送り速度
+	setting.FeedG01 = 1000         // 送り速度
+	setting.IsG90 = true           // アブソリュート指令か
+	setting.CutMode = 0            // 切削モード
+	setting.CountLF = 1            // 処理中の行番号
+	setting.IsOptionalSkip = false // オプショナルスキップ
+	// 座標を持っているメモリへの代入禁止フラグ
+	// G01X1とかだとXに1を代入するが、G43X1とかだとXの1は座標値の意味ではない
+	// この時G43が来たらそのブロックでは座標値を持っているメモリへの代入を禁止する
+	setting.IsProhibitAssignAxis = false
 }
