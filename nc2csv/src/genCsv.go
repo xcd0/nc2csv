@@ -71,6 +71,22 @@ func genCsv() *string {
 					// この行は何もしない
 					// 改行までどの文字が来ても無視する
 				} else {
+					// ReadLetters()はアルファベットまたは_がつづく間読み取って返す
+					literal := util.ReadLetters(&rs, i)
+					if util.IsReserved(literal) {
+						// 予約語
+						// GOTO IF WHILE THEN の予定？
+						// TODO
+						if util.IsImplementedWord(literal) {
+							// 実装済み予約語 GOTOとか
+						} else if util.IsImplementedCharactor(literal) {
+							// 実装済み予約語 %とかGとか
+						} else {
+							// 未実装予約語
+							log.Fatal(fmt.Sprintf("書式エラー : l.%d : 予約語 %v は未実装です。", setting.CountLF, literal))
+						}
+					}
+
 					// アルファベット+数値を一個ずつデコードする
 					if util.IsLetter(r) {
 						// X-10.とか G01とか Y#10とか
@@ -82,6 +98,7 @@ func genCsv() *string {
 						// 数値はアルファベットのあとにしか来ないはず
 						// ^10や^.50など
 						log.Fatal(fmt.Sprintf("書式エラー : l.%d : %c はエラーです。", setting.CountLF, r))
+					} else if util.IsDot(r) || util.IsDigit(r) {
 					} else {
 						// 来ないはず
 						// 異常値

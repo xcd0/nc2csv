@@ -18,6 +18,7 @@ else
 	go build -o $(DST)/$(BIN)
 endif
 	cp -rf $(DST)/$(BIN) .
+	cp -rf $(DST)/$(BIN) ..
 
 run: build
 	rm -rf ./test/A12.ncd.csv

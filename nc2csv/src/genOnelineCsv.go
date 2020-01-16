@@ -39,10 +39,6 @@ func (a *Axis) genOnelineCsv() (string, float64) {
 	a.dB = (Reference("B").Float() - a.B)
 	a.dC = (Reference("C").Float() - a.C)
 
-	if setting.CountLF == 527 {
-		log.Println("aa")
-	}
-
 	shortcutDegree(&a.dA)
 	shortcutDegree(&a.dB)
 	shortcutDegree(&a.dC)

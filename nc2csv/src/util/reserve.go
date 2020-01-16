@@ -71,44 +71,50 @@ var keywords = map[string]string{
 	// 実装済み予約語
 
 	"%": NCEOF,
+	"(": COMMENTSTART,
+	")": COMMENTEND,
 
-	// 未実装予約語
+	// 実装予定予約語
 
-	"=":    ASSIGN,
-	"+":    PLUS,
-	"-":    MINUS,
-	"*":    ASTERISK,
-	"/":    SLASH,
-	"#":    ARRAY,
-	"(":    COMMENTSTART,
-	")":    COMMENTEND,
-	"EQ":   EQ,
-	"NE":   NE,
-	"LT":   LT,
-	"LE":   LE,
-	"GT":   GT,
-	"GE":   GE,
-	"OR":   OR,
-	"ADD":  ADD,
-	"SUB":  SUB,
-	"MUL":  MUL,
-	"DIV":  DIV,
-	"XOR":  XOR,
-	"AND":  AND,
-	"COS":  COS,
-	"SIN":  SIN,
-	"TAN":  TAN,
-	"ACOS": ACOS,
-	"ASIN": ASIN,
-	"ATAN": ATAN,
-
-	"SKIP":  SKIP,
 	"GOTO":  GOTO,
 	"IF":    IF,
 	"WHILE": WHILE,
 	"END":   END,
 
-	"EOB": EOB,
+	"=": ASSIGN,
+	"+": PLUS,
+	"-": MINUS,
+	"*": ASTERISK,
+	"/": SLASH,
+	"#": ARRAY,
+
+	"EQ": EQ,
+	"NE": NE,
+	"LT": LT,
+	"GT": GT,
+	"LE": LE,
+	"GE": GE,
+
+	"AND": AND,
+	"OR":  OR,
+	"XOR": XOR,
+
+	// 未実装予約語
+	/*
+		"ADD":  ADD,
+		"SUB":  SUB,
+		"MUL":  MUL,
+		"DIV":  DIV,
+		"COS":  COS,
+		"SIN":  SIN,
+		"TAN":  TAN,
+		"ACOS": ACOS,
+		"ASIN": ASIN,
+		"ATAN": ATAN,
+	*/
+
+	//"SKIP":  SKIP,
+	//"EOB": EOB,
 
 	/*
 		"AXIS":          AXIS,

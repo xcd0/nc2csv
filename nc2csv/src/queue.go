@@ -32,10 +32,11 @@ func EnqueueForG(v interface{}) {
 		Memory[key["G"]].AssignFloat(value)
 	} else if value, ok := v.(string); ok {
 		// 小数点があるかどうか調べる
-		if strings.Contains(".", value) {
+		if strings.Contains(value, ".") {
 			// float
 			v, err := strconv.ParseFloat(value, 64)
 			if err != nil {
+				fmt.Printf("\n")
 				log.Fatal(fmt.Sprintf("エラー : バグ : 文字列からfloat64への変換に失敗しました。%%v %v : err %v", v, err))
 			}
 			Gqueue = append(Gqueue,
@@ -48,6 +49,7 @@ func EnqueueForG(v interface{}) {
 			// int
 			v, err := strconv.Atoi(value)
 			if err != nil {
+				fmt.Printf("\n")
 				log.Fatal(fmt.Sprintf("エラー : バグ : 文字列からintへの変換に失敗しました。%%v %v : err %v", v, err))
 			}
 			Gqueue = append(Gqueue,

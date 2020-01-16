@@ -3,6 +3,7 @@ package util
 import (
 	"errors"
 	"fmt"
+	"log"
 )
 
 func IsAxIs(r rune) bool {
@@ -74,12 +75,89 @@ func IsReserved(identifier string) bool {
 }
 
 func IsImplemented(id string) bool {
+	return IsImplementedCharactor(id) || IsImplementedWord(id)
+}
+
+func IsImplementedWord(id string) bool { // {{{
+	// 実装したら増やす
+	switch id {
+	case "GOTO":
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "IF":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "THEN":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "WHILE":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "DO":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "EQ":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "NE":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "LT":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "GT":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "LE":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "GE":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "AND":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "OR":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "XOR":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	default:
+		return false
+	}
+	return false
+} // }}}
+
+func IsImplementedCharactor(id string) bool { // {{{
 	// 実装したら増やす
 	switch id {
 	case "%": // % 無視する
 		return true
-	case "/": // オプショナルスキップはここには来ないはず来たらダメ
-		panic(fmt.Sprintf("プログラムエラー : オプショナルスキップ"))
+
+	case "[":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "]":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "+":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "-":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "*":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "/":
+		// オプショナルスキップはここには来ないはず来たらダメ
+		//panic(fmt.Sprintf("プログラムエラー : オプショナルスキップの処理にバグがあります。"))
+
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		return true
+	case "=":
+		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 
 	// 変数
@@ -151,4 +229,4 @@ func IsImplemented(id string) bool {
 		return false
 	}
 	return false
-}
+} // }}}

@@ -18,24 +18,13 @@ func forAssignToMemory(rs *[]rune, r *rune, i *int, l int) {
 	// GOTO,IF,WHILEでないアルファベットが来たら変数代入だとみなす
 	// 異常値だがAAと来たらAAも変数代入になる？
 
-	// readIdentifier()はアルファベットまたは_がつづく間読み取って返す
-	literal := util.ReadLetters(rs, *i)
-	if util.IsReserved(literal) {
-		// 予約語
-		// GOTO IF WHILE THEN の予定？
-		// TODO
-		if util.IsImplemented(literal) {
-			// 実装済み予約語
-		} else {
-			// 未実装予約語
-			log.Fatal(fmt.Sprintf("書式エラー : l.%d : 予約語 %v は未実装です。", setting.CountLF, literal))
-		}
-	} else if *i+1 >= l {
+	if *i+1 >= l {
 		// 謎
 		// 文字数が超過している。
+		log.Fatal(fmt.Sprintf("書式エラー : l.%d : 文字数が超過します。", setting.CountLF, *r))
 		log.Fatal(fmt.Sprintf("書式エラー : l.%d : %c はエラーです。", setting.CountLF, *r))
 	} else {
-		// 文字数チェックOK
+		// 文字数チェックOK 次の文字をチェックする
 		next := (*rs)[*i+1]
 		isDigit := util.IsDigit(next)                                                //数値
 		isPMDigit := (util.IsPM(next) && *i+2 <= l && util.IsDigit((*rs)[*i+2]))     // +-付きの数値
