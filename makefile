@@ -1,7 +1,15 @@
 all:
 	make clean
-	git add -A . && git commit -m "update `date +"%Y.%m.%d.%H.%M.%S"`"
+	cd nc2csv/src && make release && make
+	git add -A .
+	git commit
 	git push
+
+tag:
+	cd nc2csv/src && make release && make
+	cd nc2csv && rm -rf ${ARG} && mkdir ${ARG} && cp -rf build/* ${ARG}
+	git tag -a ${ARG} -m ${ARG}
+	git push origin ${ARG}
 
 clean:
 	find . -name *.html -type f -print0 | xargs -0 rm -rf
