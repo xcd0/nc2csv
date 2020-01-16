@@ -17,6 +17,7 @@ type commonSetting struct {
 	FeedG00              float64 // G00送り速度 初期値
 	FeedG01              float64 // G01送り速度 初期値
 	IsG90                bool    // true : アブソリュート指令 false : インクリメンタル指令
+	PlaneDesignation     int     // G17/18/19
 	CutMode              int     // G00 01 02 03 を 0, 1, 2, 3 であらわす
 	IsProhibitAssignAxis bool    // そのブロックでの座標値への代入を禁ずる
 	CountLF              int
@@ -95,6 +96,7 @@ func Initialize(rowInput *string) {
 	setting.FeedG00 = 5000         // 早送り速度
 	setting.FeedG01 = 1000         // 送り速度
 	setting.IsG90 = true           // アブソリュート指令か
+	setting.PlaneDesignation = 17  // 平面指定 とりあえずG17
 	setting.CutMode = 0            // 切削モード
 	setting.CountLF = 1            // 処理中の行番号
 	setting.IsOptionalSkip = false // オプショナルスキップ

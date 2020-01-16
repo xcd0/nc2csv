@@ -97,6 +97,7 @@ func genCsv() *string {
 						// 改行のあとすぐに数値単体で来た時など
 						// 数値はアルファベットのあとにしか来ないはず
 						// ^10や^.50など
+						fmt.Println("")
 						log.Fatal(fmt.Sprintf("書式エラー : l.%d : %c はエラーです。", setting.CountLF, r))
 					} else if util.IsDot(r) || util.IsDigit(r) {
 					} else {

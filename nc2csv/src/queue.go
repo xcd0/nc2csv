@@ -96,11 +96,19 @@ func FlushGqueue() {
 			case n == 2:
 				setting.CutMode = 2
 				Assign("F", setting.FeedG01)
-				log.Printf("注意 : line % 7d : G02 です。", setting.CountLF)
+				fmt.Println("")
+				log.Printf("注意 : l.%d : G02 です。", setting.CountLF)
 			case n == 3:
 				setting.CutMode = 3
 				Assign("F", setting.FeedG01)
-				log.Printf("注意 : line % 7d : G03 です。", setting.CountLF)
+				fmt.Println("")
+				log.Printf("注意 : l.%d : G03 です。", setting.CountLF)
+			case n == 17:
+				setting.PlaneDesignation = 17
+			case n == 18:
+				setting.PlaneDesignation = 18
+			case n == 19:
+				setting.PlaneDesignation = 19
 			case n == 90:
 				setting.IsG90 = true
 			case n == 91:
@@ -158,7 +166,7 @@ func FlushGqueue() {
 				setting.IsProhibitAssignAxis = true
 				// 未実装
 				fmt.Printf("\n")
-				log.Printf("注意 : line % 7d : G%2d は未実装です。無視します。", setting.CountLF, n)
+				log.Printf("注意 : l.%d : G%2d は未実装です。無視します。", setting.CountLF, n)
 			}
 		}
 	}
