@@ -81,48 +81,53 @@ func IsImplemented(id string) bool {
 func IsImplementedWord(id string) bool { // {{{
 	// 実装したら増やす
 	switch id {
+	case "EOF":
+		// この行で正常終了させる。
+		return true
+
+	// 未実装
 	case "GOTO":
 		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "IF":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "THEN":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "WHILE":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "DO":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "EQ":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "NE":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "LT":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "GT":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "LE":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "GE":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "AND":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "OR":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	case "XOR":
 		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
-		return true
+		return false
 	default:
 		return false
 	}

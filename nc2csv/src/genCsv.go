@@ -78,7 +78,18 @@ func genCsv() *string {
 						// GOTO IF WHILE THEN の予定？
 						// TODO
 						if util.IsImplementedWord(literal) {
-							// 実装済み予約語 GOTOとか
+							// 実装済み予約語
+							switch literal {
+							case "EOF":
+								fmt.Println("")
+								log.Printf(fmt.Sprintf("注意 : l.%v : EOF です。正常終了します。", setting.CountLF))
+								// ここで終了させる
+								i = len(rs)     // for i のやつ
+								ln = len(lines) // for lnのやつ
+								continue
+							default:
+								// TODO
+							}
 						} else if util.IsImplementedCharactor(literal) {
 							// 実装済み予約語 %とかGとか
 						} else {

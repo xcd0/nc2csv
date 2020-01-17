@@ -99,6 +99,9 @@ var keywords = map[string]string{
 	"OR":  OR,
 	"XOR": XOR,
 
+	// デバッグ用 EOF
+	"EOF": EOF,
+
 	// 未実装予約語
 	/*
 		"ADD":  ADD,
