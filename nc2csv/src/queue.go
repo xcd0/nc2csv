@@ -121,16 +121,20 @@ func FlushGqueue() { // {{{1
 		switch { // {{{2
 		case n == 0:
 			setting.CutMode = 0
+			// 一旦現在の送り速度を保存
+			setting.FeedG01 = Reference("F").Float()
+			Assign("F", setting.FeedG00)
 		case n == 1:
+			Assign("F", setting.FeedG01) // 直前がG00だったときの為に復元する
 			setting.CutMode = 1
 		case n == 2:
+			Assign("F", setting.FeedG01) // 直前がG00だったときの為に復元する
 			setting.CutMode = 2
-			Assign("F", setting.FeedG01)
 			fmt.Println("")
 			log.Printf("注意 : l.%d : G02 です。", setting.CountLF)
 		case n == 3:
+			Assign("F", setting.FeedG01) // 直前がG00だったときの為に復元する
 			setting.CutMode = 3
-			Assign("F", setting.FeedG01)
 			fmt.Println("")
 			log.Printf("注意 : l.%d : G03 です。", setting.CountLF)
 		case n == 17: // XY平面指定 G02/03を実装したら使われる

@@ -15,7 +15,7 @@ type commonSetting struct {
 	IsMm                 bool    // mm か inchか
 	IS                   *ISUnit // 機械によって設定されている最小設定単位
 	FeedG00              float64 // G00送り速度 初期値
-	FeedG01              float64 // G01送り速度 初期値
+	FeedG01              float64 // G00送り速度 初期値
 	IsG90                bool    // true : アブソリュート指令 false : インクリメンタル指令
 	PlaneDesignation     int     // G17/18/19
 	CutMode              int     // G00 01 02 03 を 0, 1, 2, 3 であらわす
@@ -93,8 +93,8 @@ func Initialize(rowInput *string) {
 	// 初期設定
 	setting.IsMm = true            // mmか
 	setting.IS = &ISC              // 最小設定単位の指定 // とりあえずISCとしてみる
-	setting.FeedG00 = 5000         // 早送り速度
-	setting.FeedG01 = 1000         // 送り速度
+	setting.FeedG00 = 99999        // 早送り速度初期値
+	setting.FeedG01 = 1            // 送り速度初期値
 	setting.IsG90 = true           // アブソリュート指令か
 	setting.PlaneDesignation = 17  // 平面指定 とりあえずG17
 	setting.CutMode = 0            // 切削モード

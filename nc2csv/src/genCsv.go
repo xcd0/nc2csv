@@ -8,6 +8,25 @@ import (
 	"./util"
 )
 
+// 別スレッドで呼び出される
+// ファイルへ出力
+func srcOutput(in chan string, out chan string, done chan bool) {
+	output := ""
+	for {
+		text, flag := <-in
+		if flag {
+			output += fmt.Sprintf("%s\n", text)
+		} else {
+			output += fmt.Sprintf("\n")
+			break
+		}
+	}
+
+	out <- output
+	done <- true
+	return
+}
+
 func genCsv() *string {
 	in := make(chan string, 1000) // 別スレッドに投げるバッファ
 	out := make(chan string, 2)   // 別スレッドからもらうバッファ

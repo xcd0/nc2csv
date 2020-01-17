@@ -12,7 +12,7 @@
 			"program": "${fileDirname}",
 			"env": {},
 			"args": [
-				"../HNAB01-11.post.ncd" // 追加(アクティブなファイルのパス)
+				"./test/nc10" // 追加(アクティブなファイルのパス)
 			]
 		}
 	]
