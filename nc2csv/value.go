@@ -14,12 +14,15 @@ type value struct {
 	f    float64
 }
 
-// メモリの値を参照するのに使う関数
+// メモリの値を参照します。
+// 例としてReference("X") とするとXの値value型としてが返ってきます。
 func Reference(k string) *value {
 	return &memory[key[k]]
 }
 
-// メモリに値を代入するのに使う関数
+// メモリに値を代入します。
+// 例としてAssign("X", 10.)とするとXに10.0を代入します。
+// 第2引数はint,float64,stringが取れます。
 func Assign(k string, v interface{}) {
 	if setting.IsProhibitAssignAxis {
 		// フラグ立ってたら何もしない
@@ -171,7 +174,7 @@ func Assign(k string, v interface{}) {
 	} // }}}
 }
 
-// #の記法でアドレス値を参照するのに使う関数
+// #の記法でアドレス値を参照します。
 // #10はHash(10),Hash(10.0),Hash("10")のように入力され、&memory[10]が返されます。
 func Hash(v interface{}) *value { // {{{
 	out := 0
