@@ -53,12 +53,12 @@ func isWhitespace(r rune) bool {
 	return r == ' ' || r == '\t' || r == '\n' || r == '\r'
 }
 
-func GetRuneAt(s string, i int) rune {
+func getRuneAt(s string, i int) rune {
 	rs := []rune(s)
 	return rs[i]
 }
 
-func GetRunes(rs *[]rune, i int, num int) (string, error) {
+func getRunes(rs *[]rune, i int, num int) (string, error) {
 	if i+num < len((*rs)) {
 		return string((*rs)[i : i+num]), nil
 	} else {
