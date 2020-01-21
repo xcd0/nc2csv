@@ -45,12 +45,10 @@ func Reference(k string) *Value {
 
 // メモリに値を代入するのに使う関数
 func Assign(k string, v interface{}) {
-
 	if setting.IsProhibitAssignAxis {
 		// フラグ立ってたら何もしない
 		return
 	}
-
 	// 代入時にインクリメンタル指令もすべて計算して座標値を入れる
 	if setting.IsG90 { // アブソリュート指令 {{{
 		if value, ok := v.(int); ok {
@@ -58,9 +56,9 @@ func Assign(k string, v interface{}) {
 			// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
 			if k == "X" || k == "Y" || k == "Z" || k == "R" {
 				if setting.IsMm {
-					Memory[key[k]].AssignFloat(float64(value) * setting.IS.mm)
+					Memory[key[k]].assignFloat(float64(value) * setting.IS.mm)
 				} else {
-					Memory[key[k]].AssignFloat(float64(value) * setting.IS.in)
+					Memory[key[k]].assignFloat(float64(value) * setting.IS.in)
 				}
 			} else if k == "A" || k == "B" || k == "C" {
 				// 角度は剰余を取って0~360に丸める
@@ -71,10 +69,10 @@ func Assign(k string, v interface{}) {
 				if d < 0 {
 					d += 360
 				}
-				Memory[key[k]].AssignFloat(d)
+				Memory[key[k]].assignFloat(d)
 
 			} else {
-				Memory[key[k]].AssignInt(value)
+				Memory[key[k]].assignInt(value)
 			}
 		} else if value, ok := v.(float64); ok {
 			if k == "A" || k == "B" || k == "C" {
@@ -85,9 +83,9 @@ func Assign(k string, v interface{}) {
 				for d > 360 {
 					d -= 360.0
 				}
-				Memory[key[k]].AssignFloat(d)
+				Memory[key[k]].assignFloat(d)
 			} else {
-				Memory[key[k]].AssignFloat(value)
+				Memory[key[k]].assignFloat(value)
 			}
 		} else if value, ok := v.(string); ok {
 			// 小数点があるかどうか調べる
@@ -101,9 +99,9 @@ func Assign(k string, v interface{}) {
 					if d < 0 {
 						d += 360
 					}
-					Memory[key[k]].AssignFloat(d)
+					Memory[key[k]].assignFloat(d)
 				} else {
-					Memory[key[k]].AssignFloat(d)
+					Memory[key[k]].assignFloat(d)
 				}
 			} else {
 				n, _ := strconv.Atoi(value)
@@ -111,9 +109,9 @@ func Assign(k string, v interface{}) {
 				// 最小値の定数倍としてv.fに代入し、v.bIntをfalseにする
 				if k == "X" || k == "Y" || k == "Z" || k == "R" {
 					if setting.IsMm {
-						Memory[key[k]].AssignFloat(float64(n) * setting.IS.mm)
+						Memory[key[k]].assignFloat(float64(n) * setting.IS.mm)
 					} else {
-						Memory[key[k]].AssignFloat(float64(n) * setting.IS.in)
+						Memory[key[k]].assignFloat(float64(n) * setting.IS.in)
 					}
 				} else if k == "A" || k == "B" || k == "C" {
 					d := float64(n) * setting.IS.deg
@@ -123,11 +121,11 @@ func Assign(k string, v interface{}) {
 					if d < 0 {
 						d += 360
 					}
-					Memory[key[k]].AssignFloat(d)
+					Memory[key[k]].assignFloat(d)
 				} else {
 					// XYZABCR以外は整数値そのまま入れる
 					// F1000とか
-					Memory[key[k]].AssignInt(n)
+					Memory[key[k]].assignInt(n)
 				}
 			}
 		} // }}}
@@ -143,24 +141,24 @@ func Assign(k string, v interface{}) {
 			if k == "X" || k == "Y" || k == "Z" || k == "R" {
 				// 加算する
 				if setting.IsMm {
-					Memory[key[k]].AssignFloat(tmp + float64(value)*setting.IS.mm)
+					Memory[key[k]].assignFloat(tmp + float64(value)*setting.IS.mm)
 				} else {
-					Memory[key[k]].AssignFloat(tmp + float64(value)*setting.IS.in)
+					Memory[key[k]].assignFloat(tmp + float64(value)*setting.IS.in)
 				}
 			} else if k == "A" || k == "B" || k == "C" {
 				// 加算する
-				Memory[key[k]].AssignFloat(tmp + float64(value)*setting.IS.deg)
+				Memory[key[k]].assignFloat(tmp + float64(value)*setting.IS.deg)
 			} else {
 				// 座標値ではないので加算しない
-				Memory[key[k]].AssignInt(value)
+				Memory[key[k]].assignInt(value)
 			}
 		} else if value, ok := v.(float64); ok { // 小数が入ってきた
 			if k == "X" || k == "Y" || k == "Z" || k == "R" || k == "A" || k == "B" || k == "C" {
 				// 加算する
-				Memory[key[k]].AssignFloat(tmp + value)
+				Memory[key[k]].assignFloat(tmp + value)
 			} else {
 				// 加算しない
-				Memory[key[k]].AssignFloat(value)
+				Memory[key[k]].assignFloat(value)
 			}
 		} else if value, ok := v.(string); ok { // 文字列が入ってきた
 			// 小数点があるかどうか調べる
@@ -169,10 +167,10 @@ func Assign(k string, v interface{}) {
 				n, _ := strconv.ParseFloat(value, 64)
 				if k == "X" || k == "Y" || k == "Z" || k == "R" || k == "A" || k == "B" || k == "C" {
 					// 加算する
-					Memory[key[k]].AssignFloat(tmp + n)
+					Memory[key[k]].assignFloat(tmp + n)
 				} else {
 					// 加算しない
-					Memory[key[k]].AssignFloat(n)
+					Memory[key[k]].assignFloat(n)
 				}
 			} else {
 				n, _ := strconv.Atoi(value)
@@ -181,37 +179,33 @@ func Assign(k string, v interface{}) {
 				if k == "X" || k == "Y" || k == "Z" || k == "R" {
 					// 加算する
 					if setting.IsMm {
-						Memory[key[k]].AssignFloat(tmp + float64(n)*setting.IS.mm)
+						Memory[key[k]].assignFloat(tmp + float64(n)*setting.IS.mm)
 					} else {
-						Memory[key[k]].AssignFloat(tmp + float64(n)*setting.IS.in)
+						Memory[key[k]].assignFloat(tmp + float64(n)*setting.IS.in)
 					}
 				} else if k == "A" || k == "B" || k == "C" {
 					// 加算する
-					Memory[key[k]].AssignFloat(tmp + float64(n)*setting.IS.deg)
+					Memory[key[k]].assignFloat(tmp + float64(n)*setting.IS.deg)
 				} else {
 					// 加算しない
-					Memory[key[k]].AssignInt(n)
+					Memory[key[k]].assignInt(n)
 				}
 			}
 		}
 	} // }}}
-
 }
 
 func (v *Value) IsInt() bool {
 	return v.bInt
 }
-
-func (v *Value) AssignInt(i int) {
+func (v *Value) assignInt(i int) {
 	v.bInt = true
 	v.f = float64(i)
 }
-
-func (v *Value) AssignFloat(f float64) {
+func (v *Value) assignFloat(f float64) {
 	v.bInt = false
 	v.f = f
 }
-
 func (v *Value) String() string {
 	if v.bInt {
 		return fmt.Sprintf("%d", int(v.f))
@@ -219,11 +213,9 @@ func (v *Value) String() string {
 		return fmt.Sprintf("%.10f", v.f)
 	}
 }
-
 func (v *Value) Float() float64 {
 	return v.f
 }
-
 func (v *Value) Int() int {
 	return int(v.f)
 }

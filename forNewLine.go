@@ -15,7 +15,7 @@ func forNewLine(rs *[]rune, lines *[]string, in chan string) {
 	setting.IsOptionalSkip = false
 	setting.IsProhibitAssignAxis = false
 	// Gのキューを実行する
-	FlushGqueue()
+	flushGqueue()
 
 	// この行を実行した後の状態を出力する
 	outputOneLine := axis.genOnelineCsv()
@@ -257,59 +257,24 @@ func (a *Axis) calcTime() { // {{{
 
 func (a *Axis) genOnelineCsv() string { // {{{
 
-	// 移動距離を計算
-	a.calcDistance()
-	// 移動時間を計算
-	a.calcTime()
-
-	a.dX = (Reference("X").Float() - a.X)
-	a.dY = (Reference("Y").Float() - a.Y)
-	a.dZ = (Reference("Z").Float() - a.Z)
-
-	// 回転する軸は0~360に丸めているので 境界で処理が必要
-	// 例えばA359.0 A0はdA==1になる
-	// 180度より大きい移動は近回りする
-	// 180度ピッタリの移動はエラーにする
-	a.dA = (Reference("A").Float() - a.A)
-	a.dB = (Reference("B").Float() - a.B)
-	a.dC = (Reference("C").Float() - a.C)
-
-	fmt.Printf("t:%v\n", a.timeMin)
-
-	// 元ncプログラムの行、NC、XYZABC の各位置、プログラムの F、XYZABC の各軸速度、移動に要する時間
-	// 元ncプログラムの行
-	out := fmt.Sprintf("%d", setting.CountLF)
-	// その行のncプログラム
-	out += ",\"" + rowLines[setting.CountLF-1] + "\""
-	// XYZABC の各位置
-	out += "," + Reference("X").String()
-	out += "," + Reference("Y").String()
-	out += "," + Reference("Z").String()
-	out += "," + Reference("A").String()
-	out += "," + Reference("B").String()
-	out += "," + Reference("C").String()
-	out += "," + Reference("R").String()
-	// プログラムの F
-	out += "," + Reference("F").String()
-	out += "," + fmt.Sprintf("%.6f", a.distance)
-	out += "," + fmt.Sprintf("%.6f", a.vX)
-	out += "," + fmt.Sprintf("%.6f", a.vY)
-	out += "," + fmt.Sprintf("%.6f", a.vZ)
-	out += "," + fmt.Sprintf("%.6f", a.vA)
-	out += "," + fmt.Sprintf("%.6f", a.vB)
-	out += "," + fmt.Sprintf("%.6f", a.vC)
-	// 移動に要する時間
-	out += "," + fmt.Sprintf("%.10f", a.timeMin)
-	out += "," + fmt.Sprintf("%.10f", setting.CumulativeTime)
+	a.calcDistance() // 移動距離を計算
+	a.calcTime()     // 移動時間を計算
+	a.dX, a.dY, a.dZ = (Reference("X").Float() - a.X), (Reference("Y").Float() - a.Y), (Reference("Z").Float() - a.Z)
+	// 180度より大きい移動は近回り。180度ピッタリの移動はエラーにする。
+	// 回転する軸は0~360に丸めているので。 境界で処理が必要。 例えばA359.0 A0はdA==1になる。
+	a.dA, a.dB, a.dC = (Reference("A").Float() - a.A), (Reference("B").Float() - a.B), (Reference("C").Float() - a.C)
+	// 出力
+	out := fmt.Sprintf("%d,\"%v\",%v,%v,%v,%v,%v,%v,%v,%v,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.6f,%.10f,%.10f",
+		setting.CountLF, rowLines[setting.CountLF-1],
+		Reference("X").String(), Reference("Y").String(), Reference("Z").String(),
+		Reference("A").String(), Reference("B").String(), Reference("C").String(),
+		Reference("R").String(), Reference("F").String(),
+		a.distance,
+		a.vX, a.vY, a.vZ, a.vA, a.vB, a.vC,
+		a.timeMin, setting.CumulativeTime,
+	)
 
 	// 保存
-	a.X = Reference("X").Float()
-	a.Y = Reference("Y").Float()
-	a.Z = Reference("Z").Float()
-	a.A = Reference("A").Float()
-	a.B = Reference("B").Float()
-	a.C = Reference("C").Float()
-
-	//log.Printf("%v\n", out)
+	a.X, a.Y, a.Z, a.A, a.B, a.C = Reference("X").Float(), Reference("Y").Float(), Reference("Z").Float(), Reference("A").Float(), Reference("B").Float(), Reference("C").Float()
 	return out
 } // }}}

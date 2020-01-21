@@ -1,4 +1,4 @@
-package util
+package main
 
 import (
 	"errors"
@@ -67,11 +67,12 @@ func GetRunes(rs *[]rune, i int, num int) (string, error) {
 func IsReserved(identifier string) bool {
 	// #等もkeywordsに含まれるが、
 	// readlettersでアルファベットと_だけを切り出しているので該当しない。
-	if _, ok := keywords[identifier]; ok {
-		return true
-	} else {
-		return false
+	for _, v := range keywords {
+		if identifier == v {
+			return true
+		}
 	}
+	return false
 }
 
 func IsImplemented(id string) bool {
