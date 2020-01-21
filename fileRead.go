@@ -5,9 +5,6 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"strings"
-
-	"github.com/xcd0/go-nkf"
 	//"github.com/saintfish/chardet"
 	//"golang.org/x/net/html/charset"
 )
@@ -25,7 +22,7 @@ func readText(path *string) *string {
 	}
 	str := string(b)
 	// ファイルの文字コード変換
-	charset, err := nkf.CharDet(b)
+	charset, err := charDet(b)
 	if err != nil {
 		/*
 			fmt.Fprintf(os.Stderr, "文字コード変換に失敗しました\nutf8を使用してください\n")
@@ -33,22 +30,13 @@ func readText(path *string) *string {
 			panic(err)
 			return ""
 		*/
-		str = ConvertNewline(&str, "\n")
+		str = convertNewline(&str, "\n")
 		return &str
 	}
 
-	str, _ = nkf.ToUtf8(string(b), charset)
-	str = ConvertNewline(&str, "\n")
+	str, _ = toUtf8(string(b), charset)
+	str = convertNewline(&str, "\n")
 	return &str
-}
-
-func ConvertNewline(str *string, nlcode string) string {
-	// 改行コードを統一する
-	return strings.NewReplacer(
-		"\r\n", nlcode,
-		"\r", nlcode,
-		"\n", nlcode,
-	).Replace(*str)
 }
 
 func readOptionNumber(next *rune, rs *[]rune, i *int) string {
