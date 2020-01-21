@@ -10,9 +10,8 @@ import (
 	//"golang.org/x/net/html/charset"
 )
 
-// 与えられたパスの文字列について
-// そのパスにあるファイルをテキストファイルとして読み込む
-// 戻り値は読み込んだ文字列へのポインタ
+// 与えられたパスにあるファイルをNCプログラムの書かれたテキストファイルとして読み込みます。
+// 戻り値は読み込んだ文字列へのポインタです。
 func ReadNcProgram(apath *string) *string {
 	// 入力ファイルを開く
 	rowInput = readText(apath) // NCを読み込んでstringに変換、改行コードを統一
