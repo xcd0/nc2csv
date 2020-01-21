@@ -9,9 +9,8 @@ import (
 	"strings"
 )
 
-// 処理の本体
-// 一字づつ読み込んで処理していく。
-// 改行でCSVを1行出力する。
+// NCプログラムを一字づつ読み込んで処理します。
+// 改行でCSVを1行出力して別スレッドに投げます。
 func GenCsv(apath *string) *string { // {{{
 
 	initialize(apath) // 初期化処理
@@ -122,11 +121,11 @@ func forOtherCharactor(r *rune, i *int, ln *int, rs *[]rune, lines *[]string) bo
 	} else {
 		// readLetters()はアルファベットまたは_がつづく間読み取って返す
 		literal := readLetters(rs, *i)
-		if IsReserved(literal) {
+		if isReserved(literal) {
 			// 予約語
 			// GOTO IF WHILE THEN の予定？
 			// TODO
-			if IsImplementedWord(literal) {
+			if isImplementedWord(literal) {
 				// 実装済み予約語
 				switch literal {
 				case "EOF":
@@ -139,7 +138,7 @@ func forOtherCharactor(r *rune, i *int, ln *int, rs *[]rune, lines *[]string) bo
 				default:
 					// TODO
 				}
-			} else if IsImplementedCharactor(literal) {
+			} else if isImplementedCharactor(literal) {
 				// 実装済み予約語 %とかGとか
 			} else {
 				// 未実装予約語
@@ -148,12 +147,12 @@ func forOtherCharactor(r *rune, i *int, ln *int, rs *[]rune, lines *[]string) bo
 		}
 
 		// アルファベット+数値を一個ずつデコードする
-		if IsLetter(*r) {
+		if isLetter(*r) {
 			// X-10.とか G01とか Y#10とか
 			forAssignToMemory(rs, r, i, len(*rs))
 			// LookUpIdentはGOTOやIF,WHILE,ELSE,ENDのような予約語を予約語として
 			// それ以外をIDENTIFIERとして返す
-		} else if IsDot(*r) || IsDigit(*r) {
+		} else if isDot(*r) || isDigit(*r) {
 			// 改行のあとすぐに数値単体で来た時など
 			// 数値はアルファベットのあとにしか来ないはず
 			// ^10や^.50など
@@ -200,10 +199,10 @@ func forAssignToMemory(rs *[]rune, r *rune, i *int, l int) { // {{{
 	} else {
 		// 文字数チェックOK 次の文字をチェックする
 		next := (*rs)[*i+1]
-		isDigit := IsDigit(next)                                           //数値
-		isPMDigit := (IsPM(next) && *i+2 <= l && IsDigit((*rs)[*i+2]))     // +-付きの数値
-		isHashDigit := (IsHash(next) && *i+2 <= l && IsDigit((*rs)[*i+2])) // #付きの数値
-		if isDigit || isPMDigit || isHashDigit {
+		isNum := isDigit(next)                                             //数値
+		isPMDigit := (isPM(next) && *i+2 <= l && isDigit((*rs)[*i+2]))     // +-付きの数値
+		isHashDigit := (isHash(next) && *i+2 <= l && isDigit((*rs)[*i+2])) // #付きの数値
+		if isNum || isPMDigit || isHashDigit {
 			// 後ろの数値を読む #はスキップして読み込む
 			numStr := readOptionNumber(&next, rs, i) // 中でiが進む
 			// 文字 + 数値 or 文字 + 変数
@@ -212,7 +211,7 @@ func forAssignToMemory(rs *[]rune, r *rune, i *int, l int) { // {{{
 				// Gは特別扱い
 				// G専用のQueueに突っ込む
 				// G90だったらEnqueueForG(90) みたいにする
-				if IsHash(next) {
+				if isHash(next) {
 					// まあないはずだけど G#10 みたいに変数使ってきたらという想定
 					// EnqueueForG(Hash[90]) みたいにする
 					enqueueForG(Hash(numStr).String())
@@ -228,7 +227,7 @@ func forAssignToMemory(rs *[]rune, r *rune, i *int, l int) { // {{{
 				// G90G00X100.とかでは、X100.の時点でGのキューに要素がある
 				// G以外の代入が走る前にGを処理する
 				flushGqueue()
-				if IsHash(next) {
+				if isHash(next) {
 					Assign(string(*r), Hash(numStr).String()) // X#100とか Assign(P, Hash[412]) みたいにする
 				} else {
 					// Assign(O, 90)とかAssign(X, "10")とかAssign(X, "10.0")とかみたいにする

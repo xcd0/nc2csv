@@ -76,7 +76,7 @@ func readOptionNumber(next *rune, rs *[]rune, i *int) string { // {{{
 		*i-- // 最後の数値に合わせる
 		return "-" + numStr
 	}
-	if IsLetter((*rs)[*i]) {
+	if isLetter((*rs)[*i]) {
 		*i++ // 文字をスキップして数値を読み込む
 		numStr := readAndCutNumber(rs, i)
 		// Assign(O, 90) みたいにする
@@ -114,7 +114,7 @@ func readAndCutNumber(rs *[]rune, i *int) string { // {{{
 func readNumbers(rs *[]rune, i *int) string { // {{{
 	pre := *i
 	post := *i
-	for (IsDigit((*rs)[post]) || IsDot((*rs)[post])) && post < len(*rs)-1 {
+	for (isDigit((*rs)[post]) || isDot((*rs)[post])) && post < len(*rs)-1 {
 		post++
 		//log.Printf("len(rs) : %d ; post : %d", len(*rs), post)
 	}
@@ -125,7 +125,7 @@ func readNumbers(rs *[]rune, i *int) string { // {{{
 	if post == len(*rs)-1 && string((*rs)[len(*rs)-1:]) != "\n" {
 		// ファイル終端で改行が含まれていないなら、更に+1する
 		*i = post + 1
-		if IsDot((*rs)[post]) {
+		if isDot((*rs)[post]) {
 			// 小数点で終わっていたら0を付与する
 			return string((*rs)[pre:]) + "0"
 		} else {
@@ -134,13 +134,13 @@ func readNumbers(rs *[]rune, i *int) string { // {{{
 	}
 
 	out := ""
-	if IsDot((*rs)[post-1]) {
+	if isDot((*rs)[post-1]) {
 		// 小数点で終わっていたら0を付与する
 		out = string((*rs)[pre:post]) + "0"
 	} else {
 		out = string((*rs)[pre:post])
 	}
-	if IsDot([]rune(out)[0]) {
+	if isDot([]rune(out)[0]) {
 		// .で始まっていたら0をつける
 		out = "0" + out
 	}
@@ -150,7 +150,7 @@ func readNumbers(rs *[]rune, i *int) string { // {{{
 func readLetters(rs *[]rune, i int) string { // {{{
 	pre := i
 	post := i
-	for IsLetter((*rs)[post]) {
+	for isLetter((*rs)[post]) {
 		post++
 	}
 	return string((*rs)[pre:post])

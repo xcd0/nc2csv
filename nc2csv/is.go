@@ -9,7 +9,7 @@ import (
 	"log"
 )
 
-func IsAxIs(r rune) bool {
+func isAxis(r rune) bool {
 	return r == 'X' || r == 'Y' || r == 'Z' ||
 		r == 'A' || r == 'B' || r == 'C' ||
 		r == 'I' || r == 'J' || r == 'K' ||
@@ -17,39 +17,39 @@ func IsAxIs(r rune) bool {
 		r == 'R'
 }
 
-func IsEob(r rune) bool {
+func isEob(r rune) bool {
 	return ';' == r
 }
 
-func IsLf(r rune) bool {
+func isLf(r rune) bool {
 	return '\n' == r
 }
 
-func IsLetter(r rune) bool {
+func isLetter(r rune) bool {
 	return 'a' <= r && r <= 'z' || 'A' <= r && r <= 'Z' || r == '_'
 }
 
-func IsDigit(r rune) bool {
+func isDigit(r rune) bool {
 	return '0' <= r && r <= '9'
 }
 
-func IsPM(r rune) bool {
+func isPM(r rune) bool {
 	return r == '+' || r == '-'
 }
 
-func IsHash(r rune) bool {
+func isHash(r rune) bool {
 	return r <= '#'
 }
 
-func IsDot(r rune) bool {
+func isDot(r rune) bool {
 	return r == '.'
 }
 
-func IsNewline(r rune) bool {
+func isNewline(r rune) bool {
 	return r == '\n' || r == '\r'
 }
 
-func IsWhitespace(r rune) bool {
+func isWhitespace(r rune) bool {
 	return r == ' ' || r == '\t' || r == '\n' || r == '\r'
 }
 
@@ -67,7 +67,7 @@ func GetRunes(rs *[]rune, i int, num int) (string, error) {
 }
 
 // 予約語リストkeywordsにあるか調べる
-func IsReserved(identifier string) bool {
+func isReserved(identifier string) bool {
 	// #等もkeywordsに含まれるが、
 	// readlettersでアルファベットと_だけを切り出しているので該当しない。
 	for _, v := range keywords {
@@ -79,12 +79,12 @@ func IsReserved(identifier string) bool {
 }
 
 // 予約語リストにある語の機能が実装されているかどうかを調べる
-func IsImplemented(id string) bool {
-	return IsImplementedCharactor(id) || IsImplementedWord(id)
+func isImplemented(id string) bool {
+	return isImplementedCharactor(id) || isImplementedWord(id)
 }
 
 // 予約語のうち複数文字で構成される予約語について実装されているかどうかを返す
-func IsImplementedWord(id string) bool { // {{{
+func isImplementedWord(id string) bool { // {{{
 	// 実装したら増やす
 	switch id {
 	case "EOF":
@@ -143,7 +143,7 @@ func IsImplementedWord(id string) bool { // {{{
 } // }}}
 
 // 予約語のうち1文字で構成される予約語について実装されているかどうかを返す
-func IsImplementedCharactor(id string) bool { // {{{
+func isImplementedCharactor(id string) bool { // {{{
 	// 実装したら増やす
 	switch id {
 	case "%": // % 無視する
