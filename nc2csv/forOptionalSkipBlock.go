@@ -11,7 +11,7 @@ func forOptionalSkipBlock(rs *[]rune, i int) { // {{{
 	if t := (*rs)[i+1]; '1' <= t && t <= '9' {
 		// 番号付きオプショナルスキップブロック
 		tmpNum, _ := strconv.Atoi(string(t))
-		if OptionalSkip[tmpNum] == false {
+		if optionalSkip[tmpNum] == false {
 			// 無視しない
 			setting.IsOptionalSkip = false
 		} else {
@@ -19,7 +19,7 @@ func forOptionalSkipBlock(rs *[]rune, i int) { // {{{
 			setting.IsOptionalSkip = true
 		}
 	} else {
-		if OptionalSkip[0] {
+		if optionalSkip[0] {
 			// 無視しない
 			setting.IsOptionalSkip = false
 		} else {

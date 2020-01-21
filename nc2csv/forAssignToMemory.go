@@ -57,7 +57,7 @@ func forAssignToMemory(rs *[]rune, r *rune, i *int, l int) { // {{{
 
 				// G90G00X100.とかでは、X100.の時点でGのキューに要素がある
 				// G以外の代入が走る前にGを処理する
-				flushGqueue()
+				flushGQueue()
 				if isHash(next) {
 					Assign(string(*r), Hash(numStr).String()) // X#100とか Assign(P, Hash[412]) みたいにする
 				} else {

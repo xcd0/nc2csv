@@ -10,47 +10,47 @@ import (
 // G専用Queueに保存する int, float64, string対応
 func enqueueForG(v interface{}) { // {{{
 	// vの型判定
-	if value, ok := v.(int); ok {
+	if vl, ok := v.(int); ok {
 		// int
-		Gqueue = append(Gqueue,
-			Value{
+		gqueue = append(gqueue,
+			value{
 				bInt: true,
-				f:    float64(value),
+				f:    float64(vl),
 			},
 		)
-	} else if value, ok := v.(float64); ok {
+	} else if vl, ok := v.(float64); ok {
 		// float
-		Gqueue = append(Gqueue,
-			Value{
+		gqueue = append(gqueue,
+			value{
 				bInt: false,
-				f:    value,
+				f:    vl,
 			},
 		)
-		Memory[key["G"]].assignFloat(value)
-	} else if value, ok := v.(string); ok {
+		memory[key["G"]].assignFloat(vl)
+	} else if vl, ok := v.(string); ok {
 		// 小数点があるかどうか調べる
-		if strings.Contains(value, ".") {
+		if strings.Contains(vl, ".") {
 			// float
-			v, err := strconv.ParseFloat(value, 64)
+			v, err := strconv.ParseFloat(vl, 64)
 			if err != nil {
 				fmt.Printf("\n")
 				log.Fatal(fmt.Sprintf("エラー : バグ : 文字列からfloat64への変換に失敗しました。%%v %v : err %v", v, err))
 			}
-			Gqueue = append(Gqueue,
-				Value{
+			gqueue = append(gqueue,
+				value{
 					bInt: false,
 					f:    v,
 				},
 			)
 		} else {
 			// int
-			v, err := strconv.Atoi(value)
+			v, err := strconv.Atoi(vl)
 			if err != nil {
 				fmt.Printf("\n")
 				log.Fatal(fmt.Sprintf("エラー : バグ : 文字列からintへの変換に失敗しました。%%v %v : err %v", v, err))
 			}
-			Gqueue = append(Gqueue,
-				Value{
+			gqueue = append(gqueue,
+				value{
 					bInt: true,
 					f:    float64(v),
 				},
@@ -61,30 +61,30 @@ func enqueueForG(v interface{}) { // {{{
 } // }}}
 
 // G専用Queueから値を取り出す
-func dequeueForG() (Value, error) { // {{{
-	if len(Gqueue) == 0 {
-		return Value{
+func dequeueForG() (value, error) { // {{{
+	if len(gqueue) == 0 {
+		return value{
 			bInt: false,
 			f:    0,
 		}, nil
 	}
-	ret := Gqueue[0]
-	Gqueue = Gqueue[1:]
+	ret := gqueue[0]
+	gqueue = gqueue[1:]
 	return ret, nil
 } // }}}
 
 // G専用Queueの中身をすべて処理する
-func flushGqueue() { // {{{1
-	if len(Gqueue) == 0 {
+func flushGQueue() { // {{{1
+	if len(gqueue) == 0 {
 		return
 	}
 	// Gの指定がある
-	// Gqueueから取り出して処理する
-	for i := len(Gqueue); i > 0; i-- {
+	// gqueueから取り出して処理する
+	for i := len(gqueue); i > 0; i-- {
 
 		if setting.IsProhibitAssignAxis {
 			// スキップフラグ立ってたら キューを空にして 終わる
-			Gqueue = Gqueue[len(Gqueue):]
+			gqueue = gqueue[len(gqueue):]
 			break
 		}
 		v, _ := dequeueForG()

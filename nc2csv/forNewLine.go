@@ -14,7 +14,7 @@ func forNewLine(i *int, ln *int, rs *[]rune, lines *[]string) bool { // {{{
 	// 戻り値はtrueの時continueする
 	// フラグをリセットする
 	setting.IsOptionalSkip, setting.IsProhibitAssignAxis = false, false
-	flushGqueue()                            // Gのキューを実行する Gは先にすべて実行する
+	flushGQueue()                            // Gのキューを実行する Gは先にすべて実行する
 	outputOneLine := preAxis.genOnelineCsv() // この行を実行した後の状態を出力する
 	in <- outputOneLine
 	setting.CountLF++

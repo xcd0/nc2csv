@@ -97,7 +97,7 @@ func initialize(apath *string) { // {{{
 
 	// 初期設定
 	setting.IsMm = true            // mmか
-	setting.IS = &ISC              // 最小設定単位の指定 // とりあえずISCとしてみる
+	setting.IS = &uISC             // 最小設定単位の指定 // とりあえずISCとしてみる
 	setting.FeedG00 = 99999        // 早送り速度初期値
 	setting.FeedG01 = 1            // 送り速度初期値
 	setting.IsG90 = true           // アブソリュート指令か

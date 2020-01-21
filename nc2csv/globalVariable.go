@@ -27,10 +27,10 @@ var (
 	setting = commonSetting{}
 
 	// 全体を格納するスライス
-	Memory = make([]Value, 10000)
+	memory = make([]value, 10000)
 
 	// G専用Queue
-	Gqueue = make([]Value, 0, 100)
+	gqueue = make([]value, 0, 100)
 
 	// G65で使われる座標をそのまま使う
 	key = map[string]int{ // {{{ iotaでもいいけどなんだかんだ見るので
@@ -64,25 +64,25 @@ var (
 
 	// 引数指定2
 	// I
-	_I = make([]int, 10) // _I[0]は使用しない
-	_J = make([]int, 10) // _I[0]は使用しない
-	_K = make([]int, 10) // _I[0]は使用しない
+	q_I = make([]int, 10) // _I[0]は使用しない
+	q_J = make([]int, 10) // _I[0]は使用しない
+	q_K = make([]int, 10) // _I[0]は使用しない
 
 	// オプショナルスキップブロック ボタンがONならそこで停止する
 	// とりあえず/,/1,/2,/3,/4,/5,/6,/7,/8,/9までの10個分
 	// 実際には外部テキストファイルとかにボタン設定書いてもらうのがいいと思う
-	OptionalSkip = make([]bool, 10) // 初期値false
+	optionalSkip = make([]bool, 10) // 初期値false
 
 	// オプショナルストップブロック
 	// M01でボタンがONならそこで停止する
 	// エミュレーションではキー入力町するのがいいと思う
-	OptionalStop = make([]bool, 10) // 初期値false
+	optionalStop = make([]bool, 10) // 初期値false
 
-	ISA = ISUnit{0.01, 0.001, 0.01}
-	ISB = ISUnit{0.001, 0.0001, 0.001}
-	ISC = ISUnit{0.0001, 0.00001, 0.0001}
-	ISD = ISUnit{0.00001, 0.000001, 0.00001}
-	ISE = ISUnit{0.000001, 0.0000001, 0.000001}
+	uISA = ISUnit{0.01, 0.001, 0.01}
+	uISB = ISUnit{0.001, 0.0001, 0.001}
+	uISC = ISUnit{0.0001, 0.00001, 0.0001}
+	uISD = ISUnit{0.00001, 0.000001, 0.00001}
+	uISE = ISUnit{0.000001, 0.0000001, 0.000001}
 
 	rowInput *string
 
