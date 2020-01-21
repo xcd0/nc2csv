@@ -23,7 +23,7 @@ func convertNewline(str *string, nlcode string) string {
 	).Replace(*str)
 }
 
-func NlRep(str string, nl string) string {
+func nlRep(str string, nl string) string {
 	rep := regexp.MustCompile(`\r\n|\r|\n`)
 	switch nl {
 	case "UNIX":
@@ -132,7 +132,7 @@ func convertEncording(file *os.File, in string, out string, nl string) (string, 
 		return "", err
 	}
 	if nl != "" {
-		u8 = NlRep(u8, nl)
+		u8 = nlRep(u8, nl)
 	}
 	var output string
 	switch out {

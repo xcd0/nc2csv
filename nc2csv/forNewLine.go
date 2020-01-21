@@ -9,34 +9,31 @@ import (
 	//"gonum.org/v1/gonum/spatial/r3"
 )
 
-func forNewLine(rs *[]rune, lines *[]string, in chan string) {
-
+// 改行が来た時の処理
+func forNewLine(i *int, ln *int, rs *[]rune, lines *[]string) bool { // {{{
+	// 戻り値はtrueの時continueする
 	// フラグをリセットする
-	setting.IsOptionalSkip = false
-	setting.IsProhibitAssignAxis = false
-	// Gのキューを実行する
-	flushGqueue()
-
-	// この行を実行した後の状態を出力する
-	outputOneLine := axis.genOnelineCsv()
-
+	setting.IsOptionalSkip, setting.IsProhibitAssignAxis = false, false
+	flushGqueue()                            // Gのキューを実行する Gは先にすべて実行する
+	outputOneLine := preAxis.genOnelineCsv() // この行を実行した後の状態を出力する
 	in <- outputOneLine
-
-	// setting.CountLFは1からだけどlinesは0から
-	//log.Printf("l.%v : %v\n", setting.CountLF-1, lines[setting.CountLF-1])
-
 	setting.CountLF++
 	if string((*rs)[len(*rs)-1:]) == "\n" && setting.CountLF == len(*lines) {
 		// ファイル最後に改行があるファイルとないファイルに対応する
-		return
-	}
-}
 
-var axis Axis
+		// ここで終了させる
+		*i = len(*rs)     // for i のやつ
+		*ln = len(*lines) // for lnのやつ
+		return true
+	}
+	return false
+} // }}}
+
+var preAxis axis
 var rowLines []string
 
 // 出力用に座標を持っておくだけ
-type Axis struct { // {{{
+type axis struct { // {{{
 	X        float64
 	Y        float64
 	Z        float64
@@ -81,7 +78,7 @@ func shortcutDegree(delta *float64) { // {{{
 } // }}}
 
 // G02/03用
-func calcRotateCenter(a *Axis, 半径 float64) (*mat.VecDense, float64) { // 回転中心座標を求める {{{1
+func calcRotateCenter(a *axis, 半径 float64) (*mat.VecDense, float64) { // 回転中心座標を求める {{{1
 	// 試しに日本語変数を使ってみる
 
 	// 始点s 終点e 中点m 回転中心c
@@ -188,7 +185,7 @@ func calcRotateCenter(a *Axis, 半径 float64) (*mat.VecDense, float64) { // 回
 	return 回転中心の位置ベクトル, 回転角rad
 } // }}}1
 
-func (a *Axis) calcDistance() { // {{{
+func (a *axis) calcDistance() { // {{{
 	// a.distanceを更新する
 	if setting.CutMode == 2 || setting.CutMode == 3 {
 		// G02/03
@@ -217,7 +214,7 @@ func (a *Axis) calcDistance() { // {{{
 	}
 } // }}}
 
-func (a *Axis) calcTime() { // {{{
+func (a *axis) calcTime() { // {{{
 	// 前チェック
 	f := Reference("F").Float()
 	if f == 0 {
@@ -255,7 +252,7 @@ func (a *Axis) calcTime() { // {{{
 	setting.CumulativeTime += a.timeMin
 } // }}}
 
-func (a *Axis) genOnelineCsv() string { // {{{
+func (a *axis) genOnelineCsv() string { // {{{
 
 	a.calcDistance() // 移動距離を計算
 	a.calcTime()     // 移動時間を計算
