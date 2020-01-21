@@ -1,5 +1,8 @@
 package main
 
+/*
+boolの値を返す関数群
+*/
 import (
 	"errors"
 	"fmt"
@@ -63,7 +66,7 @@ func GetRunes(rs *[]rune, i int, num int) (string, error) {
 	}
 }
 
-// keywordsにあるか調べる
+// 予約語リストkeywordsにあるか調べる
 func IsReserved(identifier string) bool {
 	// #等もkeywordsに含まれるが、
 	// readlettersでアルファベットと_だけを切り出しているので該当しない。
@@ -75,10 +78,12 @@ func IsReserved(identifier string) bool {
 	return false
 }
 
+// 予約語リストにある語の機能が実装されているかどうかを調べる
 func IsImplemented(id string) bool {
 	return IsImplementedCharactor(id) || IsImplementedWord(id)
 }
 
+// 予約語のうち複数文字で構成される予約語について実装されているかどうかを返す
 func IsImplementedWord(id string) bool { // {{{
 	// 実装したら増やす
 	switch id {
@@ -91,50 +96,53 @@ func IsImplementedWord(id string) bool { // {{{
 		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "IF":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "THEN":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "WHILE":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "DO":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "EQ":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "NE":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "LT":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "GT":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "LE":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "GE":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "AND":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "OR":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	case "XOR":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return false
 	default:
+		// この関数に記述されていない語、つまり想定外の語が入力された
+		log.Printf(fmt.Sprintf("警告 : 想定されていない語 %v です。未実装です。", id))
 		return false
 	}
 	return false
 } // }}}
 
+// 予約語のうち1文字で構成される予約語について実装されているかどうかを返す
 func IsImplementedCharactor(id string) bool { // {{{
 	// 実装したら増やす
 	switch id {
@@ -142,28 +150,28 @@ func IsImplementedCharactor(id string) bool { // {{{
 		return true
 
 	case "[":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 	case "]":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 	case "+":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 	case "-":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 	case "*":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 	case "/":
 		// オプショナルスキップはここには来ないはず来たらダメ
 		//panic(fmt.Sprintf("プログラムエラー : オプショナルスキップの処理にバグがあります。"))
 
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 	case "=":
-		log.Fatal(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
+		log.Printf(fmt.Sprintf("警告 : 実装予定予約語 %v です。未実装です。", id))
 		return true
 
 	// 変数
@@ -232,6 +240,7 @@ func IsImplementedCharactor(id string) bool { // {{{
 	case "N": // シーケンス番号
 		return true
 	default:
+		log.Printf(fmt.Sprintf("警告 : 想定されていない語 %v です。未実装です。処理を停止します。", id))
 		return false
 	}
 	return false

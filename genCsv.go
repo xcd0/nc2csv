@@ -9,10 +9,9 @@ import (
 	"strings"
 )
 
-var in = make(chan string, 1000) // 別スレッドに投げるバッファ
-var out = make(chan string, 2)   // 別スレッドからもらうバッファ
-var done = make(chan bool)       // 別スレッドの終了通知をもらうバッファ
-
+// 処理の本体
+// 一字づつ読み込んで処理していく。
+// 改行でCSVを1行出力する。
 func genCsv(apath *string) *string { // {{{
 
 	initialize(apath) // 初期化処理
@@ -94,6 +93,7 @@ func receiver(in chan string, out chan string, done chan bool) { // {{{
 	return
 } // }}}
 
+// 改行が来た時の処理
 func forLF(i *int, ln *int, rs *[]rune, lines *[]string) bool { // {{{
 	// 戻り値はtrueの時continueする
 	// フラグをリセットする
@@ -113,6 +113,7 @@ func forLF(i *int, ln *int, rs *[]rune, lines *[]string) bool { // {{{
 	return false
 } // }}}
 
+// % (  ) / \n以外の文字が来た時の処理 (/はオプショナルスキップブロック)
 func forOtherCharactor(r *rune, i *int, ln *int, rs *[]rune, lines *[]string) bool { // {{{
 	// 戻り値はtrueの時continueする
 	if setting.IsOptionalSkip || setting.IsProhibitAssignAxis {
@@ -174,6 +175,10 @@ func forOtherCharactor(r *rune, i *int, ln *int, rs *[]rune, lines *[]string) bo
 	return false
 } // }}}
 
+// メモリへの代入を行う
+// 準備機能(G)は特別扱いをする
+// 座標値(XYZABCRなど)は整数小数区別して処理する
+// それ以外の値(OMFSなど)は小数にして代入する
 func forAssignToMemory(rs *[]rune, r *rune, i *int, l int) { // {{{
 	// メモリに代入する
 	// X1.0とか
@@ -235,6 +240,7 @@ func forAssignToMemory(rs *[]rune, r *rune, i *int, l int) { // {{{
 	}
 } // }}}
 
+// オプショナルスキップブロックについての処理
 func forOptionalSkipBlock(rs *[]rune, i int) { // {{{
 	// オプショナルスキップブロック
 	// オプショナルスキップはメモリの値を読んで
@@ -260,89 +266,6 @@ func forOptionalSkipBlock(rs *[]rune, i int) { // {{{
 		}
 	}
 } // }}}
-
-// 最小設定単位
-type ISUnit struct { // {{{
-	mm  float64
-	in  float64
-	deg float64
-} // }}}
-
-type commonSetting struct { // {{{
-	IsMm                 bool    // mm か inchか
-	IS                   *ISUnit // 機械によって設定されている最小設定単位
-	FeedG00              float64 // G00送り速度 初期値
-	FeedG01              float64 // G00送り速度 初期値
-	IsG90                bool    // true : アブソリュート指令 false : インクリメンタル指令
-	PlaneDesignation     int     // G17/18/19
-	CutMode              int     // G00 01 02 03 を 0, 1, 2, 3 であらわす
-	IsProhibitAssignAxis bool    // そのブロックでの座標値への代入を禁ずる
-	CountLF              int
-	IsOptionalSkip       bool
-	CumulativeTime       float64 // 累積時間
-} // }}}
-
-var ( // {{{
-	setting = commonSetting{}
-
-	// 全体を格納するスライス
-	Memory = make([]Value, 10000)
-
-	// G専用Queue
-	Gqueue = make([]Value, 0, 100)
-
-	// G65で使われる座標をそのまま使う
-	key = map[string]int{ // {{{ iotaでもいいけどなんだかんだ見るので
-		"A": 1,
-		"B": 2,
-		"C": 3,
-		"D": 4,
-		"E": 5,
-		"F": 6,
-		"G": 7, // 引数として使用できない
-		"H": 8,
-		"I": 9,
-		"J": 10,
-		"K": 11,
-		"L": 12, // 引数として使用できない
-		"M": 13,
-		"N": 14, // 引数として使用できない
-		"O": 15, // 引数として使用できない
-		"P": 16, // 引数として使用できない ことになっているが...G65
-		"Q": 17,
-		"R": 18,
-		"S": 19,
-		"T": 20,
-		"U": 21,
-		"V": 22,
-		"W": 23,
-		"X": 24,
-		"Y": 25,
-		"Z": 26,
-	} // }}}
-	// 引数指定2
-	_I = make([]int, 10) // _I[0]は使用しない
-	_J = make([]int, 10) // _I[0]は使用しない
-	_K = make([]int, 10) // _I[0]は使用しない
-
-	// オプショナルスキップブロック ボタンがONならそこで停止する
-	// とりあえず/,/1,/2,/3,/4,/5,/6,/7,/8,/9までの10個分
-	// 実際には外部テキストファイルとかにボタン設定書いてもらうのがいいと思う
-	OptionalSkip = make([]bool, 10) // 初期値false
-
-	// オプショナルストップブロック
-	// M01でボタンがONならそこで停止する
-	// エミュレーションではキー入力町するのがいいと思う
-	OptionalStop = make([]bool, 10) // 初期値false
-
-	ISA = ISUnit{0.01, 0.001, 0.01}
-	ISB = ISUnit{0.001, 0.0001, 0.001}
-	ISC = ISUnit{0.0001, 0.00001, 0.0001}
-	ISD = ISUnit{0.00001, 0.000001, 0.00001}
-	ISE = ISUnit{0.000001, 0.0000001, 0.000001}
-
-	rowInput *string
-) // }}}
 
 func initialize(apath *string) { // {{{
 
@@ -371,7 +294,7 @@ func initialize(apath *string) { // {{{
 	setting.IsProhibitAssignAxis = false
 } // }}}
 
-// G専用Queue int, float64, string対応
+// G専用Queueに保存する int, float64, string対応
 func enqueueForG(v interface{}) { // {{{
 	// vの型判定
 	if value, ok := v.(int); ok {
@@ -424,6 +347,7 @@ func enqueueForG(v interface{}) { // {{{
 
 } // }}}
 
+// G専用Queueから値を取り出す
 func dequeueForG() (Value, error) { // {{{
 	if len(Gqueue) == 0 {
 		return Value{
@@ -436,6 +360,7 @@ func dequeueForG() (Value, error) { // {{{
 	return ret, nil
 } // }}}
 
+// G専用Queueの中身をすべて処理する
 func flushGqueue() { // {{{1
 	if len(Gqueue) == 0 {
 		return
@@ -573,6 +498,7 @@ func flushGqueue() { // {{{1
 	}
 } // }}}1
 
+// しょぼいプログレスバーを表示する
 func progressbar(progressVal int) { // {{{
 	flag.Parse()
 
