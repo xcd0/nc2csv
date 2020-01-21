@@ -14,31 +14,6 @@ type value struct {
 	f    float64
 }
 
-// #の記法でアドレス値を参照するのに使う関数
-// #10はHash(10),Hash(10.0),Hash("10")のように入力され、&memory[10]が返されます。
-func Hash(v interface{}) *value { // {{{
-	out := 0
-	// ただ 入力引数の型をint, float64, stringの3つどれでもよくしているだけ
-	if value, ok := v.(int); ok {
-		out = value
-	} else if value, ok := v.(float64); ok {
-		out = int(value)
-	} else if value, ok := v.(string); ok {
-		// 小数点があるかどうか調べる
-		if strings.Contains(".", value) {
-			// 小数点がある
-			n, _ := strconv.ParseFloat(value, 64)
-			out = int(n)
-		} else {
-			out, _ = strconv.Atoi(value)
-		}
-	} else {
-		// エラー
-		log.Fatal(fmt.Sprintf("書式エラー : %v はエラーです。", v))
-	}
-	return &memory[out]
-} // }}}
-
 // メモリの値を参照するのに使う関数
 func Reference(k string) *value {
 	return &memory[key[k]]
@@ -195,6 +170,31 @@ func Assign(k string, v interface{}) {
 		}
 	} // }}}
 }
+
+// #の記法でアドレス値を参照するのに使う関数
+// #10はHash(10),Hash(10.0),Hash("10")のように入力され、&memory[10]が返されます。
+func Hash(v interface{}) *value { // {{{
+	out := 0
+	// ただ 入力引数の型をint, float64, stringの3つどれでもよくしているだけ
+	if value, ok := v.(int); ok {
+		out = value
+	} else if value, ok := v.(float64); ok {
+		out = int(value)
+	} else if value, ok := v.(string); ok {
+		// 小数点があるかどうか調べる
+		if strings.Contains(".", value) {
+			// 小数点がある
+			n, _ := strconv.ParseFloat(value, 64)
+			out = int(n)
+		} else {
+			out, _ = strconv.Atoi(value)
+		}
+	} else {
+		// エラー
+		log.Fatal(fmt.Sprintf("書式エラー : %v はエラーです。", v))
+	}
+	return &memory[out]
+} // }}}
 
 // メモリの値が整数であるかどうかを返します。
 func (v *value) IsInt() bool {

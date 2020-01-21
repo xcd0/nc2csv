@@ -1,7 +1,7 @@
 package nc2csv
 
 // 最小設定単位を保持する構造体
-type ISUnit struct { // {{{
+type unitIS struct { // {{{
 	mm  float64
 	in  float64
 	deg float64
@@ -10,7 +10,7 @@ type ISUnit struct { // {{{
 // 処理で使う内部状態を保持する構造体
 type commonSetting struct { // {{{
 	IsMm                 bool    // mm か inchか
-	IS                   *ISUnit // 機械によって設定されている最小設定単位
+	IS                   *unitIS // 機械によって設定されている最小設定単位
 	FeedG00              float64 // G00送り速度 初期値
 	FeedG01              float64 // G00送り速度 初期値
 	IsG90                bool    // true : アブソリュート指令 false : インクリメンタル指令
@@ -78,11 +78,11 @@ var (
 	// エミュレーションではキー入力町するのがいいと思う
 	optionalStop = make([]bool, 10) // 初期値false
 
-	uISA = ISUnit{0.01, 0.001, 0.01}
-	uISB = ISUnit{0.001, 0.0001, 0.001}
-	uISC = ISUnit{0.0001, 0.00001, 0.0001}
-	uISD = ISUnit{0.00001, 0.000001, 0.00001}
-	uISE = ISUnit{0.000001, 0.0000001, 0.000001}
+	uISA = unitIS{0.01, 0.001, 0.01}
+	uISB = unitIS{0.001, 0.0001, 0.001}
+	uISC = unitIS{0.0001, 0.00001, 0.0001}
+	uISD = unitIS{0.00001, 0.000001, 0.00001}
+	uISE = unitIS{0.000001, 0.0000001, 0.000001}
 
 	rowInput *string
 
