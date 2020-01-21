@@ -1,4 +1,6 @@
-# NCプログラム分析器
+# NCプログラム解析器
+
+[![GoDoc](https://godoc.org/github.com/xcd0/nc2csv?status.svg)](https://godoc.org/github.com/xcd0/nc2csv)
 
 NCプログラムを読み込み、分析して、各軸座標位置、各行の送り速度、移動時間 などをある程度見やすく出力する。  
 
