@@ -1,4 +1,4 @@
-package main
+package nc2csv
 
 /*
 boolの値を返す関数群

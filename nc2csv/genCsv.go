@@ -1,4 +1,4 @@
-package main
+package nc2csv
 
 import (
 	"flag"
@@ -12,7 +12,7 @@ import (
 // 処理の本体
 // 一字づつ読み込んで処理していく。
 // 改行でCSVを1行出力する。
-func genCsv(apath *string) *string { // {{{
+func GenCsv(apath *string) *string { // {{{
 
 	initialize(apath) // 初期化処理
 
@@ -268,11 +268,6 @@ func forOptionalSkipBlock(rs *[]rune, i int) { // {{{
 } // }}}
 
 func initialize(apath *string) { // {{{
-
-	// 入力ファイルを開く
-	rowInput = readText(apath) // NCを読み込んでstringに変換、改行コードを統一
-
-	rowLines = strings.Split(*rowInput, "\n")
 
 	// 適当な初期値
 	// これは外部ファイル的なものから読み込むべき

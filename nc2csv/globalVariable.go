@@ -1,4 +1,4 @@
-package main
+package nc2csv
 
 // 最小設定単位を保持する構造体
 type ISUnit struct { // {{{

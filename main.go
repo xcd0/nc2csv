@@ -11,6 +11,8 @@ import (
 	"flag"
 	"log"
 	"path/filepath"
+
+	"github.com/xcd0/nc2csv/nc2csv"
 )
 
 func main() {
@@ -25,10 +27,12 @@ func main() {
 	}
 	apath, _ := filepath.Abs(flag.Arg(0))
 
+	// NCプログラムを読み込む 戻り値は読み込んだ文字列へのポインタ
+	_ = nc2csv.ReadNcProgram(&apath)
 	// 処理の本体
-	csv := genCsv(&apath)
+	csv := nc2csv.GenCsv(&apath)
 
 	// ファイルに書き出す
-	writeCsv(apath, csv)
+	nc2csv.WriteCsv(apath, csv)
 
 }

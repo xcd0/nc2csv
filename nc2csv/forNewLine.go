@@ -1,4 +1,4 @@
-package main
+package nc2csv
 
 import (
 	"fmt"

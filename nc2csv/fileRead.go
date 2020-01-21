@@ -1,19 +1,26 @@
-package main
+package nc2csv
 
 import (
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 	//"github.com/saintfish/chardet"
 	//"golang.org/x/net/html/charset"
 )
 
+// 与えられたパスの文字列について
+// そのパスにあるファイルをテキストファイルとして読み込む
+// 戻り値は読み込んだ文字列へのポインタ
+func ReadNcProgram(apath *string) *string {
+	// 入力ファイルを開く
+	rowInput = readText(apath) // NCを読み込んでstringに変換、改行コードを統一
+	rowLines = strings.Split(*rowInput, "\n")
+	return rowInput
+}
+
 func readText(path *string) *string {
-
-	// 与えられたパスの文字列について
-	// そのパスにあるファイルをテキストファイルとして読み込む
-
 	b, err := ioutil.ReadFile(*path)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "ファイル%vが読み込めません\n", path)
@@ -39,7 +46,11 @@ func readText(path *string) *string {
 	return &str
 }
 
-func readOptionNumber(next *rune, rs *[]rune, i *int) string {
+// rs[i]にある文字の後ろにある数値を読み取る
+// ex) G00X1.Y2.
+//        ↑ だったら1.0を返す
+// #があったら#を読み飛ばして#の数値を読む
+func readOptionNumber(next *rune, rs *[]rune, i *int) string { // {{{
 	if *next == '#' {
 		*i++ // 文字をスキップして数値を読み込む
 		*i++ // #をスキップして数値を読み込む
@@ -74,25 +85,9 @@ func readOptionNumber(next *rune, rs *[]rune, i *int) string {
 	}
 	// 未実装
 	return "log.Fatal(\"" + string((*rs)[*i]) + " はエラーです。\")"
-}
+} // }}}
 
-/*
-func toUtf8(b []byte) []byte {
-	// 文字コード判定
-	det := chardet.NewTextDetector()
-	detRslt, _ := det.DetectBest(b)
-
-	// 文字コード変換
-	bReader := bytes.NewReader(b)
-	reader, _ := charset.NewReaderLabel(detRslt.Charset, bReader)
-
-	u8, _ := ioutil.ReadAll(reader)
-
-	return u8
-}
-*/
-
-func readAndCutNumber(rs *[]rune, i *int) string {
+func readAndCutNumber(rs *[]rune, i *int) string { // {{{
 	numStr := readNumbers(rs, i)
 	numRunes := []rune(numStr)
 	for i, n := range numStr {
@@ -114,9 +109,9 @@ func readAndCutNumber(rs *[]rune, i *int) string {
 		break
 	}
 	return numStr
-}
+} // }}}
 
-func readNumbers(rs *[]rune, i *int) string {
+func readNumbers(rs *[]rune, i *int) string { // {{{
 	pre := *i
 	post := *i
 	for (IsDigit((*rs)[post]) || IsDot((*rs)[post])) && post < len(*rs)-1 {
@@ -150,13 +145,13 @@ func readNumbers(rs *[]rune, i *int) string {
 		out = "0" + out
 	}
 	return out
-}
+} // }}}
 
-func readLetters(rs *[]rune, i int) string {
+func readLetters(rs *[]rune, i int) string { // {{{
 	pre := i
 	post := i
 	for IsLetter((*rs)[post]) {
 		post++
 	}
 	return string((*rs)[pre:post])
-}
+} // }}}

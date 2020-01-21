@@ -1,4 +1,4 @@
-package main
+package nc2csv
 
 // 予約語リスト
 var keywords = []string{ // {{{

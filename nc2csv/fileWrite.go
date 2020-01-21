@@ -1,4 +1,4 @@
-package main
+package nc2csv
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func writeCsv(apath string, csv *string) {
+func WriteCsv(apath string, csv *string) {
 	// 出力ファイルを開く
 	outputDir := filepath.Dir(apath)
 	outputName := filepath.Base(apath) + ".csv"
