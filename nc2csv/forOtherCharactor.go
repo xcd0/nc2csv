@@ -5,6 +5,15 @@ import (
 	"log"
 )
 
+func readLetters(rs *[]rune, i int) string { // {{{
+	pre := i
+	post := i
+	for isLetter((*rs)[post]) {
+		post++
+	}
+	return string((*rs)[pre:post])
+} // }}}
+
 // % (  ) / \n以外の文字が来た時の処理 (/はオプショナルスキップブロック)
 func forOtherCharactor(r *rune, i *int, ln *int, rs *[]rune, lines *[]string) bool { // {{{
 	// 戻り値はtrueの時continueする

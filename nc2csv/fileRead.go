@@ -145,12 +145,3 @@ func readNumbers(rs *[]rune, i *int) string { // {{{
 	}
 	return out
 } // }}}
-
-func readLetters(rs *[]rune, i int) string { // {{{
-	pre := i
-	post := i
-	for isLetter((*rs)[post]) {
-		post++
-	}
-	return string((*rs)[pre:post])
-} // }}}
