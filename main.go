@@ -9,7 +9,9 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
+	"os"
 	"path/filepath"
 
 	"github.com/xcd0/nc2csv/nc2csv"
@@ -23,7 +25,12 @@ func main() {
 	flag.Parse()
 	// 引数
 	if flag.NArg() == 0 {
-		log.Fatal("エラー : 引数が与えられていません。")
+		fmt.Println("エラー : 引数が与えられていません。")
+		fmt.Println("　　　 : 引数にはNCプログラムの書かれたテキストファイルを与えます。")
+		fmt.Println("　　　 : また-hでこのプログラムのソースコードを出力するためのオプションが表示されます。")
+		fmt.Println("　　　 : このバイナリにはソースコードが埋め込まれています。")
+		fmt.Println("　　　 : 終了します。")
+		os.Exit(1)
 	}
 	apath, _ := filepath.Abs(flag.Arg(0))
 
