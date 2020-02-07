@@ -14,6 +14,9 @@ build:
 .PHONY: build
 build:
 	mkdir -p $(DST)
+
+	go-bincode
+
 ifeq ($(shell uname -o),Msys)
 	go build -o $(DST)/$(BIN).exe
 else

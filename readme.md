@@ -70,6 +70,20 @@ windowsはシェルが...
 Goは基本的に `go build` だけでビルドできる。
 この場合main関数のあるディレクトリの名前で実行ファイルが生成される。
 
+makefileを用意しているので、`make` でもビルドできる。
+この場合後述する`go-bincode`が走るようにしているため、
+`go-bincode`をインストールしておく必要がある。
+
+## go-bincodeについて
+バイナリにソースコードを埋め込んでいる。
+
+	go get -u github.com/go-bindata/go-bindata/...
+	go get -u github.com/monochromegane/go-bincode/...
+
+を実行して`go-bincode`をインストールできる。
+`go-bincode`を実行すると埋め込まれるソースコードを更新できる。
+後は`go build`すればよい。
+
 ## 実行
 
 現状第一引数にNCの書かれたテキストファイルを与えると実行する。  
