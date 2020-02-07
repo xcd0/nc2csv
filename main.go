@@ -14,7 +14,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/xcd0/nc2csv/nc2csv"
+	"./nc2csv"
 )
 
 func main() {
